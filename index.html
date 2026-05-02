@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DJ NAME — Portfolio</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg: #0a0a0f;
+      --bg2: #11111a;
+      --bg3: #1a1a25;
+      --accent: #ff0066;
+      --text: #ececec;
+      --muted: #888;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    a { color: var(--text); text-decoration: none; transition: color 0.3s; }
+    a:hover { color: var(--accent); }
+
+    /* Nav */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      background: rgba(10,10,15,0.95);
+      backdrop-filter: blur(10px);
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1rem 5%; z-index: 100;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .logo { font-size: 1.2rem; font-weight: 700; letter-spacing: 2px; }
+    .logo span { color: var(--accent); }
+    nav ul { list-style: none; display: flex; gap: 2rem; }
+    nav ul li a { font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; }
+    @media (max-width: 600px) { nav ul { display: none; } }
+
+    /* Hero */
+    .hero {
+      min-height: 100vh; display: flex; flex-direction: column;
+      justify-content: center; align-items: center; text-align: center;
+      padding: 6rem 1rem; background: radial-gradient(ellipse at center, #1a1a2e 0%, var(--bg) 70%);
+    }
+    .hero h1 { font-size: clamp(2.5rem, 8vw, 5rem); font-weight: 800; letter-spacing: 4px; margin-bottom: 0.5rem; }
+    .hero p.tagline { color: var(--accent); font-size: clamp(1rem, 3vw, 1.3rem); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 2rem; }
+    .hero p.desc { max-width: 500px; color: var(--muted); margin-bottom: 2rem; font-size: 1.05rem; }
+    .btn-group { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
+    .btn {
+      padding: 0.9rem 2rem; border-radius: 50px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 1px; font-size: 0.85rem; cursor: pointer;
+      transition: all 0.3s; border: 2px solid transparent;
+    }
+    .btn-primary { background: var(--accent); color: white; }
+    .btn-primary:hover { background: #ff3377; box-shadow: 0 0 30px rgba(255,0,102,0.4); }
+    .btn-outline { background: transparent; border-color: rgba(255,255,255,0.3); }
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* Sections */
+    section { padding: 5rem 5%; max-width: 1100px; margin: 0 auto; }
+    .section-title {
+      text-align: center; margin-bottom: 3rem;
+      font-size: clamp(1.8rem, 5vw, 2.5rem); font-weight: 700; letter-spacing: 3px; text-transform: uppercase;
+    }
+    .section-title span { color: var(--accent); }
+
+    /* Bio */
+    #bio { display: flex; gap: 3rem; align-items: center; flex-wrap: wrap; }
+    .bio-img {
+      flex: 1; min-width: 280px; max-width: 400px;
+      aspect-ratio: 3/4; background: var(--bg3); border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--muted); border: 2px solid rgba(255,255,255,0.05);
+    }
+    .bio-text { flex: 1; min-width: 280px; }
+    .bio-text p { margin-bottom: 1.5rem; color: var(--muted); font-size: 1.05rem; }
+
+    /* Mixes */
+    .mixes-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+    .mix-card {
+      background: var(--bg2); border-radius: 12px; padding: 0;
+      overflow: hidden; border: 1px solid rgba(255,255,255,0.05);
+    }
+    .mix-card iframe { width: 100%; }
+
+    /* Highlights */
+    #highlights .highlights-list {
+      display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center;
+      list-style: none;
+    }
+    #highlights .highlights-list li {
+      background: var(--bg2); padding: 0.8rem 1.5rem; border-radius: 50px;
+      font-size: 0.95rem; border: 1px solid rgba(255,255,255,0.05);
+    }
+
+    /* Contact */
+    #contact { text-align: center; }
+    #contact p { color: var(--muted); margin-bottom: 2rem; font-size: 1.1rem; }
+    .social-links {
+      display: flex; gap: 1.5rem; justify-content: center; margin-top: 2rem;
+    }
+    .social-links a {
+      font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;
+      padding: 0.5rem 1rem; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px;
+    }
+    .social-links a:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* Footer */
+    footer {
+      text-align: center; padding: 3rem 1rem; border-top: 1px solid rgba(255,255,255,0.05);
+      color: var(--muted); font-size: 0.85rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav>
+    <div class="logo">DJ <span>NAME</span></div>
+    <ul>
+      <li><a href="#bio">Bio</a></li>
+      <li><a href="#mixes">Mixes</a></li>
+      <li><a href="#highlights">Highlights</a></li>
+      <li><a href="#contact">Contacto</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero" id="hero">
+    <h1>DJ NAME</h1>
+    <p class="tagline">House / Techno / Breaks &mdash; Barcelona</p>
+    <p class="desc">Sets de groove profundo para clubs, festivales y eventos privados. Seleccion musical enfocada en el baile y la energia de la pista.</p>
+    <div class="btn-group">
+      <a href="#mixes" class="btn btn-primary">Escucha mis mixes</a>
+      <a href="mailto:booking@tu-email.com" class="btn btn-outline">Booking</a>
+    </div>
+  </section>
+
+  <!-- Bio -->
+  <section id="bio">
+    <div class="section-title" style="width:100%">Sobre <span>Mi</span></div>
+    <div class="bio-img">
+      <!-- Reemplazar con tu foto: <img src="foto_dj.jpg" alt="DJ NAME" style="width:100%;height:100%;object-fit:cover;border-radius:12px"> -->
+      [TU FOTO AQUI]
+    </div>
+    <div class="bio-text">
+      <p>DJ y selector musical con mas de X anos de experiencia pinchando en clubs y eventos de Barcelona y alrededores. Especializado en House, Techno y Breaks, con sets que combinan lo mejor del sonido underground con tracks que mantienen la pista llena.</p>
+      <p>Mi enfoque esta en leer al publico y construir sets que evolucionan a lo largo de la noche, desde warm-ups atmosfericos hasta peak-time explosivo. He pinchado en locales como [Local 1], [Local 2], y en eventos privados y corporativos para [Empresa/Cliente].</p>
+      <p>Disponible para bookings en clubs, fiestas privadas, eventos corporativos y sesiones de radio.</p>
+    </div>
+  </section>
+
+  <!-- Mixes -->
+  <section id="mixes">
+    <div class="section-title">Mezclas <span>Recientes</span></div>
+    <p style="text-align:center;color:var(--muted);margin-bottom:2rem;">Escucha una muestra de lo que te espera en la pista</p>
+    <div class="mixes-grid">
+      <div class="mix-card">
+        <!-- Embed de SoundCloud: reemplaza con tu link real -->
+        <iframe height="166" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/1234567890&color=%23ff0066&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true"></iframe>
+      </div>
+      <div class="mix-card">
+        <!-- Embed de Mixcloud: reemplaza con tu link real -->
+        <iframe width="100%" height="165" src="https://www.mixcloud.com/widget/iframe/?feed=https%3A%2F%2Fwww.mixcloud.com%2Ftu-usuario%2Ftu-mix%2F&mini=1&stylecolor=%23ff0066&embed_type=widget_standard&hide_tracklist=1&hide_cover=1" frameborder="0"></iframe>
+      </div>
+      <div class="mix-card">
+        <iframe height="300" src="https://open.spotify.com/embed/playlist/37i9dQZF1DX0XUsuxWHRQd" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- Highlights -->
+  <section id="highlights">
+    <div class="section-title">Highlights</div>
+    <ul class="highlights-list">
+      <li>Club [Nombre Local]</li>
+      <li>Festival [Nombre]</li>
+      <li>Radio [Nombre] Show</li>
+      <li>+XXX horas en pista desde 20XX</li>
+      <li>Eventos privados y corporativos</li>
+      <li>Sello [Nombre] Releases</li>
+    </ul>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact">
+    <div class="section-title">Contacto / <span>Booking</span></div>
+    <p>Preguntame por disponibilidad para tu proximo evento</p>
+    <a href="mailto:booking@tu-email.com" class="btn btn-primary" style="font-size:1rem;padding:1rem 2.5rem;">Enviar consulta</a>
+    <div class="social-links">
+      <a href="https://soundcloud.com/tu-usuario" target="_blank">SoundCloud</a>
+      <a href="https://mixcloud.com/tu-usuario" target="_blank">Mixcloud</a>
+      <a href="https://instagram.com/tu-usuario" target="_blank">Instagram</a>
+      <a href="https://residentadvisor.net/dj/tu-usuario" target="_blank">RA</a>
+      <a href="https://spotify.com/artist/tu-id" target="_blank">Spotify</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2026 DJ NAME. Todos los derechos reservados.</p>
+    <p>Portfolio creado con ❤ en Barcelona</p>
+  </footer>
+
+</body>
+</html>

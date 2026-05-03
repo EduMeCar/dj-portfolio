@@ -762,7 +762,8 @@ var raf = requestAnimationFrame.bind(window);
 })();
 
 /* ══════════════════════════════════════
-   TORMENTAS — canvas por separador
+   TORMENTAS — electricidad solemne
+   (MODO: rayos distantes, limpios, :)
 ══════════════════════════════════════ */
 (function(){
   var storms=document.querySelectorAll('.storm');
@@ -776,35 +777,35 @@ var raf = requestAnimationFrame.bind(window);
   },{threshold:.05});
   storms.forEach(function(s){ sio.observe(s); });
 
-  /* Genera puntos de rayo fino */
+  /* Genera puntos de rayo fino, trazos cortos, elegantes */
   function boltPts(x1,y1,x2,y2,d){
     if(d<=0) return [[x1,y1],[x2,y2]];
-    var mx=(x1+x2)/2+(Math.random()-.5)*38;
-    var my=(y1+y2)/2+(Math.random()-.5)*14;
+    var mx=(x1+x2)/2+(Math.random()-.5)*24; /* menos caos, más limpio */
+    var my=(y1+y2)/2+(Math.random()-.5)*8;
     return boltPts(x1,y1,mx,my,d-1)
            .concat(boltPts(mx,my,x2,y2,d-1).slice(1));
   }
 
   function drawBolt(ctx,pts,alpha,lw,color){
     if(pts.length<2) return;
-    /* Aureola suave */
+    /* Aureola muy sutil, apenas un halo */
     ctx.save();
-    ctx.globalAlpha=alpha*.1;
+    ctx.globalAlpha=alpha*.04; /* antes .1, ahora .04: mucho más limpio */
     ctx.globalCompositeOperation='lighter';
-    ctx.strokeStyle='rgba(80,160,255,1)';
-    ctx.lineWidth=lw*5;
-    ctx.shadowBlur=18;ctx.shadowColor='rgba(58,126,255,.9)';
+    ctx.strokeStyle='rgba(40,80,180,1)';
+    ctx.lineWidth=lw*3;
+    ctx.shadowBlur=6;ctx.shadowColor='rgba(40,80,180,.6)';
     ctx.lineJoin='round';ctx.lineCap='round';
     ctx.beginPath();
     ctx.moveTo(pts[0][0],pts[0][1]);
     pts.slice(1).forEach(function(p){ctx.lineTo(p[0],p[1])});
     ctx.stroke();ctx.restore();
-    /* Núcleo fino */
+    /* Núcleo fino: antes lw, ahora lw*0.65: más filigraña */
     ctx.save();
     ctx.globalAlpha=alpha;
     ctx.globalCompositeOperation='lighter';
-    ctx.strokeStyle=color||'rgba(210,230,255,1)';
-    ctx.lineWidth=lw;
+    ctx.strokeStyle=color||'rgba(180,210,255,1)';
+    ctx.lineWidth=lw*0.65;
     ctx.lineJoin='round';ctx.lineCap='round';
     ctx.beginPath();
     ctx.moveTo(pts[0][0],pts[0][1]);
@@ -837,85 +838,30 @@ var raf = requestAnimationFrame.bind(window);
     },{threshold:.01});
     vis.observe(storm);
 
+    /* === UN SOLO rayo por spawn, a veces dos === */
     function spawnBolt(){
-      /* Rayo horizontal que cruza el separador */
+      /* Rayo horizontal, atraviesa el separador limpio */
       var startSide=Math.random()<.5;
-      var sx=startSide?-10:W+10;
-      var sy=H*(.2+Math.random()*.6);
-      var ex=startSide?W+10:-10;
-      var ey=H*(.2+Math.random()*.6);
-      var pts=boltPts(sx,sy,ex,ey,10);
-      /* ramificaciones hacia arriba/abajo */
-      var brs=[];
-      pts.forEach(function(p,i){
-        if(i>0&&i<pts.length-1&&Math.random()<.28){
-          var goUp=Math.random()<.5;
-          brs.push(boltPts(
-            p[0],p[1],
-            p[0]+(Math.random()-.5)*80,
-            p[1]+(goUp?-1:1)*Math.random()*H*.7,
-            6
-          ));
-        }
-      });
+      var sx=startSide?-8:W+8;
+      var sy=H*(.15+Math.random()*.7); /* un poco más libre en Y */
+      var ex=startSide?W+8:-8;
+      var ey=H*(.15+Math.random()*.7);
+      var pts=boltPts(sx,sy,ex,ey,8); /* 8 recursiones, antes 10: más simple */
 
-      /* Rayo vertical (descarga desde arriba) */
-      var vx=W*(.1+Math.random()*.8);
-      var vpts=boltPts(vx,-5,vx+(Math.random()-.5)*W*.15,H+5,9);
+      bolts.push({pts:pts, brs:[], a:.7, fade:.025, lw:.55, color:'rgba(160,200,255,1)'});
 
-      bolts.push(
-        {pts:pts, brs:brs, a:.85, fade:.028, lw:.65},
-        {pts:vpts, brs:[], a:.7, fade:.035, lw:.55, color:'rgba(180,220,255,1)'}
-      );
-
-      /* Partículas/chispas en el centro */
-      for(var i=0;i<8;i++){
-        var px=W*(.2+Math.random()*.6);
-        var py=H*(.3+Math.random()*.4);
-        bolts.push({
-          pts:[[px,py],[px+(Math.random()-.5)*30,py+(Math.random()-.5)*20]],
-          brs:[],a:.6,fade:.06,lw:.4,
-          color:'rgba(200,230,255,1)'
-        });
+      /* A veces un rayo vertical pero SOLO 1 de 3 veces */
+      if(Math.random()>0.67){
+        var vx=W*(.15+Math.random()*.7);
+        var vpts=boltPts(vx,-4,vx+(Math.random()-.5)*W*.1,H+4,6);
+        bolts.push({pts:vpts, brs:[], a:.55, fade:.032, lw:.42, color:'rgba(130,170,255,1)'});
       }
+      /* NO partículas ni chispas: es una tormenta seria */
     }
 
     function loop(ts){
       if(!isVisible){ raf(loop); return; }
-      /* Fondo negro con trail */
-      ctx.fillStyle='rgba(0,0,0,.16)';
-      ctx.fillRect(0,0,W,H);
-
-      /* Spawn */
-      if(!lastB) lastB=ts;
-      if(ts-lastB > 600+Math.random()*900){
-        spawnBolt();
-        lastB=ts;
-      }
-
-      /* Flash ambiental muy sutil */
-      if(bolts.length>0 && bolts[bolts.length-1].a>.7){
-        ctx.save();
-        ctx.fillStyle='rgba(10,25,80,.04)';
-        ctx.fillRect(0,0,W,H);
-        ctx.restore();
-      }
-
-      bolts=bolts.filter(function(b){return b.a>.01});
-      bolts.forEach(function(b){
-        drawBolt(ctx,b.pts,b.a,b.lw,b.color);
-        b.brs.forEach(function(br){
-          drawBolt(ctx,br,b.a*.4,b.lw*.6,b.color);
-        });
-        b.a-=b.fade;
-      });
-
-      raf(loop);
-    }
-    raf(loop);
-  });
-})();
-
+      /* Fondo negro con trail MUY l
 /* ══════════════════════════════════════
    HOTSPOTS REDES — dinámicos en %
 ══════════════════════════════════════ */

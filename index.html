@@ -396,19 +396,19 @@
   <div class="page-wrapper">
     <section>
       <div class="image-wrapper">
-        <img src="page1.jpg" alt="DAM DAM" class="press-page" loading="lazy" />
+        <img src="page1.png" alt="DAM DAM" class="press-page" loading="lazy" />
       </div>
     </section>
 
     <section>
       <div class="image-wrapper">
-        <img src="page2.jpg" alt="DAM DAM" class="press-page" loading="lazy" />
+        <img src="page2.png" alt="DAM DAM" class="press-page" loading="lazy" />
       </div>
     </section>
 
     <section style="position: relative;">
       <div class="image-wrapper" style="position: relative;">
-        <img src="page3.jpg"
+        <img src="page3.png"
              alt="Presentaciones y redes"
              class="press-page"
              id="socialImage"
@@ -420,7 +420,7 @@
 
     <section>
       <div class="image-wrapper">
-        <img src="page4.jpg" alt="DAM DAM" class="press-page" loading="lazy" />
+        <img src="page4.png" alt="DAM DAM" class="press-page" loading="lazy" />
       </div>
     </section>
   </div>
@@ -501,7 +501,7 @@
         wrappers.forEach(w => obs.observe(w));
       }
 
-      /* FOCO DE SECCIÓN + FLASH */
+      /* FLASH SECCIÓN + FOCO */
       function flashForSection(sectionIndex) {
         const canvas = document.getElementById('lightning-canvas');
         if (!canvas) return;
@@ -560,14 +560,15 @@
         const halo = document.getElementById('socialHalo');
         if (!container || !img || !halo) return;
 
+        const R = 4.0; // radio en % del ancho
         const spots = [
-          { name: "Instagram",   cx: 27, cy: 91, r: 4, url: "https://instagram.com/damdam" },
-          { name: "Facebook",    cx: 35, cy: 91, r: 4, url: "https://facebook.com/damdam" },
-          { name: "TikTok",      cx: 43, cy: 91, r: 4, url: "https://tiktok.com/@damdam" },
-          { name: "YouTube",     cx: 51, cy: 91, r: 4, url: "https://youtube.com/@damdam" },
-          { name: "Apple Music", cx: 59, cy: 91, r: 4, url: "https://music.apple.com" },
-          { name: "Spotify",     cx: 67, cy: 91, r: 4, url: "https://open.spotify.com" },
-          { name: "SoundCloud",  cx: 75, cy: 91, r: 4, url: "https://soundcloud.com" }
+          { name: "Instagram",   cx: 8.94,  cy: 91.86, r: R, url: "https://instagram.com/damdam" },
+          { name: "Facebook",    cx: 18.76, cy: 91.82, r: R, url: "https://facebook.com/damdam" },
+          { name: "TikTok",      cx: 28.06, cy: 91.77, r: R, url: "https://tiktok.com/@damdam" },
+          { name: "YouTube",     cx: 37.76, cy: 91.82, r: R, url: "https://youtube.com/@damdam" },
+          { name: "Apple Music", cx: 47.59, cy: 91.59, r: R, url: "https://music.apple.com" },
+          { name: "Spotify",     cx: 57.06, cy: 92.00, r: R, url: "https://open.spotify.com" },
+          { name: "SoundCloud",  cx: 66.59, cy: 91.95, r: R, url: "https://soundcloud.com" }
         ];
 
         function render() {
@@ -596,7 +597,7 @@
             el.addEventListener("click", (e) => {
               e.stopPropagation();
               el.classList.remove("clicked");
-              void el.offsetWidth;
+              void el.offsetWidth; // reinicia la animación
               el.classList.add("clicked");
               window.open(spot.url, "_blank", "noopener");
             });

@@ -1,16 +1,13 @@
 <!DOCTYPE html>
-<html lang="es" data-theme="dark">
+<html lang="es">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>DAM DAM — Experiencia Eléctrica</title>
+  <title>DAM DAM — Experiencia eléctrica</title>
 
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,500;14..32,700&family=Black+Ops+One&display=swap" rel="stylesheet" />
 
   <style>
-    /* =========================
-       VARIABLES (THEME)
-       ========================= */
     :root {
       --bg-primary: #03050E;
       --bg-secondary: #070b1a;
@@ -18,12 +15,8 @@
       --accent-secondary: #FF2D78;
       --accent-tertiary: #7BAEFF;
       --text-primary: #FFFFFF;
-      --text-secondary: rgba(255,255,255,0.8);
       --transition-cream: cubic-bezier(0.2, 0.9, 0.1, 1.1);
       --transition-pop: cubic-bezier(0.2, 0.9, 0.4, 1.2);
-      --radius-pill: 999px;
-      --radius-lg: 20px;
-      --radius-md: 16px;
     }
 
     * {
@@ -44,26 +37,17 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    /* =========================
-       CANVAS RAYOS
-       ========================= */
+    /* FONDO RAYOS */
     #lightning-canvas {
       position: fixed;
       inset: 0;
       pointer-events: none;
       z-index: 0;
       background: radial-gradient(circle at 30% 20%, var(--bg-secondary), var(--bg-primary));
-      will-change: transform;
-    }
-
-    /* Parallax suave del fondo */
-    .canvas-parallax {
       transition: transform 0.25s ease-out;
     }
 
-    /* =========================
-       CONTENIDO PRINCIPAL
-       ========================= */
+    /* CONTENIDO */
     .page-wrapper {
       position: relative;
       z-index: 1;
@@ -73,6 +57,7 @@
     section {
       width: 100%;
       position: relative;
+      padding: 6vh 0; /* respiro entre páginas */
     }
 
     .image-wrapper {
@@ -81,8 +66,8 @@
       transition:
         opacity 1.1s var(--transition-cream),
         transform 1.1s var(--transition-cream);
+      filter: drop-shadow(0 20px 30px rgba(0,0,0,0.4));
       will-change: opacity, transform;
-      filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.4));
     }
 
     .image-wrapper.visible {
@@ -94,12 +79,22 @@
       display: block;
       width: 100%;
       height: auto;
-      pointer-events: auto;
     }
 
-    /* =========================
-       HOTSPOTS + HALO PAGE3
-       ========================= */
+    /* foco por página */
+    section:not(.section-active) .press-page {
+      filter: brightness(0.85) contrast(0.95);
+      transform: scale(0.98);
+      transition:
+        filter 0.6s cubic-bezier(0.16,1,0.3,1),
+        transform 0.6s cubic-bezier(0.16,1,0.3,1);
+    }
+    section.section-active .press-page {
+      filter: brightness(1) contrast(1.03);
+      transform: scale(1);
+    }
+
+    /* HOTSPOTS & HALO EN PAGE3 */
     #hotspotsContainer {
       position: absolute;
       inset: 0;
@@ -132,11 +127,10 @@
       border-radius: 50%;
       pointer-events: auto;
       transform: translate(-50%, -50%);
-      background:
-        radial-gradient(circle,
-          rgba(58,126,255,0.25) 0%,
-          rgba(3,5,14,0.9) 55%,
-          rgba(3,5,14,1) 100%);
+      background: radial-gradient(circle,
+                  rgba(58,126,255,0.25) 0%,
+                  rgba(3,5,14,0.9) 55%,
+                  rgba(3,5,14,1) 100%);
       box-shadow: 0 0 0 rgba(58,126,255,0);
       transition:
         transform 0.35s var(--transition-pop),
@@ -145,7 +139,6 @@
       z-index: 6;
     }
 
-    /* pulso constante, “vivo” */
     .hotspot.pulse {
       animation: hotspotPulse 3s ease-in-out infinite;
     }
@@ -169,7 +162,6 @@
       transform: translate(-50%, -50%) scale(1.13);
     }
 
-    /* ripple al click */
     .hotspot::after {
       content: "";
       position: absolute;
@@ -208,7 +200,7 @@
       color: #fff;
       font-size: 0.65rem;
       font-weight: 500;
-      border-radius: var(--radius-pill);
+      border-radius: 999px;
       letter-spacing: 0.13em;
       text-transform: uppercase;
       white-space: nowrap;
@@ -226,9 +218,7 @@
       transform: translate(-50%, -125%);
     }
 
-    /* =========================
-       BOTÓN FLOTANTE WHATSAPP
-       ========================= */
+    /* BOTÓN WHATSAPP */
     .floating-brand {
       position: fixed;
       bottom: 26px;
@@ -283,7 +273,7 @@
       background: rgba(0,0,0,0.72);
       backdrop-filter: blur(8px);
       padding: 4px 12px;
-      border-radius: var(--radius-pill);
+      border-radius: 999px;
       font-size: 0.7rem;
       font-family: "Inter", sans-serif;
       letter-spacing: 0.1em;
@@ -298,9 +288,7 @@
       opacity: 1;
     }
 
-    /* =========================
-       LOADER
-       ========================= */
+    /* LOADER */
     .loader-overlay {
       position: fixed;
       inset: 0;
@@ -378,9 +366,6 @@
       color: rgba(255,255,255,0.55);
     }
 
-    /* =========================
-       RESPONSIVE
-       ========================= */
     @media (max-width: 768px) {
       #socialHalo {
         width: 70%;
@@ -400,17 +385,14 @@
 </head>
 <body>
 
-  <!-- FONDO ELÉCTRICO -->
-  <canvas id="lightning-canvas" class="canvas-parallax" aria-hidden="true"></canvas>
+  <canvas id="lightning-canvas" aria-hidden="true"></canvas>
 
-  <!-- LOADER -->
   <div class="loader-overlay" id="loader">
     <div class="loader-title">DAM DAM</div>
     <div class="loader-bar-wrapper"><div class="loader-bar"></div></div>
     <div class="loader-sub">experiencia eléctrica</div>
   </div>
 
-  <!-- CONTENIDO -->
   <div class="page-wrapper">
     <section>
       <div class="image-wrapper">
@@ -424,7 +406,6 @@
       </div>
     </section>
 
-    <!-- PAGE3 CON HOTSPOTS -->
     <section style="position: relative;">
       <div class="image-wrapper" style="position: relative;">
         <img src="page3.jpg"
@@ -444,22 +425,17 @@
     </section>
   </div>
 
-  <!-- BOTÓN WHATSAPP -->
   <a href="https://wa.me/34666666666?text=Hola%20DAM%20DAM"
      class="floating-brand"
      target="_blank"
-     rel="noopener noreferrer"
-     aria-label="Contactar DAM DAM por WhatsApp">
+     rel="noopener noreferrer">
     <span>⚡</span>
   </a>
 
   <script>
     (function() {
-      /* ============= CONFIG ============= */
       const CONFIG = {
         LOADER_DURATION: 2600,
-        ORIGINAL_W: 995,   // ancho de page3.jpg del PDF
-        ORIGINAL_H: 1360,  // alto proporcional aproximado
         LIGHTNING: {
           BASE_INTERVAL: 1700,
           RANDOM_INTERVAL: 1400,
@@ -489,16 +465,16 @@
         resizeTimeout: null
       };
 
-      /* ============= INIT ============= */
       function init() {
         setupLoader();
         setupFadeIn();
+        setupSectionFocus();
         setupSocialHotspots();
-        setupLightning();
         setupParallax();
+        setupLightning();
       }
 
-      /* ============= LOADER ============= */
+      /* LOADER */
       function setupLoader() {
         setTimeout(() => {
           const loader = document.getElementById('loader');
@@ -508,7 +484,7 @@
         }, CONFIG.LOADER_DURATION);
       }
 
-      /* ============= FADE IN IMÁGENES ============= */
+      /* FADE IN */
       function setupFadeIn() {
         const wrappers = document.querySelectorAll('.image-wrapper');
         if (!wrappers.length) return;
@@ -525,7 +501,59 @@
         wrappers.forEach(w => obs.observe(w));
       }
 
-      /* ============= HOTSPOTS RRSS ============= */
+      /* FOCO DE SECCIÓN + FLASH */
+      function flashForSection(sectionIndex) {
+        const canvas = document.getElementById('lightning-canvas');
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        const level = 0.25 + 0.18 * sectionIndex;
+        const midY = level * state.h;
+
+        ctx.save();
+        ctx.globalCompositeOperation = 'lighter';
+        ctx.shadowBlur = 28;
+        ctx.shadowColor = CONFIG.COLORS.MAIN;
+
+        ctx.beginPath();
+        const startX = state.w * 0.12;
+        const endX   = state.w * 0.88;
+        const baseY  = midY + (Math.random() - 0.5) * 18;
+
+        const segments = 16;
+        for (let i = 0; i <= segments; i++) {
+          const t = i / segments;
+          const x = startX + (endX - startX) * t;
+          const y = baseY + (Math.random() - 0.5) * 22;
+          if (i === 0) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        }
+        ctx.strokeStyle = CONFIG.COLORS.MAIN;
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        ctx.restore();
+      }
+
+      function setupSectionFocus() {
+        const sections = document.querySelectorAll('section');
+        if (!sections.length) return;
+
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (!entry.isIntersecting) return;
+
+            sections.forEach(s => s.classList.remove('section-active'));
+            entry.target.classList.add('section-active');
+
+            const index = Array.from(sections).indexOf(entry.target);
+            flashForSection(index);
+          });
+        }, { threshold: 0.55 });
+
+        sections.forEach(s => observer.observe(s));
+      }
+
+      /* HOTSPOTS RRSS */
       function setupSocialHotspots() {
         const container = document.getElementById('hotspotsContainer');
         const img = document.getElementById('socialImage');
@@ -568,7 +596,7 @@
             el.addEventListener("click", (e) => {
               e.stopPropagation();
               el.classList.remove("clicked");
-              void el.offsetWidth; // reinicia animación
+              void el.offsetWidth;
               el.classList.add("clicked");
               window.open(spot.url, "_blank", "noopener");
             });
@@ -583,7 +611,6 @@
           state.resizeTimeout = setTimeout(render, 80);
         });
 
-        // halo reacciona sutilmente al ratón
         window.addEventListener("mousemove", (e) => {
           const rect = img.getBoundingClientRect();
           const relX = ((e.clientX - rect.left) / rect.width) - 0.5;
@@ -598,7 +625,7 @@
         });
       }
 
-      /* ============= PARALLAX CANVAS ============= */
+      /* PARALLAX CANVAS */
       function setupParallax() {
         const canvas = document.getElementById('lightning-canvas');
         if (!canvas) return;
@@ -612,7 +639,7 @@
         });
       }
 
-      /* ============= RAYOS ============= */
+      /* RAYOS DE FONDO */
       function setupLightning() {
         const canvas = document.getElementById('lightning-canvas');
         if (!canvas) return;
@@ -682,7 +709,6 @@
         ctx.stroke();
         ctx.restore();
 
-        // ramificaciones suaves
         for (let i = 0; i < CONFIG.LIGHTNING.BRANCHES; i++) {
           const s = segments[Math.floor(Math.random() * segments.length)];
           if (!s) continue;
@@ -696,7 +722,6 @@
           ctx.stroke();
         }
 
-        // partículas
         for (let i = 0; i < CONFIG.LIGHTNING.PARTICLES; i++) {
           const s = segments[Math.floor(Math.random() * segments.length)];
           if (!s) continue;
@@ -715,7 +740,6 @@
         }
       }
 
-      /* ============= START ============= */
       if (document.readyState === "loading") {
         document.addEventListener("DOMContentLoaded", init);
       } else {

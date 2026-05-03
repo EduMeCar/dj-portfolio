@@ -3,13 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>BUBBLES — Cerveza Champagne Premium</title>
+  <title>DAM DAM — Experiencia Eléctrica</title>
+
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,500;14..32,700&family=Black+Ops+One&display=swap" rel="stylesheet" />
-  
+
   <style>
-    /* ===============================================
-       CHAMPAGNE CSS VARIABLES - Fácil theming
-       =============================================== */
+    /* =========================
+       VARIABLES (THEME)
+       ========================= */
     :root {
       --bg-primary: #03050E;
       --bg-secondary: #070b1a;
@@ -18,22 +19,13 @@
       --accent-tertiary: #7BAEFF;
       --text-primary: #FFFFFF;
       --text-secondary: rgba(255,255,255,0.8);
-      --shadow-glow: 0 0 20px rgba(58,126,255,0.6);
       --transition-cream: cubic-bezier(0.2, 0.9, 0.1, 1.1);
       --transition-pop: cubic-bezier(0.2, 0.9, 0.4, 1.2);
-      --transition-smooth: cubic-bezier(0.16, 1, 0.3, 1);
-      --radius-pill: 60px;
+      --radius-pill: 999px;
       --radius-lg: 20px;
       --radius-md: 16px;
-      --radius-sm: 6px;
-      --duration-fast: 0.2s;
-      --duration-medium: 0.35s;
-      --duration-slow: 1.2s;
     }
 
-    /* ===============================================
-       BASE STYLES
-       =============================================== */
     * {
       margin: 0;
       padding: 0;
@@ -44,18 +36,17 @@
 
     html, body {
       height: 100%;
-      font-family: "Inter", sans-serif;
       background-color: var(--bg-primary);
       color: var(--text-primary);
+      font-family: "Inter", sans-serif;
       overflow-x: hidden;
       scroll-behavior: smooth;
       -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
     }
 
-    /* ===============================================
-       LIGHTNING CANVAS (OPTIMIZED)
-       =============================================== */
+    /* =========================
+       CANVAS RAYOS
+       ========================= */
     #lightning-canvas {
       position: fixed;
       inset: 0;
@@ -65,9 +56,14 @@
       will-change: transform;
     }
 
-    /* ===============================================
-       PAGE WRAPPER & SECTIONS
-       =============================================== */
+    /* Parallax suave del fondo */
+    .canvas-parallax {
+      transition: transform 0.25s ease-out;
+    }
+
+    /* =========================
+       CONTENIDO PRINCIPAL
+       ========================= */
     .page-wrapper {
       position: relative;
       z-index: 1;
@@ -82,9 +78,9 @@
     .image-wrapper {
       opacity: 0;
       transform: translateY(60px) scale(0.98);
-      transition: 
-        opacity var(--duration-slow) var(--transition-cream),
-        transform var(--duration-slow) var(--transition-cream);
+      transition:
+        opacity 1.1s var(--transition-cream),
+        transform 1.1s var(--transition-cream);
       will-change: opacity, transform;
       filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.4));
     }
@@ -101,9 +97,9 @@
       pointer-events: auto;
     }
 
-    /* ===============================================
-       PREMIUM HOTSPOTS
-       =============================================== */
+    /* =========================
+       HOTSPOTS + HALO PAGE3
+       ========================= */
     #hotspotsContainer {
       position: absolute;
       inset: 0;
@@ -111,89 +107,132 @@
       z-index: 5;
     }
 
+    #socialHalo {
+      position: absolute;
+      left: 50%;
+      bottom: 5%;
+      width: 52%;
+      height: 18%;
+      transform: translateX(-50%);
+      pointer-events: none;
+      background: radial-gradient(circle at 50% 40%,
+                  rgba(58,126,255,0.38) 0%,
+                  rgba(58,126,255,0.10) 35%,
+                  transparent 70%);
+      opacity: 0.7;
+      filter: blur(10px);
+      mix-blend-mode: screen;
+      transition: transform 0.4s ease-out, opacity 0.4s ease-out;
+      z-index: 3;
+    }
+
     .hotspot {
       position: absolute;
-      pointer-events: auto;
       cursor: pointer;
-      border-radius: var(--radius-lg);
-      transition: 
-        all var(--duration-medium) var(--transition-pop),
-        background-color var(--duration-fast),
-        box-shadow var(--duration-fast);
-      backdrop-filter: blur(2px);
-      z-index: 5;
-      isolation: isolate;
-    }
-
-    .hotspot::before {
-      content: '';
-      position: absolute;
-      inset: 50%;
-      background: radial-gradient(circle, 
-        rgba(58,126,255,0.5) 0%, 
-        rgba(255,45,120,0) 80%);
       border-radius: 50%;
-      transform: translate(-50%, -50%) scale(0);
-      transition: 
-        transform var(--duration-medium) ease-out,
-        opacity var(--duration-medium) ease-out;
-      opacity: 0;
-      z-index: -1;
+      pointer-events: auto;
+      transform: translate(-50%, -50%);
+      background:
+        radial-gradient(circle,
+          rgba(58,126,255,0.25) 0%,
+          rgba(3,5,14,0.9) 55%,
+          rgba(3,5,14,1) 100%);
+      box-shadow: 0 0 0 rgba(58,126,255,0);
+      transition:
+        transform 0.35s var(--transition-pop),
+        box-shadow 0.35s var(--transition-pop),
+        background-color 0.2s ease-out;
+      z-index: 6;
     }
 
-    .hotspot:hover::before {
-      transform: translate(-50%, -50%) scale(2.2);
-      opacity: 1;
+    /* pulso constante, “vivo” */
+    .hotspot.pulse {
+      animation: hotspotPulse 3s ease-in-out infinite;
+    }
+
+    @keyframes hotspotPulse {
+      0%, 100% {
+        box-shadow: 0 0 0 rgba(58,126,255,0);
+        transform: translate(-50%, -50%) scale(1);
+      }
+      50% {
+        box-shadow: 0 0 18px rgba(58,126,255,0.85);
+        transform: translate(-50%, -50%) scale(1.06);
+      }
     }
 
     .hotspot:hover {
-      background-color: rgba(58, 126, 255, 0.15);
-      box-shadow: 
-        0 0 28px rgba(58,126,255,0.8),
-        inset 0 0 12px rgba(255,255,255,0.2),
-        0 4px 6px rgba(0,0,0,0.1);
-      transform: scale(1.05);
-      border: 1px solid rgba(255,45,120,0.6);
+      background-color: rgba(58,126,255,0.3);
+      box-shadow:
+        0 0 26px rgba(58,126,255,0.95),
+        0 0 60px rgba(255,45,120,0.5);
+      transform: translate(-50%, -50%) scale(1.13);
+    }
+
+    /* ripple al click */
+    .hotspot::after {
+      content: "";
+      position: absolute;
+      inset: 50%;
+      border-radius: inherit;
+      background: radial-gradient(circle,
+                  rgba(255,255,255,0.8) 0%,
+                  rgba(255,255,255,0) 60%);
+      transform: translate(-50%, -50%) scale(0);
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .hotspot.clicked::after {
+      animation: hotspotRipple 0.55s ease-out;
+    }
+
+    @keyframes hotspotRipple {
+      0% {
+        transform: translate(-50%, -50%) scale(0.35);
+        opacity: 0.85;
+      }
+      100% {
+        transform: translate(-50%, -50%) scale(1.9);
+        opacity: 0;
+      }
     }
 
     .hotspot-tooltip {
       position: absolute;
-      bottom: calc(100% + 12px);
+      top: -10px;
       left: 50%;
-      transform: translateX(-50%);
-      padding: 6px 14px;
-      background: rgba(3, 5, 14, 0.85);
-      backdrop-filter: blur(16px);
-      color: var(--text-primary);
-      font-size: 0.7rem;
+      transform: translate(-50%, -100%);
+      padding: 4px 11px;
+      background: rgba(3,5,14,0.92);
+      color: #fff;
+      font-size: 0.65rem;
       font-weight: 500;
       border-radius: var(--radius-pill);
-      white-space: nowrap;
-      border: 1px solid rgba(58,126,255,0.5);
-      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-      letter-spacing: 0.1em;
+      letter-spacing: 0.13em;
       text-transform: uppercase;
+      white-space: nowrap;
+      border: 1px solid rgba(58,126,255,0.7);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.4);
       opacity: 0;
-      transition: 
-        opacity var(--duration-fast) ease,
-        transform var(--duration-fast) ease;
       pointer-events: none;
-      font-family: "Inter", sans-serif;
-      z-index: 10;
+      transition:
+        opacity 0.18s ease-out,
+        transform 0.18s ease-out;
     }
 
     .hotspot:hover .hotspot-tooltip {
       opacity: 1;
-      transform: translateX(-50%) translateY(-4px);
+      transform: translate(-50%, -125%);
     }
 
-    /* ===============================================
-       FLOATING BRAND BUTTON
-       =============================================== */
+    /* =========================
+       BOTÓN FLOTANTE WHATSAPP
+       ========================= */
     .floating-brand {
       position: fixed;
-      bottom: 28px;
-      right: 28px;
+      bottom: 26px;
+      right: 26px;
       width: 56px;
       height: 56px;
       background: radial-gradient(circle at 30% 20%, #1a1f2e, var(--bg-primary));
@@ -204,45 +243,44 @@
       justify-content: center;
       z-index: 20;
       cursor: pointer;
-      box-shadow: 
-        0 0 20px rgba(58,126,255,0.3),
-        0 8px 20px rgba(0,0,0,0.4);
-      transition: 
-        all var(--duration-medium) var(--transition-pop),
-        border-color var(--duration-fast);
-      border: 1px solid rgba(58,126,255,0.5);
+      box-shadow:
+        0 0 20px rgba(58,126,255,0.35),
+        0 8px 20px rgba(0,0,0,0.45);
+      border: 1px solid rgba(58,126,255,0.55);
       text-decoration: none;
-      isolation: isolate;
-    }
-
-    .floating-brand:hover {
-      transform: scale(1.1) rotate(3deg);
-      box-shadow: 
-        0 0 32px rgba(58,126,255,0.8),
-        0 12px 24px rgba(0,0,0,0.2);
-      border-color: #FF2D78;
+      transition:
+        transform 0.32s var(--transition-pop),
+        box-shadow 0.32s var(--transition-pop),
+        border-color 0.2s ease-out;
     }
 
     .floating-brand span {
       font-family: "Black Ops One", monospace;
-      font-size: 1.2rem;
+      font-size: 1.35rem;
       color: var(--accent-primary);
-      text-shadow: 0 0 4px var(--accent-primary);
-      transition: all var(--duration-fast);
-      display: inline-block;
+      text-shadow: 0 0 6px var(--accent-primary);
+      transition: color 0.18s ease-out, text-shadow 0.18s ease-out;
+    }
+
+    .floating-brand:hover {
+      transform: scale(1.12) translateY(-2px);
+      box-shadow:
+        0 0 32px rgba(58,126,255,0.85),
+        0 12px 26px rgba(0,0,0,0.5);
+      border-color: var(--accent-secondary);
     }
 
     .floating-brand:hover span {
-      color: #FF2D78;
-      text-shadow: 0 0 8px #FF2D78;
+      color: var(--accent-secondary);
+      text-shadow: 0 0 10px var(--accent-secondary);
     }
 
     .floating-brand::after {
-      content: "BUBBLES";
+      content: "DAM DAM";
       position: absolute;
       right: 70px;
       white-space: nowrap;
-      background: rgba(0,0,0,0.7);
+      background: rgba(0,0,0,0.72);
       backdrop-filter: blur(8px);
       padding: 4px 12px;
       border-radius: var(--radius-pill);
@@ -251,18 +289,18 @@
       letter-spacing: 0.1em;
       color: var(--text-primary);
       opacity: 0;
-      transition: opacity var(--duration-fast);
-      pointer-events: none;
       border: 1px solid var(--accent-primary);
+      transition: opacity 0.18s ease-out;
+      pointer-events: none;
     }
 
     .floating-brand:hover::after {
       opacity: 1;
     }
 
-    /* ===============================================
-       PREMIUM LOADER
-       =============================================== */
+    /* =========================
+       LOADER
+       ========================= */
     .loader-overlay {
       position: fixed;
       inset: 0;
@@ -274,7 +312,7 @@
       z-index: 200;
       opacity: 1;
       visibility: visible;
-      transition: 
+      transition:
         opacity 0.8s var(--transition-cream),
         visibility 0.8s;
     }
@@ -291,18 +329,17 @@
       background-clip: text;
       -webkit-background-clip: text;
       color: transparent;
-      animation: pulseGlow 1.6s ease-in-out infinite alternate;
-      letter-spacing: 0.2em;
-      margin-bottom: 16px;
+      letter-spacing: 0.22em;
+      animation: loaderGlow 1.6s ease-in-out infinite alternate;
     }
 
-    @keyframes pulseGlow {
-      0%, 100% { 
-        text-shadow: 0 0 0px rgba(58,126,255,0);
+    @keyframes loaderGlow {
+      0%,100% {
+        text-shadow: 0 0 0 rgba(58,126,255,0);
         transform: scale(1);
       }
-      50% { 
-        text-shadow: 0 0 16px rgba(58,126,255,0.5);
+      50% {
+        text-shadow: 0 0 18px rgba(58,126,255,0.7);
         transform: scale(1.02);
       }
     }
@@ -310,9 +347,9 @@
     .loader-bar-wrapper {
       width: 220px;
       height: 2px;
-      background: rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.12);
       border-radius: 2px;
-      margin-top: 24px;
+      margin-top: 26px;
       overflow: hidden;
       position: relative;
     }
@@ -324,8 +361,8 @@
       height: 100%;
       width: 0%;
       background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
-      animation: loaderProgress 2.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
       border-radius: 2px;
+      animation: loaderProgress 2.4s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
     }
 
     @keyframes loaderProgress {
@@ -336,473 +373,351 @@
     .loader-sub {
       margin-top: 18px;
       font-size: 0.7rem;
-      letter-spacing: 0.3em;
+      letter-spacing: 0.32em;
       text-transform: uppercase;
-      color: rgba(255,255,255,0.5);
+      color: rgba(255,255,255,0.55);
     }
 
-    /* ===============================================
-       RESPONSIVE ADJUSTMENTS
-       =============================================== */
+    /* =========================
+       RESPONSIVE
+       ========================= */
     @media (max-width: 768px) {
-      .hotspot {
-        border-radius: var(--radius-md);
-      }
-      .hotspot-tooltip {
-        font-size: 0.6rem;
-        padding: 4px 10px;
+      #socialHalo {
+        width: 70%;
+        height: 22%;
       }
       .floating-brand {
-        width: 48px;
-        height: 48px;
+        width: 50px;
+        height: 50px;
         bottom: 20px;
         right: 20px;
       }
       .floating-brand span {
-        font-size: 1rem;
+        font-size: 1.15rem;
       }
     }
   </style>
 </head>
 <body>
 
-  <!-- Lightning Canvas (Fondo dinámico) -->
-  <canvas id="lightning-canvas" aria-hidden="true"></canvas>
+  <!-- FONDO ELÉCTRICO -->
+  <canvas id="lightning-canvas" class="canvas-parallax" aria-hidden="true"></canvas>
 
-  <!-- Premium Loader -->
+  <!-- LOADER -->
   <div class="loader-overlay" id="loader">
-    <div class="loader-title">BUBBLES</div>
+    <div class="loader-title">DAM DAM</div>
     <div class="loader-bar-wrapper"><div class="loader-bar"></div></div>
-    <div class="loader-sub">cerveza champagne</div>
+    <div class="loader-sub">experiencia eléctrica</div>
   </div>
 
-  <!-- Main Content Wrapper -->
+  <!-- CONTENIDO -->
   <div class="page-wrapper">
-    <!-- Sección 1 -->
     <section>
       <div class="image-wrapper">
-        <img src="page1.png" alt="BUBBLES Premium Experience" class="press-page" loading="lazy" />
+        <img src="page1.jpg" alt="DAM DAM" class="press-page" loading="lazy" />
       </div>
     </section>
 
-    <!-- Sección 2 -->
     <section>
       <div class="image-wrapper">
-        <img src="page2.png" alt="BUBBLES Premium Experience" class="press-page" loading="lazy" />
+        <img src="page2.jpg" alt="DAM DAM" class="press-page" loading="lazy" />
       </div>
     </section>
 
-    <!-- Sección 3 con Hotspots -->
+    <!-- PAGE3 CON HOTSPOTS -->
     <section style="position: relative;">
       <div class="image-wrapper" style="position: relative;">
-        <img src="page3.png" alt="Shows y redes sociales" class="press-page" id="socialImage" 
-             width="100%" height="auto" style="display:block;" />
-        <div id="hotspotsContainer" aria-label="Contenedor de enlaces sociales"></div>
+        <img src="page3.jpg"
+             alt="Presentaciones y redes"
+             class="press-page"
+             id="socialImage"
+             style="width:100%; height:auto; display:block;" />
+        <div id="socialHalo"></div>
+        <div id="hotspotsContainer"></div>
       </div>
     </section>
 
-    <!-- Sección 4 -->
     <section>
       <div class="image-wrapper">
-        <img src="page4.png" alt="BUBBLES Premium Experience" class="press-page" loading="lazy" />
+        <img src="page4.jpg" alt="DAM DAM" class="press-page" loading="lazy" />
       </div>
     </section>
   </div>
 
-  <!-- Floating Brand Button -->
-  <a href="https://wa.me/34666666666?text=Hola%20BUBBLES" 
-     class="floating-brand" 
-     target="_blank" 
+  <!-- BOTÓN WHATSAPP -->
+  <a href="https://wa.me/34666666666?text=Hola%20DAM%20DAM"
+     class="floating-brand"
+     target="_blank"
      rel="noopener noreferrer"
-     aria-label="Contactar BUBBLES por WhatsApp">
+     aria-label="Contactar DAM DAM por WhatsApp">
     <span>⚡</span>
   </a>
 
   <script>
-    /* ===============================================
-       CHAMPAGNE QUALITY JAVASCRIPT
-       Arquitectura optimizada, mantenible y performante
-       =============================================== */
     (function() {
-      // =============================================
-      // CONFIGURACIÓN CENTRALIZADA (Fácil de ajustar)
-      // =============================================
+      /* ============= CONFIG ============= */
       const CONFIG = {
-        // Tiempos y intervalos
         LOADER_DURATION: 2600,
-        LIGHTNING_BASE_INTERVAL: 1600,
-        LIGHTNING_RANDOM_INTERVAL: 1400,
-        
-        // Dimensiones de referencia para hotspots (ajustar según tu diseño)
-        ORIGINAL_WIDTH: 1700,
-        ORIGINAL_HEIGHT: 2200,
-        
-        // Configuración de relámpagos
+        ORIGINAL_W: 995,   // ancho de page3.jpg del PDF
+        ORIGINAL_H: 1360,  // alto proporcional aproximado
         LIGHTNING: {
+          BASE_INTERVAL: 1700,
+          RANDOM_INTERVAL: 1400,
           BASE_STEP: 22,
-          MAX_STEPS: 18,
-          SEGMENT_VARIANCE: 48,
-          BRANCH_COUNT: 3,
-          PARTICLE_COUNT: 35,
-          SHADOW_BLUR: 24,
-          LINE_WIDTH_MAIN: 2.6,
-          LINE_WIDTH_BRANCH: 1.5,
-          PARTICLE_RADIUS_BASE: 1.5,
-          PARTICLE_RADIUS_VARIANCE: 4,
-          FADE_RATE: 0.06,
-          PERSISTENCE_FADE: 0.02
+          MAX_STEPS: 16,
+          VARIANCE: 32,
+          BRANCHES: 2,
+          PARTICLES: 20,
+          BLUR: 22,
+          FADE: 0.05,
+          PERSIST: 0.02
         },
-        
-        // Colores del tema (sincronizados con CSS vars)
         COLORS: {
-          MAIN_STROKE: '#3A7EFF',
-          BRANCH_STROKE: '#7BAEFF',
-          PARTICLE_START: 'rgba(200, 220, 255, 1)',
-          PARTICLE_END: 'rgba(58, 126, 255, 0)'
+          MAIN: "#3A7EFF",
+          BRANCH: "#7BAEFF",
+          P_START: "rgba(200,220,255,1)",
+          P_END: "rgba(58,126,255,0)"
         }
       };
 
-      // =============================================
-      // ESTADO DE LA APLICACIÓN
-      // =============================================
       let state = {
-        width: window.innerWidth,
-        height: window.innerHeight,
+        w: window.innerWidth,
+        h: window.innerHeight,
         mouseX: window.innerWidth / 2,
         mouseY: window.innerHeight / 2,
         lastStrike: 0,
-        resizeTimeout: null,
-        mouseMoveTimeout: null
+        resizeTimeout: null
       };
 
-      // =============================================
-      // INICIALIZACIÓN
-      // =============================================
+      /* ============= INIT ============= */
       function init() {
         setupLoader();
-        setupFadeInObserver();
-        setupHotspots();
-        setupLightningCanvas();
-        setupEventListeners();
+        setupFadeIn();
+        setupSocialHotspots();
+        setupLightning();
+        setupParallax();
       }
 
-      // =============================================
-      // LOADER
-      // =============================================
+      /* ============= LOADER ============= */
       function setupLoader() {
         setTimeout(() => {
           const loader = document.getElementById('loader');
-          if (loader) {
-            loader.classList.add('hidden');
-            // Liberar referencia para GC
-            setTimeout(() => loader.remove(), 800);
-          }
+          if (!loader) return;
+          loader.classList.add('hidden');
+          setTimeout(() => loader.remove(), 900);
         }, CONFIG.LOADER_DURATION);
       }
 
-      // =============================================
-      // FADE IN OBSERVER (Optimizado)
-      // =============================================
-      function setupFadeInObserver() {
+      /* ============= FADE IN IMÁGENES ============= */
+      function setupFadeIn() {
         const wrappers = document.querySelectorAll('.image-wrapper');
         if (!wrappers.length) return;
 
-        const observer = new IntersectionObserver((entries) => {
+        const obs = new IntersectionObserver((entries) => {
           entries.forEach(entry => {
             if (entry.isIntersecting) {
               entry.target.classList.add('visible');
-              observer.unobserve(entry.target);
+              obs.unobserve(entry.target);
             }
           });
-        }, { 
-          threshold: 0.15, 
-          rootMargin: "0px 0px -10% 0px" 
-        });
+        }, { threshold: 0.18, rootMargin: "0px 0px -10% 0px" });
 
-        wrappers.forEach(wrapper => observer.observe(wrapper));
+        wrappers.forEach(w => obs.observe(w));
       }
 
-      // =============================================
-      // HOTSPOTS (Precacheado y optimizado)
-      // =============================================
-      function setupHotspots() {
+      /* ============= HOTSPOTS RRSS ============= */
+      function setupSocialHotspots() {
         const container = document.getElementById('hotspotsContainer');
         const img = document.getElementById('socialImage');
-        
-        if (!container || !img) return;
+        const halo = document.getElementById('socialHalo');
+        if (!container || !img || !halo) return;
 
-        // Datos de hotspots (fácil de modificar/expandir)
-        const hotspotsData = [
-          { x: 605, y: 1860, w: 52, h: 52, name: "Instagram", url: "https://instagram.com/bubbles" },
-          { x: 685, y: 1860, w: 52, h: 52, name: "TikTok", url: "https://tiktok.com/@bubbles" },
-          { x: 765, y: 1860, w: 52, h: 52, name: "YouTube", url: "https://youtube.com/@bubbles" },
-          { x: 845, y: 1860, w: 52, h: 52, name: "Spotify", url: "https://open.spotify.com/artist/bubbles" },
-          { x: 925, y: 1860, w: 52, h: 52, name: "SoundCloud", url: "https://soundcloud.com/bubbles" },
-          { x: 1005, y: 1860, w: 52, h: 52, name: "X", url: "https://x.com/bubbles" },
-          { x: 1085, y: 1860, w: 52, h: 52, name: "Facebook", url: "https://facebook.com/bubbles" }
+        const spots = [
+          { name: "Instagram",   cx: 27, cy: 91, r: 4, url: "https://instagram.com/damdam" },
+          { name: "Facebook",    cx: 35, cy: 91, r: 4, url: "https://facebook.com/damdam" },
+          { name: "TikTok",      cx: 43, cy: 91, r: 4, url: "https://tiktok.com/@damdam" },
+          { name: "YouTube",     cx: 51, cy: 91, r: 4, url: "https://youtube.com/@damdam" },
+          { name: "Apple Music", cx: 59, cy: 91, r: 4, url: "https://music.apple.com" },
+          { name: "Spotify",     cx: 67, cy: 91, r: 4, url: "https://open.spotify.com" },
+          { name: "SoundCloud",  cx: 75, cy: 91, r: 4, url: "https://soundcloud.com" }
         ];
 
-        // Precálculo de factores de escala (se actualiza en resize)
-        let scaleX = 1;
-        let scaleY = 1;
+        function render() {
+          const rect = img.getBoundingClientRect();
+          const w = rect.width;
+          const h = rect.height;
+          container.innerHTML = "";
 
-        function updateScaleFactors() {
-          if (!img) return;
-          scaleX = img.clientWidth / CONFIG.ORIGINAL_WIDTH;
-          scaleY = img.clientHeight / CONFIG.ORIGINAL_HEIGHT;
-        }
+          spots.forEach(spot => {
+            const x = (spot.cx / 100) * w;
+            const y = (spot.cy / 100) * h;
+            const size = (spot.r / 100) * w * 2;
 
-        function buildHotspots() {
-          container.innerHTML = '';
-          
-          hotspotsData.forEach(data => {
-            const left = data.x * scaleX;
-            const top = data.y * scaleY;
-            const width = data.w * scaleX;
-            const height = data.h * scaleY;
+            const el = document.createElement("div");
+            el.className = "hotspot pulse";
+            el.style.left = `${x}px`;
+            el.style.top = `${y}px`;
+            el.style.width = `${size}px`;
+            el.style.height = `${size}px`;
 
-            const hotspot = document.createElement('div');
-            hotspot.className = 'hotspot';
-            hotspot.style.left = `${left}px`;
-            hotspot.style.top = `${top}px`;
-            hotspot.style.width = `${width}px`;
-            hotspot.style.height = `${height}px`;
-            hotspot.setAttribute('aria-label', `Enlace a ${data.name}`);
+            const tt = document.createElement("span");
+            tt.className = "hotspot-tooltip";
+            tt.textContent = spot.name;
+            el.appendChild(tt);
 
-            const tooltip = document.createElement('span');
-            tooltip.className = 'hotspot-tooltip';
-            tooltip.textContent = data.name;
-            hotspot.appendChild(tooltip);
-
-            hotspot.addEventListener('click', (e) => {
+            el.addEventListener("click", (e) => {
               e.stopPropagation();
-              e.preventDefault();
-              window.open(data.url, '_blank', 'noopener');
+              el.classList.remove("clicked");
+              void el.offsetWidth; // reinicia animación
+              el.classList.add("clicked");
+              window.open(spot.url, "_blank", "noopener");
             });
 
-            container.appendChild(hotspot);
+            container.appendChild(el);
           });
         }
 
-        // Manejo de resize con throttle
-        function handleResize() {
-          if (state.resizeTimeout) clearTimeout(state.resizeTimeout);
-          state.resizeTimeout = setTimeout(() => {
-            state.width = window.innerWidth;
-            state.height = window.innerHeight;
-            updateScaleFactors();
-            buildHotspots();
-          }, 100);
-        }
+        render();
+        window.addEventListener("resize", () => {
+          clearTimeout(state.resizeTimeout);
+          state.resizeTimeout = setTimeout(render, 80);
+        });
 
-        // Inicialización
-        updateScaleFactors();
-        buildHotspots();
-        window.addEventListener('resize', handleResize);
+        // halo reacciona sutilmente al ratón
+        window.addEventListener("mousemove", (e) => {
+          const rect = img.getBoundingClientRect();
+          const relX = ((e.clientX - rect.left) / rect.width) - 0.5;
+          const relY = ((e.clientY - rect.top) / rect.height) - 0.5;
+          halo.style.transform =
+            `translateX(-50%) translate(${relX * 14}px, ${relY * 10}px)`;
+          halo.style.opacity = "0.9";
+        });
+        window.addEventListener("mouseleave", () => {
+          halo.style.transform = "translateX(-50%)";
+          halo.style.opacity = "0.7";
+        });
       }
 
-      // =============================================
-      // LIGHTNING CANVAS (Optimizado para rendimiento)
-      // =============================================
-      function setupLightningCanvas() {
+      /* ============= PARALLAX CANVAS ============= */
+      function setupParallax() {
         const canvas = document.getElementById('lightning-canvas');
         if (!canvas) return;
 
+        window.addEventListener("mousemove", (e) => {
+          const relX = (e.clientX / window.innerWidth - 0.5) * 8;
+          const relY = (e.clientY / window.innerHeight - 0.5) * 6;
+          canvas.style.transform = `translate(${relX}px, ${relY}px)`;
+          state.mouseX = e.clientX;
+          state.mouseY = e.clientY;
+        });
+      }
+
+      /* ============= RAYOS ============= */
+      function setupLightning() {
+        const canvas = document.getElementById('lightning-canvas');
+        if (!canvas) return;
         const ctx = canvas.getContext('2d');
-        resizeCanvas();
 
-        // Event listeners optimizados
-        window.addEventListener('resize', () => {
-          if (state.resizeTimeout) clearTimeout(state.resizeTimeout);
-          state.resizeTimeout = setTimeout(resizeCanvas, 150);
+        function resize() {
+          state.w = window.innerWidth;
+          state.h = window.innerHeight;
+          canvas.width = state.w;
+          canvas.height = state.h;
+        }
+        resize();
+        window.addEventListener("resize", () => {
+          clearTimeout(state.resizeTimeout);
+          state.resizeTimeout = setTimeout(resize, 120);
         });
 
-        window.addEventListener('mousemove', (e) => {
-          if (state.mouseMoveTimeout) clearTimeout(state.mouseMoveTimeout);
-          state.mouseMoveTimeout = setTimeout(() => {
-            state.mouseX = e.clientX;
-            state.mouseY = e.clientY;
-          }, 16); // ~60fps throttle
-        });
-
-        // Bucle de animación principal
-        function animateLightning(timestamp) {
-          if (!state.lastStrike) state.lastStrike = timestamp;
-          
-          const elapsed = timestamp - state.lastStrike;
-          const interval = CONFIG.LIGHTNING_BASE_INTERVAL + 
-                          Math.random() * CONFIG.LIGHTNING_RANDOM_INTERVAL;
+        function loop(time) {
+          if (!state.lastStrike) state.lastStrike = time;
+          const elapsed = time - state.lastStrike;
+          const interval = CONFIG.LIGHTNING.BASE_INTERVAL +
+                          Math.random() * CONFIG.LIGHTNING.RANDOM_INTERVAL;
 
           if (elapsed > interval) {
-            drawLightningBolt(true);
-            state.lastStrike = timestamp;
+            drawBolt(ctx, true);
+            state.lastStrike = time;
           } else {
-            // Persistencia suave (más eficiente que clearRect completo)
-            ctx.fillStyle = `rgba(0, 0, 0, ${CONFIG.LIGHTNING.PERSISTENCE_FADE})`;
-            ctx.fillRect(0, 0, state.width, state.height);
+            ctx.fillStyle = `rgba(0,0,0,${CONFIG.LIGHTNING.PERSIST})`;
+            ctx.fillRect(0,0,state.w,state.h);
           }
-
-          requestAnimationFrame(animateLightning);
+          requestAnimationFrame(loop);
         }
-
-        requestAnimationFrame(animateLightning);
+        requestAnimationFrame(loop);
       }
 
-      function resizeCanvas() {
-        state.width = window.innerWidth;
-        state.height = window.innerHeight;
-        const canvas = document.getElementById('lightning-canvas');
-        if (canvas) {
-          canvas.width = state.width;
-          canvas.height = state.height;
-        }
-      }
+      function drawBolt(ctx, followMouse) {
+        ctx.fillStyle = `rgba(0,0,0,${CONFIG.LIGHTNING.FADE})`;
+        ctx.fillRect(0,0,state.w,state.h);
 
-      function drawLightningBolt(withMouse = true) {
-        const canvas = document.getElementById('lightning-canvas');
-        if (!canvas) return;
-        const ctx = canvas.getContext('2d');
+        const targetX = followMouse ? state.mouseX : state.w * (0.3 + Math.random() * 0.4);
+        const targetY = followMouse ? state.mouseY * 0.6 + 40 : state.h * (0.3 + Math.random() * 0.4);
 
-        // 1. Capa de desvanecimiento base
-        ctx.fillStyle = `rgba(0, 0, 0, ${CONFIG.LIGHTNING.FADE_RATE})`;
-        ctx.fillRect(0, 0, state.width, state.height);
+        let x = Math.random() * state.w;
+        let y = -20;
+        const segments = [];
+        let steps = 0;
 
-        // 2. Cálculo del objetivo (ratón o aleatorio)
-        let targetX, targetY;
-        if (withMouse) {
-          targetX = state.mouseX;
-          targetY = state.mouseY * 0.6 + 50; // Evita que baje demasiado
-        } else {
-          targetX = state.width * (0.3 + Math.random() * 0.4);
-          targetY = state.height * (0.3 + Math.random() * 0.4);
+        while (y < targetY && steps < CONFIG.LIGHTNING.MAX_STEPS) {
+          const nx = x + (targetX - x) * 0.16 + (Math.random() - 0.5) * CONFIG.LIGHTNING.VARIANCE;
+          const ny = y + CONFIG.LIGHTNING.BASE_STEP + Math.random() * 16;
+          segments.push({ x1: x, y1: y, x2: nx, y2: ny });
+          x = nx; y = ny; steps++;
         }
 
-        // 3. Generación del rayo principal
-        const segments = generateLightningSegments(
-          Math.random() * state.width,
-          -20,
-          targetX,
-          targetY,
-          CONFIG.LIGHTNING.BASE_STEP,
-          CONFIG.LIGHTNING.MAX_STEPS,
-          CONFIG.LIGHTNING.SEGMENT_VARIANCE
-        );
-
-        // 4. Dibujar rayo principal
         ctx.save();
-        ctx.globalCompositeOperation = 'lighter';
-        ctx.shadowBlur = CONFIG.LIGHTNING.SHADOW_BLUR;
-        ctx.shadowColor = CONFIG.COLORS.MAIN_STROKE;
+        ctx.globalCompositeOperation = "lighter";
+        ctx.shadowBlur = CONFIG.LIGHTNING.BLUR;
+        ctx.shadowColor = CONFIG.COLORS.MAIN;
         ctx.beginPath();
-        ctx.strokeStyle = CONFIG.COLORS.MAIN_STROKE;
-        ctx.lineWidth = CONFIG.LIGHTNING.LINE_WIDTH_MAIN;
-        
-        segments.forEach(seg => {
-          ctx.moveTo(seg.x1, seg.y1);
-          ctx.lineTo(seg.x2, seg.y2);
+        ctx.strokeStyle = CONFIG.COLORS.MAIN;
+        ctx.lineWidth = 2.2;
+
+        segments.forEach(s => {
+          ctx.moveTo(s.x1, s.y1);
+          ctx.lineTo(s.x2, s.y2);
         });
         ctx.stroke();
         ctx.restore();
 
-        // 5. Ramificaciones (optimizadas)
-        drawBranches(ctx, segments);
-
-        // 6. Partículas (chascos)
-        drawParticles(ctx, segments);
-      }
-
-      function generateLightningSegments(startX, startY, targetX, targetY, step, maxSteps, variance) {
-        const segments = [];
-        let x = startX, y = startY;
-        let steps = 0;
-
-        while (y < targetY && steps < maxSteps) {
-          const nextX = x + (targetX - x) * 0.15 + (Math.random() - 0.5) * variance;
-          const nextY = y + step + Math.random() * step * 0.9;
-          segments.push({ x1: x, y1: y, x2: nextX, y2: nextY });
-          x = nextX;
-          y = nextY;
-          steps++;
-        }
-
-        return segments;
-      }
-
-      function drawBranches(ctx, segments) {
-        if (!segments.length) return;
-        
-        for (let i = 0; i < CONFIG.LIGHTNING.BRANCH_COUNT; i++) {
-          const segIndex = Math.floor(Math.random() * segments.length);
-          const seg = segments[segIndex];
-          if (!seg) continue;
-
+        // ramificaciones suaves
+        for (let i = 0; i < CONFIG.LIGHTNING.BRANCHES; i++) {
+          const s = segments[Math.floor(Math.random() * segments.length)];
+          if (!s) continue;
           ctx.beginPath();
-          ctx.moveTo(seg.x2, seg.y2);
-          const branchX = seg.x2 + (Math.random() - 0.5) * 60;
-          const branchY = seg.y2 + 25 + Math.random() * 35;
-          ctx.lineTo(branchX, branchY);
-          ctx.strokeStyle = CONFIG.COLORS.BRANCH_STROKE;
-          ctx.lineWidth = CONFIG.LIGHTNING.LINE_WIDTH_BRANCH;
+          ctx.moveTo(s.x2, s.y2);
+          const bx = s.x2 + (Math.random() - 0.5) * 55;
+          const by = s.y2 + 20 + Math.random() * 30;
+          ctx.lineTo(bx, by);
+          ctx.strokeStyle = CONFIG.COLORS.BRANCH;
+          ctx.lineWidth = 1.4;
           ctx.stroke();
         }
-      }
 
-      function drawParticles(ctx, segments) {
-        if (!segments.length) return;
-        
-        for (let i = 0; i < CONFIG.LIGHTNING.PARTICLE_COUNT; i++) {
-          const seg = segments[Math.floor(Math.random() * segments.length)];
-          if (!seg) continue;
-          
+        // partículas
+        for (let i = 0; i < CONFIG.LIGHTNING.PARTICLES; i++) {
+          const s = segments[Math.floor(Math.random() * segments.length)];
+          if (!s) continue;
           const t = Math.random();
-          const px = seg.x1 + (seg.x2 - seg.x1) * t;
-          const py = seg.y1 + (seg.y2 - seg.y1) * t;
-          const rad = CONFIG.LIGHTNING.PARTICLE_RADIUS_BASE + 
-                    Math.random() * CONFIG.LIGHTNING.PARTICLE_RADIUS_VARIANCE;
-          
-          const gradient = ctx.createRadialGradient(px, py, 0, px, py, rad * 3);
-          gradient.addColorStop(0, CONFIG.COLORS.PARTICLE_START);
-          gradient.addColorStop(1, CONFIG.COLORS.PARTICLE_END);
-          
-          ctx.fillStyle = gradient;
+          const px = s.x1 + (s.x2 - s.x1) * t;
+          const py = s.y1 + (s.y2 - s.y1) * t;
+          const r = 1.5 + Math.random() * 3.5;
+
+          const g = ctx.createRadialGradient(px,py,0,px,py,r*3);
+          g.addColorStop(0, CONFIG.COLORS.P_START);
+          g.addColorStop(1, CONFIG.COLORS.P_END);
+          ctx.fillStyle = g;
           ctx.beginPath();
-          ctx.arc(px, py, rad * 2.5, 0, Math.PI * 2);
+          ctx.arc(px,py,r*2.2,0,Math.PI*2);
           ctx.fill();
         }
       }
 
-      // =============================================
-      // EVENT LISTENERS
-      // =============================================
-      function setupEventListeners() {
-        // Previene scroll accidental en móviles
-        let touchStartY = 0;
-        document.addEventListener('touchstart', (e) => {
-          touchStartY = e.touches[0].clientY;
-        }, { passive: true });
-
-        document.addEventListener('touchmove', (e) => {
-          const touchY = e.touches[0].clientY;
-          if (Math.abs(touchY - touchStartY) > 10) {
-            e.preventDefault();
-          }
-        }, { passive: false });
-
-        // Manejo de visibilidad de página
-        document.addEventListener('visibilitychange', () => {
-          if (document.hidden) {
-            // Pausar animaciones cuando no es visible
-          } else {
-            // Reanudar
-          }
-        });
-      }
-
-      // =============================================
-      // INICIO
-      // =============================================
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', init);
+      /* ============= START ============= */
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", init);
       } else {
         init();
       }

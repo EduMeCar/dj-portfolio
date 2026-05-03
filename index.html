@@ -859,27 +859,30 @@ var raf = requestAnimationFrame.bind(window);
       /* NO partículas ni chispas: es una tormenta seria */
     }
 
-    function loop(ts){
-  if(!isVisible){ raf(loop); return; }
-  /* Fondo negro con trail MUY leve */
-  ctx.fillStyle='rgba(0,0,0,.14)';
-  ctx.fillRect(0,0,W,H);
+        function loop(ts){
+      if(!isVisible){ raf(loop); return; }
 
-  /* Spawn */
-  if(!lastB) lastB=ts;
-  if(ts-lastB > 900+Math.random()*1400){ /* intervalo más largo: 900-2300ms, antes menos */
-    spawnBolt();
-    lastB=ts;
-  }
+      ctx.fillStyle='rgba(0,0,0,.14)';
+      ctx.fillRect(0,0,W,H);
 
-  bolts=bolts.filter(function(b){return b.a>.008}); /* que duren un pelín más */
-  bolts.forEach(function(b){
-    drawBolt(ctx,b.pts,b.a,b.lw,b.color);
-    b.a-=b.fade;
-  });
+      if(!lastB) lastB=ts;
+      if(ts-lastB > 900+Math.random()*1400){
+        spawnBolt();
+        lastB=ts;
+      }
 
-  raf(loop);
-}
+      bolts=bolts.filter(function(b){ return b.a > .008; });
+      bolts.forEach(function(b){
+        drawBolt(ctx,b.pts,b.a,b.lw,b.color);
+        b.a -= b.fade;
+      });
+
+      raf(loop);
+    }
+
+    raf(loop);
+  });   // cierra storms.forEach
+})();   // cierra IIFE de tormentas
 /* ══════════════════════════════════════
    HOTSPOTS REDES — dinámicos en %
 ══════════════════════════════════════ */

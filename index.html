@@ -579,133 +579,123 @@ var raf = requestAnimationFrame.bind(window);
    LOADER — rayos de intro en canvas
 ══════════════════════════════════════ */
 (function(){
-  var lcv    = document.getElementById('lcv');
-  var ldr    = document.getElementById('loader');
-  var ctx    = lcv.getContext('2d');
+  var lcv = document.getElementById('lcv');
+  var ldr = document.getElementById('loader');
+  var ctx = lcv.getContext('2d');
   var W, H;
-  var done   = false;
+  var done = false;
   var startT = null;
-  var DURATION = 2600; // ms total del loader
+  var DURATION = 2600;
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  var bolts = [];
+  var strikeTimes = reduceMotion ? [] : [260, 980, 1780];
+  var fired = 0;
 
   function resize(){
-    W = lcv.width  = window.innerWidth;
+    W = lcv.width = window.innerWidth;
     H = lcv.height = window.innerHeight;
   }
   resize();
   window.addEventListener('resize', resize);
 
-  /* Genera puntos de rayo fino recursivo */
-  function boltPts(x1,y1,x2,y2,d){
-    if(d<=0) return [[x1,y1],[x2,y2]];
-    var mx=(x1+x2)/2+(Math.random()-.5)*42;
-    var my=(y1+y2)/2+(Math.random()-.5)*18;
-    return boltPts(x1,y1,mx,my,d-1)
-           .concat(boltPts(mx,my,x2,y2,d-1).slice(1));
+  function boltPts(x1,y1,x2,y2,d,offsetX,offsetY){
+    if(d <= 0) return [[x1,y1],[x2,y2]];
+    var mx = (x1 + x2) / 2 + (Math.random() - .5) * offsetX;
+    var my = (y1 + y2) / 2 + (Math.random() - .5) * offsetY;
+    return boltPts(x1,y1,mx,my,d-1,offsetX*.72,offsetY*.72)
+      .concat(boltPts(mx,my,x2,y2,d-1,offsetX*.72,offsetY*.72).slice(1));
   }
 
-  /* Dibuja un rayo fino con glow */
-  function drawBolt(pts, alpha, lw){
-    if(pts.length<2) return;
-    /* Glow exterior muy suave */
+  function createBolt(){
+    var x = W * (0.2 + Math.random() * 0.6);
+    var endX = x + (Math.random() - .5) * W * 0.12;
+    var endY = H * (0.58 + Math.random() * 0.18);
+
+    return {
+      pts: boltPts(x, -20, endX, endY, 7, 26, 18),
+      alpha: 1,
+      fade: 0.065,
+      flash: 0.18
+    };
+  }
+
+  function drawBolt(b){
+    var pts = b.pts;
+    if(pts.length < 2) return;
+
     ctx.save();
-    ctx.globalAlpha = alpha * .12;
-    ctx.globalCompositeOperation='lighter';
-    ctx.strokeStyle='rgba(80,150,255,1)';
-    ctx.lineWidth=lw*4;
-    ctx.shadowBlur=20;
-    ctx.shadowColor='rgba(58,126,255,.8)';
-    ctx.lineJoin='round';ctx.lineCap='round';
+    ctx.globalCompositeOperation = 'lighter';
+    ctx.globalAlpha = b.alpha * 0.16;
+    ctx.strokeStyle = 'rgba(80,140,255,1)';
+    ctx.lineWidth = 6;
+    ctx.shadowBlur = 18;
+    ctx.shadowColor = 'rgba(90,160,255,.7)';
+    ctx.lineJoin = 'round';
+    ctx.lineCap = 'round';
     ctx.beginPath();
-    ctx.moveTo(pts[0][0],pts[0][1]);
-    for(var i=1;i<pts.length;i++) ctx.lineTo(pts[i][0],pts[i][1]);
+    ctx.moveTo(pts[0][0], pts[0][1]);
+    for(var i=1;i<pts.length;i++) ctx.lineTo(pts[i][0], pts[i][1]);
     ctx.stroke();
     ctx.restore();
-    /* Línea principal fina */
+
     ctx.save();
-    ctx.globalAlpha=alpha;
-    ctx.globalCompositeOperation='lighter';
-    ctx.strokeStyle='rgba(200,225,255,1)';
-    ctx.lineWidth=lw;
-    ctx.lineJoin='round';ctx.lineCap='round';
+    ctx.globalCompositeOperation = 'lighter';
+    ctx.globalAlpha = b.alpha;
+    ctx.strokeStyle = 'rgba(235,245,255,1)';
+    ctx.lineWidth = 1.35;
+    ctx.lineJoin = 'round';
+    ctx.lineCap = 'round';
     ctx.beginPath();
-    ctx.moveTo(pts[0][0],pts[0][1]);
-    for(var j=1;j<pts.length;j++) ctx.lineTo(pts[j][0],pts[j][1]);
+    ctx.moveTo(pts[0][0], pts[0][1]);
+    for(var j=1;j<pts.length;j++) ctx.lineTo(pts[j][0], pts[j][1]);
     ctx.stroke();
     ctx.restore();
   }
 
-  /* Estado de rayos activos del loader */
-  var lBolts=[];
-  var lastLB=0;
-
-  function spawnLoaderBolt(){
-    var sx=W*(.05+Math.random()*.9);
-    var ex=sx+(Math.random()-.5)*W*.5;
-    var ey=H*(.3+Math.random()*.6);
-    var pts=boltPts(sx,0,ex,ey,11);
-    /* ramas */
-    var brs=[];
-    pts.forEach(function(p,i){
-      if(i>1&&i<pts.length-2&&Math.random()<.3){
-        brs.push(boltPts(
-          p[0],p[1],
-          p[0]+(Math.random()-.5)*W*.22,
-          p[1]+Math.random()*H*.22,
-          7
-        ));
-      }
-    });
-    lBolts.push({pts:pts,brs:brs,a:.9,fade:.04});
-  }
-
-  /* Loop del loader */
-  function loaderLoop(ts){
-    if(!startT) startT=ts;
-    var elapsed=ts-startT;
-    var progress=Math.min(elapsed/DURATION,1);
-
-    /* Fondo negro con persistencia leve */
-    ctx.fillStyle='rgba(0,0,0,.18)';
+  function drawFlash(a){
+    ctx.save();
+    var g = ctx.createRadialGradient(W/2, H/2, 0, W/2, H/2, W * 0.7);
+    g.addColorStop(0, 'rgba(120,170,255,' + a + ')');
+    g.addColorStop(1, 'rgba(0,0,0,0)');
+    ctx.fillStyle = g;
     ctx.fillRect(0,0,W,H);
-
-    /* Spawn rayos cada ~350ms */
-    if(ts-lastLB>350+Math.random()*250){
-      spawnLoaderBolt();
-      lastLB=ts;
-    }
-
-    /* Dibujar rayos del loader */
-    lBolts=lBolts.filter(function(b){return b.a>0.01});
-    lBolts.forEach(function(b){
-      drawBolt(b.pts,b.a,.7);
-      b.brs.forEach(function(br){drawBolt(br,b.a*.45,.45)});
-      b.a-=b.fade;
-    });
-
-    /* Flash central al inicio */
-    if(progress<.15){
-      var fA=(1-progress/.15)*.08;
-      ctx.save();
-      var g=ctx.createRadialGradient(W/2,H/2,0,W/2,H/2,W*.6);
-      g.addColorStop(0,'rgba(58,126,255,'+fA+')');
-      g.addColorStop(1,'transparent');
-      ctx.fillStyle=g;
-      ctx.fillRect(0,0,W,H);
-      ctx.restore();
-    }
-
-    if(!done) raf(loaderLoop);
+    ctx.restore();
   }
 
-  raf(loaderLoop);
+  function loop(ts){
+    if(!startT) startT = ts;
+    var elapsed = ts - startT;
 
-  /* Salida del loader */
+    ctx.clearRect(0,0,W,H);
+
+    if(fired < strikeTimes.length && elapsed >= strikeTimes[fired]){
+      bolts.push(createBolt());
+      fired++;
+    }
+
+    var flashAlpha = 0;
+
+    bolts = bolts.filter(function(b){ return b.alpha > 0.02; });
+    bolts.forEach(function(b){
+      drawBolt(b);
+      flashAlpha = Math.max(flashAlpha, b.flash * b.alpha);
+      b.alpha -= b.fade;
+    });
+
+    if(flashAlpha > 0) drawFlash(flashAlpha);
+
+    if(!done) requestAnimationFrame(loop);
+  }
+
+  requestAnimationFrame(loop);
+
   setTimeout(function(){
-    done=true;
+    done = true;
     ldr.classList.add('done');
     setTimeout(function(){
-      ldr.style.display='none';
-    },950);
+      ldr.style.display = 'none';
+    }, 950);
   }, DURATION);
 })();
 

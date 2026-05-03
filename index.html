@@ -860,8 +860,26 @@ var raf = requestAnimationFrame.bind(window);
     }
 
     function loop(ts){
-      if(!isVisible){ raf(loop); return; }
-      /* Fondo negro con trail MUY l
+  if(!isVisible){ raf(loop); return; }
+  /* Fondo negro con trail MUY leve */
+  ctx.fillStyle='rgba(0,0,0,.14)';
+  ctx.fillRect(0,0,W,H);
+
+  /* Spawn */
+  if(!lastB) lastB=ts;
+  if(ts-lastB > 900+Math.random()*1400){ /* intervalo más largo: 900-2300ms, antes menos */
+    spawnBolt();
+    lastB=ts;
+  }
+
+  bolts=bolts.filter(function(b){return b.a>.008}); /* que duren un pelín más */
+  bolts.forEach(function(b){
+    drawBolt(ctx,b.pts,b.a,b.lw,b.color);
+    b.a-=b.fade;
+  });
+
+  raf(loop);
+}
 /* ══════════════════════════════════════
    HOTSPOTS REDES — dinámicos en %
 ══════════════════════════════════════ */

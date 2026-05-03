@@ -1,889 +1,939 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DAM DAM — DJ / Productor</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&family=Playfair+Display:wght@700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <title>DAM DAM - Press Kit 2026</title>
+
+  <!-- Meta básico para responsive -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Google Fonts: Black Ops One y Barlow Condensed -->
+  <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Barlow+Condensed:wght@300;400;600;700&display=swap" rel="stylesheet" />
+
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    
+    /* ----------------------------------------------------
+       VARIABLES DE COLOR Y CONFIGURACIÓN GLOBAL
+       ---------------------------------------------------- */
     :root {
-      --bg: #0a0a0f;
-      --bg2: #15151f;
-      --bg3: #1f1f2e;
-      --accent: #d90467;
-      --accent2: #f00677;
-      --accent3: #c902e6;
-      --text: #ffffff;
-      --text-light: #e8e8f0;
-      --text-muted: #a0a0b0;
-      --gold: #ffd700;
-      --gradient-primary: linear-gradient(135deg, #d90467 0%, #f00677 50%, #c902e6 100%);
-      --gradient-bg: linear-gradient(180deg, #1a1025 0%, #0a0a0f 100%);
+      --bg-main: #03050E;
+      --primary: #3A7EFF;          /* Azul eléctrico */
+      --accent: #FF2D78;           /* Rosa acento */
+      --text-main: #FFFFFF;
+      --nav-bg-scrolled: rgba(3, 5, 14, 0.9);
+      --nav-blur: 18px;
     }
-    
-    html, body { height: 100%; }
-    
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.6;
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      font-family: "Barlow Condensed", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      scroll-behavior: smooth;
       overflow-x: hidden;
     }
-    
-    a { color: var(--text); text-decoration: none; transition: all 0.3s ease; }
-    a:hover { color: var(--accent2); }
-    
-    nav {
+
+    body {
+      position: relative;
+    }
+
+    /* ----------------------------------------------------
+       CANVAS DE RELÁMPAGOS (FONDO)
+       ---------------------------------------------------- */
+    #lightning-canvas {
       position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      background: rgba(10, 10, 15, 0.95);
-      backdrop-filter: blur(12px);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1.2rem 5%;
-      z-index: 100;
-      border-bottom: 1px solid rgba(217, 4, 103, 0.15);
-    }
-    
-    .logo {
-      font-size: 1.4rem;
-      font-weight: 800;
-      letter-spacing: 4px;
-      font-family: 'Playfair Display', serif;
-    }
-    
-    .logo span { background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-    
-    nav ul {
-      list-style: none;
-      display: flex;
-      gap: 2.5rem;
-    }
-    
-    nav ul li a {
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      color: var(--text-muted);
-      transition: all 0.3s ease;
-      position: relative;
-    }
-    
-    nav ul li a:hover {
-      color: var(--accent2);
-    }
-    
-    nav ul li a::after {
-      content: '';
-      position: absolute;
-      bottom: -5px;
-      left: 0;
-      width: 0;
-      height: 2px;
-      background: var(--gradient-primary);
-      transition: width 0.3s ease;
-    }
-    
-    nav ul li a:hover::after { width: 100%; }
-    
-    @media (max-width: 768px) { nav ul { display: none; } }
-    
-    section {
-      padding: 5rem 5%;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-    
-    #hero {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      padding: 8rem 1rem 4rem;
-      background: var(--gradient-bg);
-      position: relative;
-      overflow: hidden;
-    }
-    
-    #hero::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 1000px;
-      height: 1000px;
-      background: radial-gradient(circle, rgba(217, 4, 103, 0.1) 0%, transparent 70%);
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 0;
       pointer-events: none;
+      background: radial-gradient(circle at top, #050818 0%, #020309 50%, #000000 100%);
     }
-    
-    #hero h1 {
-      font-size: clamp(3rem, 10vw, 6rem);
-      font-weight: 800;
-      letter-spacing: 6px;
-      margin-bottom: 1rem;
-      background: linear-gradient(135deg, #ffffff 0%, #ffc0d9 50%, #d90467 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      font-family: 'Playfair Display', serif;
-      text-shadow: 0 0 30px rgba(217, 4, 103, 0.2);
-    }
-    
-    #hero .tagline {
-      color: var(--accent2);
-      font-size: clamp(0.9rem, 3vw, 1.2rem);
-      letter-spacing: 4px;
-      text-transform: uppercase;
-      margin-bottom: 1rem;
-      font-weight: 700;
-    }
-    
-    #hero .subtitle {
-      font-size: clamp(1rem, 3vw, 1.4rem);
-      font-weight: 600;
-      margin-bottom: 2.5rem;
-      color: var(--text-light);
-      letter-spacing: 1px;
-    }
-    
-    #hero .badges {
-      display: flex;
-      gap: 1rem;
-      justify-content: center;
-      flex-wrap: wrap;
-      margin-bottom: 2.5rem;
-      z-index: 10;
+
+    /* ----------------------------------------------------
+       LAYOUT GENERAL
+       ---------------------------------------------------- */
+    .page-wrapper {
       position: relative;
+      z-index: 1;
     }
-    
-    #hero .badge {
-      background: rgba(217, 4, 103, 0.12);
-      color: var(--accent2);
-      padding: 0.5rem 1.2rem;
-      border-radius: 50px;
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      border: 1.5px solid rgba(217, 4, 103, 0.4);
-      font-weight: 600;
-      transition: all 0.3s ease;
+
+    section {
+      width: 100%;
     }
-    
-    #hero .badge:hover {
-      background: rgba(217, 4, 103, 0.2);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(217, 4, 103, 0.2);
-    }
-    
-    #hero .stats {
-      display: flex;
-      gap: 3rem;
-      justify-content: center;
-      margin-bottom: 2.5rem;
-      flex-wrap: wrap;
-      z-index: 10;
+
+    .image-section {
       position: relative;
-    }
-    
-    #hero .stat {
-      text-align: center;
-    }
-    
-    #hero .stat-num {
-      font-size: clamp(1.8rem, 5vw, 2.5rem);
-      font-weight: 800;
-      background: var(--gradient-primary);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      margin-bottom: 0.3rem;
-    }
-    
-    #hero .stat-label {
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      color: var(--text-muted);
-      font-weight: 600;
-    }
-    
-    #hero p.desc {
-      max-width: 580px;
-      color: var(--text-muted);
-      margin-bottom: 2.5rem;
-      font-size: 1.05rem;
-      line-height: 1.8;
-      z-index: 10;
-      position: relative;
-    }
-    
-    .btn-group {
-      display: flex;
-      gap: 1.2rem;
-      flex-wrap: wrap;
-      justify-content: center;
-      z-index: 10;
-      position: relative;
-    }
-    
-    .btn {
-      padding: 1rem 2.5rem;
-      border-radius: 50px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      font-size: 0.85rem;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      border: 2px solid transparent;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.7rem;
-      position: relative;
+      width: 100%;
       overflow: hidden;
     }
-    
-    .btn::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
+
+    .image-wrapper {
       width: 100%;
-      height: 100%;
-      background: rgba(255, 255, 255, 0.1);
-      transition: left 0.3s ease;
-      z-index: -1;
+      transform: translateY(40px);
+      opacity: 0;
+      transition: opacity 0.9s ease-out, transform 0.9s ease-out;
+      will-change: opacity, transform;
     }
-    
-    .btn:hover::before { left: 0; }
-    
-    .btn-primary {
-      background: var(--gradient-primary);
-      color: white;
-      box-shadow: 0 4px 15px rgba(217, 4, 103, 0.3);
+
+    .image-wrapper.visible {
+      opacity: 1;
+      transform: translateY(0);
     }
-    
-    .btn-primary:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 12px 35px rgba(217, 4, 103, 0.5);
+
+    .press-page {
+      display: block;
+      width: 100%;
+      height: auto;
+      border: none;
+      outline: none;
+      margin: 0;
+      padding: 0;
     }
-    
-    .btn-outline {
-      background: transparent;
-      border-color: rgba(255, 255, 255, 0.3);
-      color: var(--text-light);
+
+    /* ----------------------------------------------------
+       NAV STICKY
+       ---------------------------------------------------- */
+    .main-nav {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 6vw;
+      color: var(--text-main);
+      background: linear-gradient(to bottom, rgba(3, 5, 14, 0.95), rgba(3, 5, 14, 0));
+      transition: background-color 0.3s ease, backdrop-filter 0.3s ease, box-shadow 0.3s ease;
+      backdrop-filter: blur(0px);
     }
-    
-    .btn-outline:hover {
-      border-color: var(--accent2);
-      color: var(--accent2);
-      background: rgba(217, 4, 103, 0.05);
+
+    .main-nav.scrolled {
+      background-color: var(--nav-bg-scrolled);
+      backdrop-filter: blur(var(--nav-blur));
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
     }
-    
-    .section-title {
-      text-align: center;
-      margin-bottom: 4rem;
-      font-size: clamp(2rem, 6vw, 2.8rem);
-      font-weight: 800;
-      letter-spacing: 3px;
+
+    .nav-logo {
+      font-family: "Black Ops One", system-ui;
+      font-size: 1.5rem;
+      letter-spacing: 0.12em;
+      color: var(--primary);
       text-transform: uppercase;
-      font-family: 'Playfair Display', serif;
     }
-    
-    .section-title span { background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-    
-    #story {
-      display: grid;
-      gap: 2.5rem;
-    }
-    
-    .story-item {
-      background: linear-gradient(135deg, var(--bg2) 0%, var(--bg3) 100%);
-      border-radius: 16px;
-      padding: 2.5rem;
-      border-left: 5px solid var(--accent);
-      border-top: 1px solid rgba(217, 4, 103, 0.2);
+
+    .nav-links {
       display: flex;
       gap: 2rem;
-      align-items: flex-start;
-      flex-wrap: wrap;
-      transition: all 0.3s ease;
-      position: relative;
-      overflow: hidden;
-    }
-    
-    .story-item::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      right: -100px;
-      width: 200px;
-      height: 200px;
-      background: radial-gradient(circle, rgba(217, 4, 103, 0.1) 0%, transparent 70%);
-      pointer-events: none;
-    }
-    
-    .story-item:hover {
-      transform: translateX(10px);
-      border-color: var(--accent2);
-      background: linear-gradient(135deg, rgba(217, 4, 103, 0.05) 0%, var(--bg3) 100%);
-    }
-    
-    .story-year {
-      font-size: 2.2rem;
-      font-weight: 800;
-      background: var(--gradient-primary);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      min-width: 100px;
-      font-family: 'Playfair Display', serif;
-    }
-    
-    .story-content h3 {
-      font-size: 1.3rem;
-      margin-bottom: 0.7rem;
-      color: var(--text-light);
-      font-weight: 700;
-    }
-    
-    .story-content p {
-      color: var(--text-muted);
-      font-size: 0.95rem;
-      line-height: 1.7;
-    }
-    
-    .story-tag {
-      background: rgba(217, 4, 103, 0.15);
-      color: var(--accent2);
-      padding: 0.3rem 1rem;
-      border-radius: 20px;
-      font-size: 0.65rem;
-      text-transform: uppercase;
-      margin-top: 1rem;
-      display: inline-block;
-      font-weight: 600;
-      letter-spacing: 1px;
-    }
-    
-    .card {
-      background: linear-gradient(135deg, var(--bg2) 0%, var(--bg3) 100%);
-      border-radius: 16px;
-      padding: 2.5rem;
-      border: 1px solid rgba(217, 4, 103, 0.2);
-      transition: all 0.3s ease;
-    }
-    
-    .card h3 {
-      font-size: 1.3rem;
-      margin-bottom: 1.5rem;
-      background: var(--gradient-primary);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      font-weight: 700;
-    }
-    
-    #rider .rider-checklist {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.5rem;
-    }
-    
-    .rider-item {
-      background: rgba(15, 15, 25, 0.6);
-      padding: 1.2rem;
-      border-radius: 12px;
-      display: flex;
       align-items: center;
-      gap: 1.2rem;
-      transition: all 0.3s ease;
-      border: 1.5px solid rgba(217, 4, 103, 0.15);
+      font-size: 0.95rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
     }
-    
-    .rider-item:hover {
-      border-color: var(--accent);
-      background: rgba(217, 4, 103, 0.08);
-      transform: translateY(-2px);
-    }
-    
-    .rider-item input[type="checkbox"] {
-      width: 22px;
-      height: 22px;
-      accent-color: var(--accent);
-      cursor: pointer;
-      flex-shrink: 0;
-    }
-    
-    .rider-item label {
-      cursor: pointer;
-      font-size: 0.9rem;
-      color: var(--text-muted);
-      transition: color 0.3s ease;
-    }
-    
-    .rider-item.checked { border-color: var(--accent); background: rgba(217, 4, 103, 0.1); }
-    .rider-item.checked label { color: var(--text); }
-    
-    #tour .city-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-      gap: 1rem;
-    }
-    
-    #tour .city-item {
-      background: linear-gradient(135deg, var(--bg2), var(--bg3));
-      padding: 1rem 1.2rem;
-      border-radius: 10px;
-      text-align: center;
-      font-size: 0.85rem;
-      border: 1.5px solid rgba(217, 4, 103, 0.15);
-      transition: all 0.3s ease;
-      font-weight: 600;
-      letter-spacing: 0.5px;
-    }
-    
-    #tour .city-item:hover {
-      border-color: var(--accent2);
-      color: var(--accent2);
-      transform: translateY(-3px);
-      background: linear-gradient(135deg, rgba(217, 4, 103, 0.1), var(--bg3));
-      box-shadow: 0 8px 20px rgba(217, 4, 103, 0.2);
-    }
-    
-    #booking {
-      background: linear-gradient(135deg, var(--bg2) 0%, var(--bg3) 100%);
-      border-radius: 20px;
-      padding: 3.5rem;
-      border: 1.5px solid rgba(217, 4, 103, 0.3);
+
+    .nav-links a {
       position: relative;
-      overflow: hidden;
+      color: var(--text-main);
+      text-decoration: none;
+      padding-bottom: 4px;
+      transition: color 0.2s ease;
     }
-    
-    #booking::before {
-      content: '';
+
+    .nav-links a::after {
+      content: "";
       position: absolute;
-      top: -50%;
-      right: -50%;
-      width: 600px;
-      height: 600px;
-      background: radial-gradient(circle, rgba(217, 4, 103, 0.1) 0%, transparent 70%);
+      left: 0;
+      bottom: 0;
+      height: 2px;
+      width: 0;
+      background: linear-gradient(to right, var(--primary), var(--accent));
+      transition: width 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--primary);
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    @media (max-width: 720px) {
+      .nav-links {
+        gap: 1rem;
+        font-size: 0.8rem;
+      }
+      .main-nav {
+        padding-inline: 4vw;
+      }
+      .nav-logo {
+        font-size: 1.25rem;
+      }
+    }
+
+    /* ----------------------------------------------------
+       CURSOR PERSONALIZADO
+       ---------------------------------------------------- */
+    body.custom-cursor-active {
+      cursor: none;
+    }
+
+    .cursor-dot,
+    .cursor-ring {
+      position: fixed;
       pointer-events: none;
+      z-index: 9999;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      mix-blend-mode: screen;
     }
-    
-    #booking h2 {
-      text-align: center;
-      margin-bottom: 0.5rem;
-      font-size: clamp(1.6rem, 4vw, 2.2rem);
-      font-weight: 800;
-      font-family: 'Playfair Display', serif;
-      position: relative;
-      z-index: 10;
+
+    .cursor-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--primary);
+      box-shadow: 0 0 8px rgba(58, 126, 255, 0.8), 0 0 16px rgba(58, 126, 255, 0.8);
     }
-    
-    #booking p.sub {
-      text-align: center;
-      color: var(--text-muted);
-      margin-bottom: 2.5rem;
-      font-size: 0.95rem;
-      position: relative;
-      z-index: 10;
+
+    .cursor-ring {
+      width: 34px;
+      height: 34px;
+      border: 2px solid var(--primary);
+      box-shadow: 0 0 20px rgba(58, 126, 255, 0.5);
+      transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.1s ease;
     }
-    
-    form {
-      display: grid;
-      gap: 1.5rem;
-      max-width: 550px;
-      margin: 0 auto;
-      position: relative;
-      z-index: 10;
+
+    .cursor-hover-link .cursor-dot {
+      background: var(--accent);
+      box-shadow: 0 0 10px rgba(255, 45, 120, 0.9), 0 0 20px rgba(255, 45, 120, 0.9);
     }
-    
-    form input, form select, form textarea {
-      background: rgba(10, 10, 15, 0.6);
-      border: 1.5px solid rgba(217, 4, 103, 0.2);
-      border-radius: 12px;
-      padding: 1rem 1.3rem;
-      color: var(--text);
-      font-size: 0.95rem;
-      font-family: inherit;
-      transition: all 0.3s ease;
-      backdrop-filter: blur(10px);
-    }
-    
-    form input:focus, form select:focus, form textarea:focus {
-      outline: none;
+
+    .cursor-hover-link .cursor-ring {
       border-color: var(--accent);
-      background: rgba(10, 10, 15, 0.8);
-      box-shadow: 0 0 20px rgba(217, 4, 103, 0.2);
+      box-shadow: 0 0 26px rgba(255, 45, 120, 0.9);
     }
-    
-    form label {
-      font-size: 0.8rem;
+
+    /* ----------------------------------------------------
+       LOADER FULLSCREEN
+       ---------------------------------------------------- */
+    .loader-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      background: radial-gradient(circle at top, #050a1a 0%, #020309 50%, #000000 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 26px;
+      transition: opacity 0.55s ease-out, visibility 0.55s ease-out;
+    }
+
+    .loader-overlay.hidden {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .loader-title {
+      font-family: "Black Ops One", system-ui;
+      font-size: clamp(2.4rem, 7vw, 3.7rem);
+      color: var(--primary);
+      letter-spacing: 0.18em;
       text-transform: uppercase;
-      letter-spacing: 1.5px;
-      color: var(--text-muted);
-      display: block;
-      margin-bottom: 0.5rem;
-      font-weight: 600;
+      text-shadow: 0 0 10px rgba(58, 126, 255, 0.9), 0 0 36px rgba(58, 126, 255, 0.9);
+      animation: pulseGlow 1.3s ease-in-out infinite alternate;
     }
-    
-    form .row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1.5rem;
+
+    @keyframes pulseGlow {
+      0% {
+        transform: scale(1);
+        text-shadow: 0 0 6px rgba(58, 126, 255, 0.8), 0 0 20px rgba(58, 126, 255, 0.6);
+      }
+      100% {
+        transform: scale(1.08);
+        text-shadow: 0 0 16px rgba(58, 126, 255, 1), 0 0 40px rgba(58, 126, 255, 0.9);
+      }
     }
-    
-    form textarea {
-      resize: vertical;
-      min-height: 120px;
-    }
-    
-    form button[type="submit"] {
-      background: var(--gradient-primary);
-      color: white;
-      border: none;
-      padding: 1.2rem;
-      border-radius: 50px;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      cursor: pointer;
-      font-size: 0.9rem;
-      transition: all 0.3s ease;
-      margin-top: 1rem;
-      position: relative;
+
+    .loader-bar-wrapper {
+      width: min(380px, 70vw);
+      height: 6px;
+      background: rgba(255, 255, 255, 0.06);
+      border-radius: 999px;
       overflow: hidden;
+      box-shadow: 0 0 26px rgba(0, 0, 0, 0.6);
     }
-    
-    form button[type="submit"]::before {
-      content: '';
+
+    .loader-bar {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), var(--primary));
+      border-radius: 999px;
+      animation: loaderProgress 2.4s ease-out forwards;
+    }
+
+    @keyframes loaderProgress {
+      0% { width: 0%; }
+      30% { width: 35%; }
+      60% { width: 72%; }
+      100% { width: 100%; }
+    }
+
+    .loader-subtitle {
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    /* ----------------------------------------------------
+       HOTSPOTS SOBRE PAGE3 (SHOWS) – POSICIONES EN PX
+       ---------------------------------------------------- */
+    .hotspots-wrapper {
       position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
       top: 0;
-      left: -100%;
       width: 100%;
       height: 100%;
-      background: rgba(255, 255, 255, 0.2);
-      transition: left 0.3s ease;
+      pointer-events: none;
     }
-    
-    form button[type="submit"]:hover::before { left: 0; }
-    form button[type="submit"]:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 12px 35px rgba(217, 4, 103, 0.5);
+
+    .hotspot {
+      position: absolute;
+      width: 50px;   /* ancho del área clickeable */
+      height: 50px;  /* alto del área clickeable */
+      pointer-events: auto;
+      cursor: pointer;
     }
-    
-    .wa-direct {
+
+    .hotspot a {
+      display: block;
+      width: 100%;
+      height: 100%;
+      text-decoration: none;
+    }
+
+    .hotspot-tooltip {
+      position: absolute;
+      bottom: 110%;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 5px 10px;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      border-radius: 999px;
+      white-space: nowrap;
+      background: rgba(3, 5, 14, 0.94);
+      color: #ffffff;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.18s ease, transform 0.18s ease;
+      border: 1px solid rgba(58, 126, 255, 0.6);
+      box-shadow: 0 0 12px rgba(58, 126, 255, 0.7);
+    }
+
+    .hotspot:hover .hotspot-tooltip {
+      opacity: 1;
+      transform: translate(-50%, -4px);
+    }
+
+    /* ----------------------------------------------------
+       SECCIÓN CONTACTO FINAL
+       ---------------------------------------------------- */
+    .contact-section {
+      background-color: #020309;
+      padding: 64px 8vw 80px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .contact-inner {
+      max-width: 960px;
+      margin: 0 auto;
       text-align: center;
-      margin-top: 2rem;
+    }
+
+    .contact-title {
+      font-family: "Black Ops One", system-ui;
+      font-size: clamp(2.2rem, 6vw, 3.3rem);
+      color: var(--text-main);
+      letter-spacing: 0.12em;
+      margin-bottom: 32px;
+      text-transform: uppercase;
+    }
+
+    .contact-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      justify-content: center;
+      margin-bottom: 40px;
+    }
+
+    .contact-btn {
       position: relative;
-      z-index: 10;
+      padding: 10px 22px;
+      font-size: 0.95rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      border-radius: 999px;
+      border: 1px solid rgba(58, 126, 255, 0.8);
+      color: var(--text-main);
+      background: radial-gradient(circle at top left, rgba(58, 126, 255, 0.3), transparent 60%);
+      box-shadow: 0 0 18px rgba(0, 0, 0, 0.7);
+      cursor: pointer;
+      text-decoration: none;
+      overflow: hidden;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, background 0.2s ease;
     }
-    
-    .wa-direct a {
-      color: var(--text-muted);
-      font-size: 0.85rem;
-      text-decoration: underline;
-      transition: all 0.3s ease;
+
+    .contact-btn::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(120deg, rgba(58, 126, 255, 0.25), rgba(255, 45, 120, 0.25));
+      opacity: 0;
+      transition: opacity 0.2s ease;
     }
-    
-    .wa-direct a:hover { color: var(--accent2); }
-    
-    footer {
+
+    .contact-btn span {
+      position: relative;
+      z-index: 1;
+    }
+
+    .contact-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 26px rgba(58, 126, 255, 0.7);
+      border-color: var(--accent);
+      background: radial-gradient(circle at top left, rgba(255, 45, 120, 0.4), transparent 60%);
+    }
+
+    .contact-btn:hover::after {
+      opacity: 1;
+    }
+
+    .contact-stats {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 24px;
+      margin-top: 10px;
+    }
+
+    .stat-item {
       text-align: center;
-      padding: 3rem 1rem;
-      border-top: 1px solid rgba(217, 4, 103, 0.15);
-      color: var(--text-muted);
-      font-size: 0.85rem;
-      letter-spacing: 0.5px;
     }
-    
-    footer a {
-      color: var(--accent);
-      transition: all 0.3s ease;
+
+    .stat-number {
+      font-family: "Black Ops One", system-ui;
+      font-size: clamp(1.6rem, 4vw, 2.1rem);
+      color: var(--primary);
+      letter-spacing: 0.08em;
+      margin-bottom: 6px;
     }
-    
-    footer a:hover { color: var(--accent2); }
-    
-    @media (max-width: 768px) {
-      form .row { grid-template-columns: 1fr; }
-      #hero .stats { gap: 1.5rem; }
-      .section-title { margin-bottom: 2.5rem; }
-      #booking { padding: 2rem; }
-      nav { padding: 1rem 4%; }
+
+    .stat-label {
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    @media (max-width: 840px) {
+      .contact-stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 520px) {
+      .contact-stats {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* ----------------------------------------------------
+       BOTÓN FLOTANTE RIDER PDF
+       ---------------------------------------------------- */
+    .floating-rider-btn {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      z-index: 15;
+      padding: 10px 18px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top left, rgba(58, 126, 255, 0.85), rgba(3, 5, 14, 1));
+      color: var(--text-main);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      font-size: 0.8rem;
+      cursor: pointer;
+      text-decoration: none;
+      box-shadow: 0 0 22px rgba(0, 0, 0, 0.8);
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+      backdrop-filter: blur(10px);
+    }
+
+    .floating-rider-btn .icon {
+      font-size: 1rem;
+    }
+
+    .floating-rider-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 0 32px rgba(58, 126, 255, 0.9);
+      background: radial-gradient(circle at top left, rgba(255, 45, 120, 0.9), rgba(3, 5, 14, 1));
+    }
+
+    @media (max-width: 480px) {
+      .floating-rider-btn {
+        right: 14px;
+        bottom: 14px;
+        padding-inline: 14px;
+        letter-spacing: 0.12em;
+      }
+    }
+
+    /* ----------------------------------------------------
+       ANCLAS
+       ---------------------------------------------------- */
+    .anchor-target {
+      scroll-margin-top: 90px;
     }
   </style>
 </head>
-<body>
-  <nav>
-    <div class="logo">DAM <span>DAM</span></div>
-    <ul>
-      <li><a href="#story">Story</a></li>
-      <li><a href="#rider">Rider</a></li>
-      <li><a href="#tour">Tour</a></li>
-      <li><a href="#booking">Booking</a></li>
-    </ul>
-  </nav>
 
-  <section id="hero">
-    <p class="tagline">DJ + Productor</p>
-    <h1>DAM DAM</h1>
-    <p class="subtitle">Reggaetón / Urban / Electrónica — México</p>
-    
-    <div class="badges">
-      <div class="badge">EDC México</div>
-      <div class="badge">Flow Fest</div>
-      <div class="badge">Boiler Room MX</div>
-    </div>
-    
-    <div class="stats">
-      <div class="stat">
-        <div class="stat-num">250K+</div>
-        <div class="stat-label">Oyentes</div>
-      </div>
-      <div class="stat">
-        <div class="stat-num">50K+</div>
-        <div class="stat-label">Stage Principal Flow Fest</div>
-      </div>
-      <div class="stat">
-        <div class="stat-num">30+</div>
-        <div class="stat-label">Ciudades</div>
-      </div>
-    </div>
-    
-    <p class="desc">Reggaetón 100, edits exclusivos y exploraciones rítmicas hasta 130 BPM. Sets enérgicos, conexión con el público y una propuesta que rompe estereotipos del perreo dentro de la música electrónica.</p>
-    
-    <div class="btn-group">
-      <button class="btn btn-primary" onclick="document.getElementById('booking').scrollIntoView({behavior: 'smooth'})">Solicitar Booking</button>
-      <button class="btn btn-outline" onclick="document.getElementById('story').scrollIntoView({behavior: 'smooth'})">Conocer más</button>
-    </div>
-  </section>
+<body class="custom-cursor-active">
+  <canvas id="lightning-canvas"></canvas>
 
-  <section id="story">
-    <h2 class="section-title">La <span>Historia</span></h2>
-    
-    <div class="story-item">
-      <div class="story-year">2020</div>
-      <div class="story-content">
-        <h3>Primera vez en EDC México — Boom Box Art Car</h3>
-        <p>Proyección nacional. Destacó por su conexión con el público y por ofrecer un sonido urbano en un festival de música electrónica de gran escala.</p>
-        <span class="story-tag">EDC México</span>
-      </div>
+  <div class="loader-overlay" id="loader">
+    <div class="loader-title">DAM DAM</div>
+    <div class="loader-bar-wrapper">
+      <div class="loader-bar"></div>
     </div>
-    
-    <div class="story-item">
-      <div class="story-year">2021</div>
-      <div class="story-content">
-        <h3>Set sorpresa — Flow Fest (50,000 personas)</h3>
-        <p>Invitado en el escenario principal de Coca-Cola Flow Fest. Consolidó su presencia dentro del movimiento urbano.</p>
-        <span class="story-tag">Flow Fest</span>
-      </div>
-    </div>
-    
-    <div class="story-item">
-      <div class="story-year">2021</div>
-      <div class="story-content">
-        <h3>Primer Boiler Room grabado en CDMX</h3>
-        <p>Momento clave en su carrera. Se presentó como invitado especial en la primera sesión de Boiler Room México.</p>
-        <span class="story-tag">Boiler Room</span>
-      </div>
-    </div>
-    
-    <div class="story-item">
-      <div class="story-year">2022</div>
-      <div class="story-content">
-        <h3>EDC México — Dos Equis Stage + Tour Nacional</h3>
-        <p>Regresó a EDC, esta vez en el Dos Equis Stage. Tour por México: clubes, antros y playas. Eventos como Museo del Futuro y Aqua Colors Fest.</p>
-        <span class="story-tag">EDC México</span>
-        <span class="story-tag">Tour MX</span>
-      </div>
-    </div>
-    
-    <div class="story-item">
-      <div class="story-year">2023</div>
-      <div class="story-content">
-        <h3>Gira Internacional — Guatemala</h3>
-        <p>Primera gira fuera de México. Fechas sold out y excelente respuesta del público. Prueba de expansión internacional.</p>
-        <span class="story-tag">Internacional</span>
-      </div>
-    </div>
-    
-    <div class="story-item">
-      <div class="story-year">2026</div>
-      <div class="story-content">
-        <h3>Bellabealas Tour</h3>
-        <p>Recorriendo la República Mexicana y expandiéndose a Europa y Centroamérica. Su sonido: reggaetón 100, edits exclusivos y exploraciones rítmicas hasta 130 BPM.</p>
-        <span class="story-tag">Tour 2026</span>
-      </div>
-    </div>
-  </section>
+    <div class="loader-subtitle">Cargando experiencia eléctrica</div>
+  </div>
 
-  <section id="rider">
-    <h2 class="section-title">Rider <span>Técnico</span></h2>
-    
-    <div class="card">
-      <h3>Setup 1 — Confirma lo que tienes:</h3>
-      <div class="rider-checklist">
-        <div class="rider-item">
-          <input type="checkbox" id="cdj3">
-          <label for="cdj3">2x Pioneer CDJ-3000 o 2000 NXS2 (link Ethernet)</label>
-        </div>
-        <div class="rider-item">
-          <input type="checkbox" id="mixer">
-          <label for="mixer">1x Pioneer DJM-900 NXS2 o Allen Heath Xone:92</label>
-        </div>
-        <div class="rider-item">
-          <input type="checkbox" id="monitores">
-          <label for="monitores">2 monitores cabina (KRK, Yamaha, Pioneer)</label>
-        </div>
-        <div class="rider-item">
-          <input type="checkbox" id="mesa">
-          <label for="mesa">Mesa estable, nivelada, 90cm altura</label>
-        </div>
-        <div class="rider-item">
-          <input type="checkbox" id="enchufes">
-          <label for="enchufes">Mínimo 2 enchufes Schuko/estándar</label>
-        </div>
-        <div class="rider-item">
-          <input type="checkbox" id="usb">
-          <label for="usb">Unidades USB formateadas FAT32/HFS vía Rekordbox</label>
-        </div>
-        <div class="rider-item">
-          <input type="checkbox" id="booth">
-          <label for="booth">Booth volume independiente controlado desde mixer</label>
-        </div>
-        <div class="rider-item">
-          <input type="checkbox" id="iluminacion">
-          <label for="iluminacion">Iluminación tenue en cabina</label>
-        </div>
-      </div>
-      <p style="margin-top: 1.5rem; color: var(--text-muted); font-size: 0.9rem;"><strong>Nota:</strong> El equipo debe tener firmware actualizado a la última versión.</p>
-      <h3 style="margin-top: 2rem;">Setup 2 (Alternativo)</h3>
-      <p style="color: var(--text-muted);">Pioneer XDJ-RX3 o controlador similar con salida XLR balanceada.</p>
-    </div>
-  </section>
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
 
-  <section id="tour">
-    <h2 class="section-title">Ciudades <span>Tour</span></h2>
-    <div class="city-grid">
-      <div class="city-item">CDMX</div>
-      <div class="city-item">Monterrey</div>
-      <div class="city-item">Guadalajara</div>
-      <div class="city-item">Puebla</div>
-      <div class="city-item">Oaxaca</div>
-      <div class="city-item">Tijuana</div>
-      <div class="city-item">Querétaro</div>
-      <div class="city-item">Acapulco</div>
-      <div class="city-item">Toluca</div>
-      <div class="city-item">Guanajuato</div>
-      <div class="city-item">Xalapa</div>
-      <div class="city-item">Cuernavaca</div>
-      <div class="city-item">Tehuacán</div>
-      <div class="city-item">Nuevo Laredo</div>
-      <div class="city-item">Torreón</div>
-      <div class="city-item">Yucatán</div>
-      <div class="city-item">Morelia</div>
-      <div class="city-item">Tamaulipas</div>
-      <div class="city-item">Pachuca</div>
-      <div class="city-item">Pto. Escondido</div>
-      <div class="city-item">Guatemala</div>
-    </div>
-  </section>
+  <div class="page-wrapper">
+    <nav class="main-nav" id="mainNav">
+      <div class="nav-logo">DAM DAM</div>
+      <div class="nav-links">
+        <a href="#bio">Bio</a>
+        <a href="#shows">Shows</a>
+        <a href="#rider">Rider</a>
+        <a href="#contact">Contacto</a>
+      </div>
+    </nav>
 
-  <section id="booking">
-    <h2>Solicitar Booking</h2>
-    <p class="sub">Cuenta algo sobre tu evento — cuanto más sepamos, mejor te ayudamos.</p>
-    
-    <form id="bookingForm">
-      <div>
-        <label>Nombre</label>
-        <input type="text" id="nombre" placeholder="Tu nombre o de tu empresa" required>
+    <section class="image-section anchor-target" id="bio">
+      <div class="image-wrapper">
+        <img src="page1.png" alt="DAM DAM Press Kit - Página 1" class="press-page" loading="lazy" />
       </div>
-      
-      <div>
-        <label>WhatsApp</label>
-        <input type="tel" id="whatsapp" placeholder="Ej: +52 55 1234 5678" required>
-      </div>
-      
-      <div>
-        <label>Ciudad</label>
-        <input type="text" id="ciudad" placeholder="Ej: Monterrey" required>
-      </div>
-      
-      <div>
-        <label>Fecha Aproximada</label>
-        <input type="date" id="fecha">
-      </div>
-      
-      <div>
-        <label>Tipo de Evento</label>
-        <select id="tipo" required>
-          <option value="">Selecciona...</option>
-          <option value="Festival">Festival</option>
-          <option value="Antro">Antro</option>
-          <option value="Bar">Bar</option>
-          <option value="Evento Privado">Evento Privado</option>
-          <option value="Otro">Otro</option>
-        </select>
-      </div>
-      
-      <div>
-        <label>Aforo Aproximado</label>
-        <input type="text" id="aforo" placeholder="Ej: 300, 800, 2000...">
-      </div>
-      
-      <div>
-        <label>Venue (Lugar Exacto)</label>
-        <input type="text" id="venue" placeholder="Nombre del local o dirección">
-      </div>
-      
-      <div>
-        <label>¿Qué más quieres que sepa?</label>
-        <textarea id="notas" placeholder="Cuéntame de tu evento: idea, tema, presupuesto, dudas del rider..."></textarea>
-      </div>
-      
-      <button type="submit">Enviar Solicitud</button>
-    </form>
-    
-    <div class="wa-direct">
-      <p style="margin-bottom: 0.5rem; color: var(--text-muted);">¿Prefieres directo por WhatsApp?</p>
-      <a id="waLink" href="#" target="_blank">Hablemos aquí</a>
-    </div>
-  </section>
+    </section>
 
-  <footer>
-    <p>© 2026 DAM DAM — Suburbio Inc.</p>
-    <p style="margin-top: 1rem;"><a href="DAM DAM - PRESS KIT 2026.pdf" download>Descargar EPK completo (PDF)</a></p>
-  </footer>
+    <section class="image-section anchor-target" id="rider">
+      <div class="image-wrapper">
+        <img src="page2.png" alt="DAM DAM Press Kit - Página 2" class="press-page" loading="lazy" />
+      </div>
+    </section>
+
+    <!-- PAGE3: SHOWS + HOTSPOTS EN PX -->
+    <section class="image-section anchor-target" id="shows">
+      <div class="image-wrapper" style="position: relative;">
+        <img src="page3.png" alt="DAM DAM Press Kit - Shows" class="press-page" loading="lazy" />
+
+        <!--
+          Hotspots colocados suponiendo una imagen base ~1400px de ancho.
+          Y ~90px de alto para la fila de iconos de redes, a una altura vertical
+          aproximada de 1880px desde la parte superior de la imagen.
+
+          Si cambias resolución, ajusta las coordenadas top/left de cada .hotspotX.
+        -->
+        <div class="hotspots-wrapper">
+          <!-- Hotspot 1: Instagram -->
+          <div class="hotspot" style="top: 1880px; left: 430px;">
+            <!-- TODO: Sustituir # por el enlace de Instagram -->
+            <a href="#" target="_blank" rel="noopener noreferrer">
+              <span class="hotspot-tooltip">Instagram</span>
+            </a>
+          </div>
+
+          <!-- Hotspot 2: TikTok -->
+          <div class="hotspot" style="top: 1880px; left: 520px;">
+            <!-- TODO: Sustituir # por el enlace de TikTok -->
+            <a href="#" target="_blank" rel="noopener noreferrer">
+              <span class="hotspot-tooltip">TikTok</span>
+            </a>
+          </div>
+
+          <!-- Hotspot 3: YouTube -->
+          <div class="hotspot" style="top: 1880px; left: 610px;">
+            <!-- TODO: Sustituir # por el enlace de YouTube -->
+            <a href="#" target="_blank" rel="noopener noreferrer">
+              <span class="hotspot-tooltip">YouTube</span>
+            </a>
+          </div>
+
+          <!-- Hotspot 4: Spotify -->
+          <div class="hotspot" style="top: 1880px; left: 700px;">
+            <!-- TODO: Sustituir # por el enlace de Spotify -->
+            <a href="#" target="_blank" rel="noopener noreferrer">
+              <span class="hotspot-tooltip">Spotify</span>
+            </a>
+          </div>
+
+          <!-- Hotspot 5: SoundCloud -->
+          <div class="hotspot" style="top: 1880px; left: 790px;">
+            <!-- TODO: Sustituir # por el enlace de SoundCloud -->
+            <a href="#" target="_blank" rel="noopener noreferrer">
+              <span class="hotspot-tooltip">SoundCloud</span>
+            </a>
+          </div>
+
+          <!-- Hotspot 6: X / Twitter -->
+          <div class="hotspot" style="top: 1880px; left: 880px;">
+            <!-- TODO: Sustituir # por el enlace de X (Twitter) -->
+            <a href="#" target="_blank" rel="noopener noreferrer">
+              <span class="hotspot-tooltip">X / Twitter</span>
+            </a>
+          </div>
+
+          <!-- Hotspot 7: Facebook -->
+          <div class="hotspot" style="top: 1880px; left: 970px;">
+            <!-- TODO: Sustituir # por el enlace de Facebook -->
+            <a href="#" target="_blank" rel="noopener noreferrer">
+              <span class="hotspot-tooltip">Facebook</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="image-section">
+      <div class="image-wrapper">
+        <img src="page4.png" alt="DAM DAM Press Kit - Página 4" class="press-page" loading="lazy" />
+      </div>
+    </section>
+
+    <section class="contact-section anchor-target" id="contact">
+      <div class="contact-inner">
+        <h2 class="contact-title">¿Quieres a DAM DAM en tu evento?</h2>
+
+        <div class="contact-buttons">
+          <!-- TODO: Sustituir mailto: por el email real -->
+          <a href="mailto:tu-email@dominio.com?subject=Booking%20DAM%20DAM" class="contact-btn">
+            <span>Email</span>
+          </a>
+
+          <!-- TODO: Sustituir el número por tu WhatsApp con prefijo de país -->
+          <a href="https://wa.me/34123456789?text=Hola%20DAM%20DAM%2C%20me%20gustaría%20hablar%20sobre%20un%20evento" target="_blank" rel="noopener noreferrer" class="contact-btn">
+            <span>WhatsApp</span>
+          </a>
+
+          <!-- TODO: Sustituir # por el enlace de Instagram principal -->
+          <a href="#" target="_blank" rel="noopener noreferrer" class="contact-btn">
+            <span>Instagram</span>
+          </a>
+        </div>
+
+        <div class="contact-stats">
+          <div class="stat-item">
+            <div class="stat-number" data-target="250000">0</div>
+            <div class="stat-label">+ oyentes</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number" data-target="50000">0</div>
+            <div class="stat-label">Flow Fest</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number" data-target="30">0</div>
+            <div class="stat-label">ciudades</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number" data-target="8">0</div>
+            <div class="stat-label">festivales</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Botón flotante al PDF EXACTO que ya tienes en el repo -->
+  <a href="DAM DAM - PRESS KIT 2026.pdf" class="floating-rider-btn" download>
+    <span class="icon">⬇</span>
+    <span>Descargar Rider PDF</span>
+  </a>
 
   <script>
-    document.getElementById('bookingForm').addEventListener('submit', function(e){
-      e.preventDefault();
-      var wa = '5215512478139';
-      var nombre = document.getElementById('nombre').value;
-      var ciudad = document.getElementById('ciudad').value;
-      var fecha = document.getElementById('fecha').value || 'por definir';
-      var tipo = document.getElementById('tipo').value;
-      var aforo = document.getElementById('aforo').value || 'no especificado';
-      var venue = document.getElementById('venue').value || 'por definir';
-      var notas = document.getElementById('notas').value || '';
-      var msg = '*SOLICITUD DE BOOKING - DAM DAM*\n\nNombre: ' + nombre + '\nCiudad: ' + ciudad + '\nFecha: ' + fecha + '\nTipo: ' + tipo + '\nAforo: ' + aforo + '\nVenue: ' + venue + '\nNotas: ' + notas;
-      var url = 'https://wa.me/' + wa + '?text=' + encodeURIComponent(msg);
-      window.open(url, '_blank');
-    });
-    
-    document.getElementById('waLink').href = 'https://wa.me/5215512478139?text=Hola%20DAM%20DAM%20quiero%20información%20sobre%20un%20booking.';
+    // NAV
+    (function() {
+      const nav = document.getElementById("mainNav");
+      window.addEventListener("scroll", () => {
+        if (window.scrollY > 40) nav.classList.add("scrolled");
+        else nav.classList.remove("scrolled");
+      });
+    })();
+
+    // FADE IN IMÁGENES
+    (function() {
+      const wrappers = document.querySelectorAll(".image-wrapper");
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.15 });
+      wrappers.forEach(wrapper => observer.observe(wrapper));
+    })();
+
+    // CURSOR PERSONALIZADO
+    (function() {
+      const dot = document.getElementById("cursorDot");
+      const ring = document.getElementById("cursorRing");
+      const body = document.body;
+
+      let mouseX = window.innerWidth / 2;
+      let mouseY = window.innerHeight / 2;
+      let ringX = mouseX;
+      let ringY = mouseY;
+
+      const lerp = (a, b, t) => a + (b - a) * t;
+
+      window.addEventListener("mousemove", (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        dot.style.transform = `translate(${mouseX - 50}%, ${mouseY - 50}%)`;
+      });
+
+      const render = () => {
+        ringX = lerp(ringX, mouseX, 0.16);
+        ringY = lerp(ringY, mouseY, 0.16);
+        ring.style.transform = `translate(${ringX - 50}%, ${ringY - 50}%)`;
+        requestAnimationFrame(render);
+      };
+      render();
+
+      const interactive = "a, button, .contact-btn, .floating-rider-btn, .hotspot a";
+
+      document.addEventListener("mouseover", (e) => {
+        if (e.target.closest(interactive)) body.classList.add("cursor-hover-link");
+      });
+      document.addEventListener("mouseout", (e) => {
+        if (e.target.closest(interactive)) body.classList.remove("cursor-hover-link");
+      });
+    })();
+
+    // LOADER
+    (function() {
+      const loader = document.getElementById("loader");
+      window.addEventListener("load", () => {
+        setTimeout(() => loader.classList.add("hidden"), 2600);
+      });
+    })();
+
+    // CANVAS RELÁMPAGOS
+    (function() {
+      const canvas = document.getElementById("lightning-canvas");
+      const ctx = canvas.getContext("2d");
+
+      let width = window.innerWidth;
+      let height = window.innerHeight;
+      let lastStrikeTime = 0;
+
+      const resize = () => {
+        width = window.innerWidth;
+        height = window.innerHeight;
+        canvas.width = width;
+        canvas.height = height;
+      };
+      resize();
+      window.addEventListener("resize", resize);
+
+      function drawLightning() {
+        ctx.fillStyle = "rgba(0, 0, 0, 0.16)";
+        ctx.fillRect(0, 0, width, height);
+
+        const startX = Math.random() * width;
+        const startY = -40;
+        const endY = height * (0.4 + Math.random() * 0.4);
+
+        const segments = [];
+        let x = startX;
+        let y = startY;
+        const step = 18 + Math.random() * 8;
+
+        while (y < endY) {
+          const nextX = x + (Math.random() - 0.5) * 40;
+          const nextY = y + step + Math.random() * 14;
+          segments.push({ x1: x, y1: y, x2: nextX, y2: nextY });
+          x = nextX;
+          y = nextY;
+        }
+
+        ctx.save();
+        ctx.globalCompositeOperation = "lighter";
+
+        const drawPath = (segs, thickness, colorMain, glowColor) => {
+          ctx.strokeStyle = colorMain;
+          ctx.lineWidth = thickness;
+          ctx.shadowColor = glowColor;
+          ctx.shadowBlur = 22;
+          ctx.beginPath();
+          segs.forEach((s, i) => {
+            if (i === 0) ctx.moveTo(s.x1, s.y1);
+            ctx.lineTo(s.x2, s.y2);
+          });
+          ctx.stroke();
+        };
+
+        drawPath(
+          segments,
+          3,
+          "rgba(160, 200, 255, 0.8)",
+          "rgba(58, 126, 255, 1)"
+        );
+
+        drawPath(
+          segments,
+          1.4,
+          "rgba(210, 230, 255, 0.9)",
+          "rgba(120, 180, 255, 1)"
+        );
+
+        const branchCount = 3 + Math.floor(Math.random() * 3);
+        for (let i = 0; i < branchCount; i++) {
+          const startSeg = segments[Math.floor(Math.random() * segments.length)];
+          const branchSegments = [];
+          let bx = startSeg.x2;
+          let by = startSeg.y2;
+          const branchLength = 2 + Math.floor(Math.random() * 4);
+
+          for (let j = 0; j < branchLength; j++) {
+            const angle = (Math.random() - 0.5) * Math.PI / 2;
+            const len = 18 + Math.random() * 14;
+            const nx = bx + Math.cos(angle) * len;
+            const ny = by + Math.sin(angle) * len;
+            branchSegments.push({ x1: bx, y1: by, x2: nx, y2: ny });
+            bx = nx;
+            by = ny;
+          }
+
+          drawPath(
+            branchSegments,
+            1.2,
+            "rgba(140, 200, 255, 0.8)",
+            "rgba(58, 126, 255, 0.8)"
+          );
+        }
+
+        const particles = 26;
+        for (let i = 0; i < particles; i++) {
+          const seg = segments[Math.floor(Math.random() * segments.length)];
+          const t = Math.random();
+          const px = seg.x1 + (seg.x2 - seg.x1) * t + (Math.random() - 0.5) * 18;
+          const py = seg.y1 + (seg.y2 - seg.y1) * t + (Math.random() - 0.5) * 18;
+          const radius = 1 + Math.random() * 2.5;
+
+          const grad = ctx.createRadialGradient(px, py, 0, px, py, radius * 5);
+          grad.addColorStop(0, "rgba(170, 220, 255, 1)");
+          grad.addColorStop(0.5, "rgba(58, 126, 255, 0.8)");
+          grad.addColorStop(1, "rgba(0, 0, 0, 0)");
+
+          ctx.fillStyle = grad;
+          ctx.beginPath();
+          ctx.arc(px, py, radius * 5, 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        ctx.restore();
+      }
+
+      function animate(timestamp) {
+        if (!lastStrikeTime) lastStrikeTime = timestamp;
+
+        const elapsed = timestamp - lastStrikeTime;
+        const interval = 2000 + Math.random() * 1000;
+
+        ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+        ctx.fillRect(0, 0, width, height);
+
+        if (elapsed > interval) {
+          drawLightning();
+          lastStrikeTime = timestamp;
+        }
+
+        requestAnimationFrame(animate);
+      }
+
+      requestAnimationFrame(animate);
+    })();
+
+    // CONTADORES
+    (function() {
+      const counters = document.querySelectorAll(".stat-number");
+      let started = false;
+
+      const formatNumber = (n) => {
+        if (n >= 1000000) return (n / 1000000).toFixed(1).replace(".0", "") + "M";
+        if (n >= 1000) return (n / 1000).toFixed(1).replace(".0", "") + "K";
+        return n.toString();
+      };
+
+      const startCounters = () => {
+        if (started) return;
+        started = true;
+
+        counters.forEach(counter => {
+          const target = parseInt(counter.getAttribute("data-target"), 10) || 0;
+          let current = 0;
+          const duration = 1600;
+          const startTime = performance.now();
+
+          const step = (now) => {
+            const progress = Math.min((now - startTime) / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            current = Math.floor(target * eased);
+            counter.textContent = formatNumber(current);
+            if (progress < 1) requestAnimationFrame(step);
+            else counter.textContent = formatNumber(target);
+          };
+          requestAnimationFrame(step);
+        });
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            startCounters();
+            observer.disconnect();
+          }
+        });
+      }, { threshold: 0.25 });
+
+      const contactSection = document.getElementById("contact");
+      observer.observe(contactSection);
+    })();
   </script>
+
+  <!--
+    INSTRUCCIONES GITHUB PAGES (RESUMEN RÁPIDO):
+    1. Sube index.html, page1.png, page2.png, page3.png, page4.png,
+       y DAM DAM - PRESS KIT 2026.pdf a la raíz del repo.
+    2. En Settings > Pages, usa branch "main" y carpeta "/".
+    3. La URL saldrá en esa misma sección de Pages.
+  -->
 </body>
 </html>

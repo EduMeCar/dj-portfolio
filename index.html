@@ -1,47 +1,79 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>DAM DAM — Experiencia eléctrica</title>
+  <title>BUBBLES — Cerveza Champagne Premium</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,500;14..32,700&family=Black+Ops+One&display=swap" rel="stylesheet" />
+  
   <style>
+    /* ===============================================
+       CHAMPAGNE CSS VARIABLES - Fácil theming
+       =============================================== */
+    :root {
+      --bg-primary: #03050E;
+      --bg-secondary: #070b1a;
+      --accent-primary: #3A7EFF;
+      --accent-secondary: #FF2D78;
+      --accent-tertiary: #7BAEFF;
+      --text-primary: #FFFFFF;
+      --text-secondary: rgba(255,255,255,0.8);
+      --shadow-glow: 0 0 20px rgba(58,126,255,0.6);
+      --transition-cream: cubic-bezier(0.2, 0.9, 0.1, 1.1);
+      --transition-pop: cubic-bezier(0.2, 0.9, 0.4, 1.2);
+      --transition-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+      --radius-pill: 60px;
+      --radius-lg: 20px;
+      --radius-md: 16px;
+      --radius-sm: 6px;
+      --duration-fast: 0.2s;
+      --duration-medium: 0.35s;
+      --duration-slow: 1.2s;
+    }
+
+    /* ===============================================
+       BASE STYLES
+       =============================================== */
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      user-select: none; /* evita selecciones molestas, mejora la sensación táctil */
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
     }
 
-    body {
-      background-color: #03050E;
-      color: #FFFFFF;
+    html, body {
+      height: 100%;
       font-family: "Inter", sans-serif;
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
       overflow-x: hidden;
       scroll-behavior: smooth;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
-    /* ---------- CANVAS DE RELÁMPAGOS VIVO (FONDO) ---------- */
+    /* ===============================================
+       LIGHTNING CANVAS (OPTIMIZED)
+       =============================================== */
     #lightning-canvas {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      inset: 0;
       pointer-events: none;
       z-index: 0;
-      background: radial-gradient(circle at 30% 20%, #070b1a, #010101);
+      background: radial-gradient(circle at 30% 20%, var(--bg-secondary), var(--bg-primary));
+      will-change: transform;
     }
 
-    /* ---------- CONTENEDOR PRINCIPAL ---------- */
+    /* ===============================================
+       PAGE WRAPPER & SECTIONS
+       =============================================== */
     .page-wrapper {
       position: relative;
       z-index: 1;
-      padding: 0;
-      margin: 0;
+      width: 100%;
     }
 
-    /* ---------- SECCIONES CON IMÁGENES: TRANSICIÓN CREMOSA ---------- */
     section {
       width: 100%;
       position: relative;
@@ -50,7 +82,9 @@
     .image-wrapper {
       opacity: 0;
       transform: translateY(60px) scale(0.98);
-      transition: opacity 1.2s cubic-bezier(0.2, 0.9, 0.1, 1.1), transform 1.2s cubic-bezier(0.2, 0.9, 0.1, 1.1);
+      transition: 
+        opacity var(--duration-slow) var(--transition-cream),
+        transform var(--duration-slow) var(--transition-cream);
       will-change: opacity, transform;
       filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.4));
     }
@@ -67,72 +101,82 @@
       pointer-events: auto;
     }
 
-    /* ---------- HOTSPOTS PREMIUM (sobre page3) ---------- */
+    /* ===============================================
+       PREMIUM HOTSPOTS
+       =============================================== */
     #hotspotsContainer {
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      inset: 0;
       pointer-events: none;
+      z-index: 5;
     }
 
     .hotspot {
       position: absolute;
       pointer-events: auto;
       cursor: pointer;
-      border-radius: 20px;
-      transition: all 0.35s cubic-bezier(0.2, 0.9, 0.4, 1.2);
-      z-index: 5;
+      border-radius: var(--radius-lg);
+      transition: 
+        all var(--duration-medium) var(--transition-pop),
+        background-color var(--duration-fast),
+        box-shadow var(--duration-fast);
       backdrop-filter: blur(2px);
+      z-index: 5;
+      isolation: isolate;
     }
 
-    /* Efecto de onda al hacer hover */
     .hotspot::before {
       content: '';
       position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 0%;
-      height: 0%;
-      background: radial-gradient(circle, rgba(58,126,255,0.5) 0%, rgba(255,45,120,0) 80%);
+      inset: 50%;
+      background: radial-gradient(circle, 
+        rgba(58,126,255,0.5) 0%, 
+        rgba(255,45,120,0) 80%);
       border-radius: 50%;
-      transform: translate(-50%, -50%);
-      transition: width 0.4s ease-out, height 0.4s ease-out;
+      transform: translate(-50%, -50%) scale(0);
+      transition: 
+        transform var(--duration-medium) ease-out,
+        opacity var(--duration-medium) ease-out;
+      opacity: 0;
       z-index: -1;
     }
 
     .hotspot:hover::before {
-      width: 180%;
-      height: 180%;
+      transform: translate(-50%, -50%) scale(2.2);
+      opacity: 1;
     }
 
     .hotspot:hover {
       background-color: rgba(58, 126, 255, 0.15);
-      box-shadow: 0 0 28px rgba(58, 126, 255, 0.8), inset 0 0 12px rgba(255,255,255,0.2);
-      transform: scale(1.08);
+      box-shadow: 
+        0 0 28px rgba(58,126,255,0.8),
+        inset 0 0 12px rgba(255,255,255,0.2),
+        0 4px 6px rgba(0,0,0,0.1);
+      transform: scale(1.05);
       border: 1px solid rgba(255,45,120,0.6);
     }
 
     .hotspot-tooltip {
       position: absolute;
-      bottom: 120%;
+      bottom: calc(100% + 12px);
       left: 50%;
-      transform: translateX(-50%) translateY(8px);
+      transform: translateX(-50%);
       padding: 6px 14px;
       background: rgba(3, 5, 14, 0.85);
       backdrop-filter: blur(16px);
-      color: white;
+      color: var(--text-primary);
       font-size: 0.7rem;
       font-weight: 500;
-      border-radius: 60px;
+      border-radius: var(--radius-pill);
       white-space: nowrap;
       border: 1px solid rgba(58,126,255,0.5);
       box-shadow: 0 8px 20px rgba(0,0,0,0.3);
       letter-spacing: 0.1em;
       text-transform: uppercase;
       opacity: 0;
-      transition: opacity 0.25s ease, transform 0.25s ease;
+      transition: 
+        opacity var(--duration-fast) ease,
+        transform var(--duration-fast) ease;
       pointer-events: none;
       font-family: "Inter", sans-serif;
       z-index: 10;
@@ -140,17 +184,19 @@
 
     .hotspot:hover .hotspot-tooltip {
       opacity: 1;
-      transform: translateX(-50%) translateY(0);
+      transform: translateX(-50%) translateY(-4px);
     }
 
-    /* ---------- BOTÓN FLOTANTE DAM DAM (premium, sin texto feo) ---------- */
+    /* ===============================================
+       FLOATING BRAND BUTTON
+       =============================================== */
     .floating-brand {
       position: fixed;
       bottom: 28px;
       right: 28px;
       width: 56px;
       height: 56px;
-      background: radial-gradient(circle at 30% 20%, #1a1f2e, #03050E);
+      background: radial-gradient(circle at 30% 20%, #1a1f2e, var(--bg-primary));
       backdrop-filter: blur(12px);
       border-radius: 50%;
       display: flex;
@@ -158,85 +204,109 @@
       justify-content: center;
       z-index: 20;
       cursor: pointer;
-      box-shadow: 0 0 20px rgba(58,126,255,0.3), 0 8px 20px rgba(0,0,0,0.4);
-      transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.2);
+      box-shadow: 
+        0 0 20px rgba(58,126,255,0.3),
+        0 8px 20px rgba(0,0,0,0.4);
+      transition: 
+        all var(--duration-medium) var(--transition-pop),
+        border-color var(--duration-fast);
       border: 1px solid rgba(58,126,255,0.5);
       text-decoration: none;
+      isolation: isolate;
     }
 
     .floating-brand:hover {
-      transform: scale(1.1) rotate(5deg);
-      box-shadow: 0 0 32px rgba(58,126,255,0.8);
+      transform: scale(1.1) rotate(3deg);
+      box-shadow: 
+        0 0 32px rgba(58,126,255,0.8),
+        0 12px 24px rgba(0,0,0,0.2);
       border-color: #FF2D78;
     }
 
     .floating-brand span {
       font-family: "Black Ops One", monospace;
       font-size: 1.2rem;
-      color: #3A7EFF;
-      text-shadow: 0 0 6px #3A7EFF;
-      transition: all 0.2s;
+      color: var(--accent-primary);
+      text-shadow: 0 0 4px var(--accent-primary);
+      transition: all var(--duration-fast);
+      display: inline-block;
     }
 
     .floating-brand:hover span {
       color: #FF2D78;
-      text-shadow: 0 0 10px #FF2D78;
+      text-shadow: 0 0 8px #FF2D78;
     }
 
-    /* Tooltip del botón flotante */
     .floating-brand::after {
-      content: "DAM DAM";
+      content: "BUBBLES";
       position: absolute;
       right: 70px;
       white-space: nowrap;
       background: rgba(0,0,0,0.7);
       backdrop-filter: blur(8px);
       padding: 4px 12px;
-      border-radius: 60px;
+      border-radius: var(--radius-pill);
       font-size: 0.7rem;
       font-family: "Inter", sans-serif;
       letter-spacing: 0.1em;
-      color: white;
+      color: var(--text-primary);
       opacity: 0;
-      transition: opacity 0.2s;
+      transition: opacity var(--duration-fast);
       pointer-events: none;
-      border: 1px solid #3A7EFF;
+      border: 1px solid var(--accent-primary);
     }
 
     .floating-brand:hover::after {
       opacity: 1;
     }
 
-    /* ---------- LOADER MÁS PREMIUM ---------- */
+    /* ===============================================
+       PREMIUM LOADER
+       =============================================== */
     .loader-overlay {
       position: fixed;
       inset: 0;
-      background: radial-gradient(circle at center, #03050E, #000000);
+      background: radial-gradient(circle at center, var(--bg-primary), #000000);
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       z-index: 200;
-      transition: opacity 0.8s cubic-bezier(0.2, 0.9, 0.1, 1), visibility 0.8s;
+      opacity: 1;
+      visibility: visible;
+      transition: 
+        opacity 0.8s var(--transition-cream),
+        visibility 0.8s;
     }
+
     .loader-overlay.hidden {
       opacity: 0;
       visibility: hidden;
     }
+
     .loader-title {
       font-family: "Black Ops One", monospace;
       font-size: clamp(2.5rem, 8vw, 4rem);
-      background: linear-gradient(135deg, #3A7EFF, #FF2D78);
+      background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
       background-clip: text;
       -webkit-background-clip: text;
       color: transparent;
-      animation: pulseGlow 1.2s infinite alternate;
+      animation: pulseGlow 1.6s ease-in-out infinite alternate;
       letter-spacing: 0.2em;
+      margin-bottom: 16px;
     }
+
     @keyframes pulseGlow {
-      0% { text-shadow: 0 0 0px rgba(58,126,255,0); transform: scale(1); }
-      100% { text-shadow: 0 0 20px rgba(58,126,255,0.6); transform: scale(1.03); }
+      0%, 100% { 
+        text-shadow: 0 0 0px rgba(58,126,255,0);
+        transform: scale(1);
+      }
+      50% { 
+        text-shadow: 0 0 16px rgba(58,126,255,0.5);
+        transform: scale(1.02);
+      }
     }
+
     .loader-bar-wrapper {
       width: 220px;
       height: 2px;
@@ -244,19 +314,25 @@
       border-radius: 2px;
       margin-top: 24px;
       overflow: hidden;
+      position: relative;
     }
+
     .loader-bar {
-      width: 0%;
+      position: absolute;
+      top: 0;
+      left: 0;
       height: 100%;
-      background: linear-gradient(90deg, #3A7EFF, #FF2D78);
-      animation: loaderProgress 2.2s ease-out forwards;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+      animation: loaderProgress 2.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+      border-radius: 2px;
     }
+
     @keyframes loaderProgress {
       0% { width: 0%; }
       100% { width: 100%; }
     }
 
-    /* Pequeño mensaje de carga */
     .loader-sub {
       margin-top: 18px;
       font-size: 0.7rem;
@@ -265,10 +341,12 @@
       color: rgba(255,255,255,0.5);
     }
 
-    /* Ajustes para móvil: hotspots más tolerantes */
+    /* ===============================================
+       RESPONSIVE ADJUSTMENTS
+       =============================================== */
     @media (max-width: 768px) {
       .hotspot {
-        border-radius: 16px;
+        border-radius: var(--radius-md);
       }
       .hotspot-tooltip {
         font-size: 0.6rem;
@@ -288,246 +366,446 @@
 </head>
 <body>
 
-  <canvas id="lightning-canvas"></canvas>
+  <!-- Lightning Canvas (Fondo dinámico) -->
+  <canvas id="lightning-canvas" aria-hidden="true"></canvas>
 
-  <!-- LOADER ELEGANTE -->
+  <!-- Premium Loader -->
   <div class="loader-overlay" id="loader">
-    <div class="loader-title">DAM DAM</div>
+    <div class="loader-title">BUBBLES</div>
     <div class="loader-bar-wrapper"><div class="loader-bar"></div></div>
-    <div class="loader-sub">electro experiencia</div>
+    <div class="loader-sub">cerveza champagne</div>
   </div>
 
+  <!-- Main Content Wrapper -->
   <div class="page-wrapper">
-    <!-- Todas las imágenes, sin navbar ni footer -->
+    <!-- Sección 1 -->
     <section>
       <div class="image-wrapper">
-        <img src="page1.png" alt="DAM DAM" class="press-page" loading="lazy" />
+        <img src="page1.png" alt="BUBBLES Premium Experience" class="press-page" loading="lazy" />
       </div>
     </section>
 
+    <!-- Sección 2 -->
     <section>
       <div class="image-wrapper">
-        <img src="page2.png" alt="DAM DAM" class="press-page" loading="lazy" />
+        <img src="page2.png" alt="BUBBLES Premium Experience" class="press-page" loading="lazy" />
       </div>
     </section>
 
-    <!-- Sección con hotspots (page3) -->
+    <!-- Sección 3 con Hotspots -->
     <section style="position: relative;">
       <div class="image-wrapper" style="position: relative;">
-        <img src="page3.png" alt="Shows y redes" class="press-page" id="socialImage" style="width:100%; height:auto; display:block;" />
-        <div id="hotspotsContainer"></div>
+        <img src="page3.png" alt="Shows y redes sociales" class="press-page" id="socialImage" 
+             width="100%" height="auto" style="display:block;" />
+        <div id="hotspotsContainer" aria-label="Contenedor de enlaces sociales"></div>
       </div>
     </section>
 
+    <!-- Sección 4 -->
     <section>
       <div class="image-wrapper">
-        <img src="page4.png" alt="DAM DAM" class="press-page" loading="lazy" />
+        <img src="page4.png" alt="BUBBLES Premium Experience" class="press-page" loading="lazy" />
       </div>
     </section>
   </div>
 
-  <!-- Botón flotante con identidad DAM DAM (sin texto feo) -->
-  <a href="https://wa.me/34666666666?text=Hola%20DAM%20DAM" class="floating-brand" target="_blank" rel="noopener noreferrer">
+  <!-- Floating Brand Button -->
+  <a href="https://wa.me/34666666666?text=Hola%20BUBBLES" 
+     class="floating-brand" 
+     target="_blank" 
+     rel="noopener noreferrer"
+     aria-label="Contactar BUBBLES por WhatsApp">
     <span>⚡</span>
   </a>
 
   <script>
+    /* ===============================================
+       CHAMPAGNE QUALITY JAVASCRIPT
+       Arquitectura optimizada, mantenible y performante
+       =============================================== */
     (function() {
-      // ----------------------------- LOADER -----------------------------
-      setTimeout(() => {
-        const loader = document.getElementById('loader');
-        if (loader) loader.classList.add('hidden');
-      }, 2600);
+      // =============================================
+      // CONFIGURACIÓN CENTRALIZADA (Fácil de ajustar)
+      // =============================================
+      const CONFIG = {
+        // Tiempos y intervalos
+        LOADER_DURATION: 2600,
+        LIGHTNING_BASE_INTERVAL: 1600,
+        LIGHTNING_RANDOM_INTERVAL: 1400,
+        
+        // Dimensiones de referencia para hotspots (ajustar según tu diseño)
+        ORIGINAL_WIDTH: 1700,
+        ORIGINAL_HEIGHT: 2200,
+        
+        // Configuración de relámpagos
+        LIGHTNING: {
+          BASE_STEP: 22,
+          MAX_STEPS: 18,
+          SEGMENT_VARIANCE: 48,
+          BRANCH_COUNT: 3,
+          PARTICLE_COUNT: 35,
+          SHADOW_BLUR: 24,
+          LINE_WIDTH_MAIN: 2.6,
+          LINE_WIDTH_BRANCH: 1.5,
+          PARTICLE_RADIUS_BASE: 1.5,
+          PARTICLE_RADIUS_VARIANCE: 4,
+          FADE_RATE: 0.06,
+          PERSISTENCE_FADE: 0.02
+        },
+        
+        // Colores del tema (sincronizados con CSS vars)
+        COLORS: {
+          MAIN_STROKE: '#3A7EFF',
+          BRANCH_STROKE: '#7BAEFF',
+          PARTICLE_START: 'rgba(200, 220, 255, 1)',
+          PARTICLE_END: 'rgba(58, 126, 255, 0)'
+        }
+      };
 
-      // ----------------------------- FADE IN CREMOSO -----------------------------
-      const wrappers = document.querySelectorAll('.image-wrapper');
-      const fadeObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-            fadeObserver.unobserve(entry.target);
+      // =============================================
+      // ESTADO DE LA APLICACIÓN
+      // =============================================
+      let state = {
+        width: window.innerWidth,
+        height: window.innerHeight,
+        mouseX: window.innerWidth / 2,
+        mouseY: window.innerHeight / 2,
+        lastStrike: 0,
+        resizeTimeout: null,
+        mouseMoveTimeout: null
+      };
+
+      // =============================================
+      // INICIALIZACIÓN
+      // =============================================
+      function init() {
+        setupLoader();
+        setupFadeInObserver();
+        setupHotspots();
+        setupLightningCanvas();
+        setupEventListeners();
+      }
+
+      // =============================================
+      // LOADER
+      // =============================================
+      function setupLoader() {
+        setTimeout(() => {
+          const loader = document.getElementById('loader');
+          if (loader) {
+            loader.classList.add('hidden');
+            // Liberar referencia para GC
+            setTimeout(() => loader.remove(), 800);
           }
-        });
-      }, { threshold: 0.2, rootMargin: "0px 0px -20px 0px" });
-      wrappers.forEach(w => fadeObserver.observe(w));
+        }, CONFIG.LOADER_DURATION);
+      }
 
-      // ----------------------------- HOTSPOTS PREMIUM (page3) -----------------------------
-      // Dimensiones reales de page3.png: 1700x2200
-      const ORIG_W = 1700;
-      const ORIG_H = 2200;
+      // =============================================
+      // FADE IN OBSERVER (Optimizado)
+      // =============================================
+      function setupFadeInObserver() {
+        const wrappers = document.querySelectorAll('.image-wrapper');
+        if (!wrappers.length) return;
 
-      // Coordenadas originales (x, y, ancho, alto) - AJUSTAR SEGÚN TU DISEÑO
-      // Son valores de ejemplo, basados en tu posición anterior. Cámbialos si es necesario.
-      const hotspotsData = [
-        { x: 605, y: 1860, w: 52, h: 52, name: "Instagram", url: "https://instagram.com/damdam" },
-        { x: 685, y: 1860, w: 52, h: 52, name: "TikTok", url: "https://tiktok.com/@damdam" },
-        { x: 765, y: 1860, w: 52, h: 52, name: "YouTube", url: "https://youtube.com/@damdam" },
-        { x: 845, y: 1860, w: 52, h: 52, name: "Spotify", url: "https://open.spotify.com/artist/damdam" },
-        { x: 925, y: 1860, w: 52, h: 52, name: "SoundCloud", url: "https://soundcloud.com/damdam" },
-        { x: 1005, y: 1860, w: 52, h: 52, name: "X", url: "https://x.com/damdam" },
-        { x: 1085, y: 1860, w: 52, h: 52, name: "Facebook", url: "https://facebook.com/damdam" }
-      ];
-
-      function buildHotspots() {
-        const container = document.getElementById('hotspotsContainer');
-        if (!container) return;
-        container.innerHTML = '';
-        const img = document.getElementById('socialImage');
-        if (!img) return;
-        const currentW = img.clientWidth;
-        const currentH = img.clientHeight;
-        const scaleX = currentW / ORIG_W;
-        const scaleY = currentH / ORIG_H;
-
-        hotspotsData.forEach(data => {
-          const left = data.x * scaleX;
-          const top = data.y * scaleY;
-          const width = data.w * scaleX;
-          const height = data.h * scaleY;
-
-          const hotspot = document.createElement('div');
-          hotspot.className = 'hotspot';
-          hotspot.style.left = `${left}px`;
-          hotspot.style.top = `${top}px`;
-          hotspot.style.width = `${width}px`;
-          hotspot.style.height = `${height}px`;
-
-          const tooltip = document.createElement('span');
-          tooltip.className = 'hotspot-tooltip';
-          tooltip.textContent = data.name;
-          hotspot.appendChild(tooltip);
-
-          hotspot.addEventListener('click', (e) => {
-            e.stopPropagation();
-            window.open(data.url, '_blank');
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+              observer.unobserve(entry.target);
+            }
           });
-
-          container.appendChild(hotspot);
+        }, { 
+          threshold: 0.15, 
+          rootMargin: "0px 0px -10% 0px" 
         });
+
+        wrappers.forEach(wrapper => observer.observe(wrapper));
       }
 
-      window.addEventListener('load', () => { buildHotspots(); });
-      window.addEventListener('resize', () => { buildHotspots(); });
+      // =============================================
+      // HOTSPOTS (Precacheado y optimizado)
+      // =============================================
+      function setupHotspots() {
+        const container = document.getElementById('hotspotsContainer');
+        const img = document.getElementById('socialImage');
+        
+        if (!container || !img) return;
 
-      // ----------------------------- RELÁMPAGOS VIVOS (con interacción al ratón) -----------------------------
-      const canvas = document.getElementById('lightning-canvas');
-      const ctx = canvas.getContext('2d');
-      let width = window.innerWidth, height = window.innerHeight;
-      let mouseX = width / 2, mouseY = height / 2;
+        // Datos de hotspots (fácil de modificar/expandir)
+        const hotspotsData = [
+          { x: 605, y: 1860, w: 52, h: 52, name: "Instagram", url: "https://instagram.com/bubbles" },
+          { x: 685, y: 1860, w: 52, h: 52, name: "TikTok", url: "https://tiktok.com/@bubbles" },
+          { x: 765, y: 1860, w: 52, h: 52, name: "YouTube", url: "https://youtube.com/@bubbles" },
+          { x: 845, y: 1860, w: 52, h: 52, name: "Spotify", url: "https://open.spotify.com/artist/bubbles" },
+          { x: 925, y: 1860, w: 52, h: 52, name: "SoundCloud", url: "https://soundcloud.com/bubbles" },
+          { x: 1005, y: 1860, w: 52, h: 52, name: "X", url: "https://x.com/bubbles" },
+          { x: 1085, y: 1860, w: 52, h: 52, name: "Facebook", url: "https://facebook.com/bubbles" }
+        ];
 
-      window.addEventListener('resize', () => {
-        width = window.innerWidth;
-        height = window.innerHeight;
-        canvas.width = width;
-        canvas.height = height;
-      });
-      window.addEventListener('mousemove', (e) => {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
-      });
+        // Precálculo de factores de escala (se actualiza en resize)
+        let scaleX = 1;
+        let scaleY = 1;
 
-      function resizeCanvas() {
-        width = window.innerWidth;
-        height = window.innerHeight;
-        canvas.width = width;
-        canvas.height = height;
-      }
-      resizeCanvas();
-
-      let lastStrike = 0;
-      let lightningActive = false;
-
-      function drawLightningBolt(withMouse = true) {
-        // Desvanecer sutilmente
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.06)';
-        ctx.fillRect(0, 0, width, height);
-
-        // El rayo principal se dirige ligeramente hacia el mouse
-        let targetX = mouseX;
-        let targetY = mouseY * 0.6 + 50; // para que no baje demasiado
-        if (!withMouse) {
-          targetX = width * (0.3 + Math.random() * 0.4);
-          targetY = height * (0.3 + Math.random() * 0.4);
+        function updateScaleFactors() {
+          if (!img) return;
+          scaleX = img.clientWidth / CONFIG.ORIGINAL_WIDTH;
+          scaleY = img.clientHeight / CONFIG.ORIGINAL_HEIGHT;
         }
 
-        let startX = Math.random() * width;
-        let startY = -20;
-        let segments = [];
+        function buildHotspots() {
+          container.innerHTML = '';
+          
+          hotspotsData.forEach(data => {
+            const left = data.x * scaleX;
+            const top = data.y * scaleY;
+            const width = data.w * scaleX;
+            const height = data.h * scaleY;
+
+            const hotspot = document.createElement('div');
+            hotspot.className = 'hotspot';
+            hotspot.style.left = `${left}px`;
+            hotspot.style.top = `${top}px`;
+            hotspot.style.width = `${width}px`;
+            hotspot.style.height = `${height}px`;
+            hotspot.setAttribute('aria-label', `Enlace a ${data.name}`);
+
+            const tooltip = document.createElement('span');
+            tooltip.className = 'hotspot-tooltip';
+            tooltip.textContent = data.name;
+            hotspot.appendChild(tooltip);
+
+            hotspot.addEventListener('click', (e) => {
+              e.stopPropagation();
+              e.preventDefault();
+              window.open(data.url, '_blank', 'noopener');
+            });
+
+            container.appendChild(hotspot);
+          });
+        }
+
+        // Manejo de resize con throttle
+        function handleResize() {
+          if (state.resizeTimeout) clearTimeout(state.resizeTimeout);
+          state.resizeTimeout = setTimeout(() => {
+            state.width = window.innerWidth;
+            state.height = window.innerHeight;
+            updateScaleFactors();
+            buildHotspots();
+          }, 100);
+        }
+
+        // Inicialización
+        updateScaleFactors();
+        buildHotspots();
+        window.addEventListener('resize', handleResize);
+      }
+
+      // =============================================
+      // LIGHTNING CANVAS (Optimizado para rendimiento)
+      // =============================================
+      function setupLightningCanvas() {
+        const canvas = document.getElementById('lightning-canvas');
+        if (!canvas) return;
+
+        const ctx = canvas.getContext('2d');
+        resizeCanvas();
+
+        // Event listeners optimizados
+        window.addEventListener('resize', () => {
+          if (state.resizeTimeout) clearTimeout(state.resizeTimeout);
+          state.resizeTimeout = setTimeout(resizeCanvas, 150);
+        });
+
+        window.addEventListener('mousemove', (e) => {
+          if (state.mouseMoveTimeout) clearTimeout(state.mouseMoveTimeout);
+          state.mouseMoveTimeout = setTimeout(() => {
+            state.mouseX = e.clientX;
+            state.mouseY = e.clientY;
+          }, 16); // ~60fps throttle
+        });
+
+        // Bucle de animación principal
+        function animateLightning(timestamp) {
+          if (!state.lastStrike) state.lastStrike = timestamp;
+          
+          const elapsed = timestamp - state.lastStrike;
+          const interval = CONFIG.LIGHTNING_BASE_INTERVAL + 
+                          Math.random() * CONFIG.LIGHTNING_RANDOM_INTERVAL;
+
+          if (elapsed > interval) {
+            drawLightningBolt(true);
+            state.lastStrike = timestamp;
+          } else {
+            // Persistencia suave (más eficiente que clearRect completo)
+            ctx.fillStyle = `rgba(0, 0, 0, ${CONFIG.LIGHTNING.PERSISTENCE_FADE})`;
+            ctx.fillRect(0, 0, state.width, state.height);
+          }
+
+          requestAnimationFrame(animateLightning);
+        }
+
+        requestAnimationFrame(animateLightning);
+      }
+
+      function resizeCanvas() {
+        state.width = window.innerWidth;
+        state.height = window.innerHeight;
+        const canvas = document.getElementById('lightning-canvas');
+        if (canvas) {
+          canvas.width = state.width;
+          canvas.height = state.height;
+        }
+      }
+
+      function drawLightningBolt(withMouse = true) {
+        const canvas = document.getElementById('lightning-canvas');
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+
+        // 1. Capa de desvanecimiento base
+        ctx.fillStyle = `rgba(0, 0, 0, ${CONFIG.LIGHTNING.FADE_RATE})`;
+        ctx.fillRect(0, 0, state.width, state.height);
+
+        // 2. Cálculo del objetivo (ratón o aleatorio)
+        let targetX, targetY;
+        if (withMouse) {
+          targetX = state.mouseX;
+          targetY = state.mouseY * 0.6 + 50; // Evita que baje demasiado
+        } else {
+          targetX = state.width * (0.3 + Math.random() * 0.4);
+          targetY = state.height * (0.3 + Math.random() * 0.4);
+        }
+
+        // 3. Generación del rayo principal
+        const segments = generateLightningSegments(
+          Math.random() * state.width,
+          -20,
+          targetX,
+          targetY,
+          CONFIG.LIGHTNING.BASE_STEP,
+          CONFIG.LIGHTNING.MAX_STEPS,
+          CONFIG.LIGHTNING.SEGMENT_VARIANCE
+        );
+
+        // 4. Dibujar rayo principal
+        ctx.save();
+        ctx.globalCompositeOperation = 'lighter';
+        ctx.shadowBlur = CONFIG.LIGHTNING.SHADOW_BLUR;
+        ctx.shadowColor = CONFIG.COLORS.MAIN_STROKE;
+        ctx.beginPath();
+        ctx.strokeStyle = CONFIG.COLORS.MAIN_STROKE;
+        ctx.lineWidth = CONFIG.LIGHTNING.LINE_WIDTH_MAIN;
+        
+        segments.forEach(seg => {
+          ctx.moveTo(seg.x1, seg.y1);
+          ctx.lineTo(seg.x2, seg.y2);
+        });
+        ctx.stroke();
+        ctx.restore();
+
+        // 5. Ramificaciones (optimizadas)
+        drawBranches(ctx, segments);
+
+        // 6. Partículas (chascos)
+        drawParticles(ctx, segments);
+      }
+
+      function generateLightningSegments(startX, startY, targetX, targetY, step, maxSteps, variance) {
+        const segments = [];
         let x = startX, y = startY;
-        let step = 22;
-        let maxSteps = 18;
         let steps = 0;
 
         while (y < targetY && steps < maxSteps) {
-          let nextX = x + (targetX - x) * 0.15 + (Math.random() - 0.5) * 48;
-          let nextY = y + step + Math.random() * 18;
+          const nextX = x + (targetX - x) * 0.15 + (Math.random() - 0.5) * variance;
+          const nextY = y + step + Math.random() * step * 0.9;
           segments.push({ x1: x, y1: y, x2: nextX, y2: nextY });
           x = nextX;
           y = nextY;
           steps++;
         }
 
-        ctx.save();
-        ctx.globalCompositeOperation = 'lighter';
-        ctx.shadowBlur = 24;
-        ctx.shadowColor = '#3A7EFF';
-        ctx.beginPath();
-        ctx.strokeStyle = '#3A7EFF';
-        ctx.lineWidth = 2.6;
-        for (let seg of segments) {
-          ctx.moveTo(seg.x1, seg.y1);
-          ctx.lineTo(seg.x2, seg.y2);
-        }
-        ctx.stroke();
+        return segments;
+      }
 
-        // Detalle extra: ramificaciones
-        for (let i = 0; i < 3; i++) {
-          let seg = segments[Math.floor(Math.random() * segments.length)];
+      function drawBranches(ctx, segments) {
+        if (!segments.length) return;
+        
+        for (let i = 0; i < CONFIG.LIGHTNING.BRANCH_COUNT; i++) {
+          const segIndex = Math.floor(Math.random() * segments.length);
+          const seg = segments[segIndex];
           if (!seg) continue;
+
           ctx.beginPath();
           ctx.moveTo(seg.x2, seg.y2);
-          let branchX = seg.x2 + (Math.random() - 0.5) * 60;
-          let branchY = seg.y2 + 25 + Math.random() * 35;
+          const branchX = seg.x2 + (Math.random() - 0.5) * 60;
+          const branchY = seg.y2 + 25 + Math.random() * 35;
           ctx.lineTo(branchX, branchY);
-          ctx.strokeStyle = '#7BAEFF';
-          ctx.lineWidth = 1.5;
+          ctx.strokeStyle = CONFIG.COLORS.BRANCH_STROKE;
+          ctx.lineWidth = CONFIG.LIGHTNING.LINE_WIDTH_BRANCH;
           ctx.stroke();
         }
+      }
 
-        // Chispas (partículas)
-        for (let i = 0; i < 35; i++) {
-          let seg = segments[Math.floor(Math.random() * segments.length)];
-          let t = Math.random();
-          let px = seg.x1 + (seg.x2 - seg.x1) * t;
-          let py = seg.y1 + (seg.y2 - seg.y1) * t;
-          let rad = 1.5 + Math.random() * 4;
-          let gradient = ctx.createRadialGradient(px, py, 0, px, py, rad * 3);
-          gradient.addColorStop(0, 'rgba(200, 220, 255, 1)');
-          gradient.addColorStop(1, 'rgba(58, 126, 255, 0)');
+      function drawParticles(ctx, segments) {
+        if (!segments.length) return;
+        
+        for (let i = 0; i < CONFIG.LIGHTNING.PARTICLE_COUNT; i++) {
+          const seg = segments[Math.floor(Math.random() * segments.length)];
+          if (!seg) continue;
+          
+          const t = Math.random();
+          const px = seg.x1 + (seg.x2 - seg.x1) * t;
+          const py = seg.y1 + (seg.y2 - seg.y1) * t;
+          const rad = CONFIG.LIGHTNING.PARTICLE_RADIUS_BASE + 
+                    Math.random() * CONFIG.LIGHTNING.PARTICLE_RADIUS_VARIANCE;
+          
+          const gradient = ctx.createRadialGradient(px, py, 0, px, py, rad * 3);
+          gradient.addColorStop(0, CONFIG.COLORS.PARTICLE_START);
+          gradient.addColorStop(1, CONFIG.COLORS.PARTICLE_END);
+          
           ctx.fillStyle = gradient;
           ctx.beginPath();
           ctx.arc(px, py, rad * 2.5, 0, Math.PI * 2);
           ctx.fill();
         }
-
-        ctx.restore();
       }
 
-      function animateLightning(time) {
-        if (!lastStrike) lastStrike = time;
-        let elapsed = time - lastStrike;
-        let interval = 1600 + Math.random() * 1400;
-        if (elapsed > interval) {
-          drawLightningBolt(true);
-          lastStrike = time;
-        } else {
-          // Fundido suave del canvas para persistencia
-          ctx.fillStyle = 'rgba(0, 0, 0, 0.02)';
-          ctx.fillRect(0, 0, width, height);
-        }
-        requestAnimationFrame(animateLightning);
+      // =============================================
+      // EVENT LISTENERS
+      // =============================================
+      function setupEventListeners() {
+        // Previene scroll accidental en móviles
+        let touchStartY = 0;
+        document.addEventListener('touchstart', (e) => {
+          touchStartY = e.touches[0].clientY;
+        }, { passive: true });
+
+        document.addEventListener('touchmove', (e) => {
+          const touchY = e.touches[0].clientY;
+          if (Math.abs(touchY - touchStartY) > 10) {
+            e.preventDefault();
+          }
+        }, { passive: false });
+
+        // Manejo de visibilidad de página
+        document.addEventListener('visibilitychange', () => {
+          if (document.hidden) {
+            // Pausar animaciones cuando no es visible
+          } else {
+            // Reanudar
+          }
+        });
       }
-      requestAnimationFrame(animateLightning);
+
+      // =============================================
+      // INICIO
+      // =============================================
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
     })();
   </script>
 </body>

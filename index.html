@@ -2,12 +2,12 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
   <title>DAM DAM - Press Kit 2026</title>
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Barlow+Condensed:wght@300;400;600;700&display=swap" rel="stylesheet" />
   <style>
-    /* ----- RESET & GLOBALES ----- */
+    /* ---------- RESET Y GLOBALES ---------- */
     * {
       margin: 0;
       padding: 0;
@@ -21,7 +21,7 @@
       overflow-x: hidden;
     }
 
-    /* ----- CANVAS DE RELÁMPAGOS (fondo) ----- */
+    /* ---------- CANVAS RELÁMPAGOS (FONDO) ---------- */
     #lightning-canvas {
       position: fixed;
       top: 0;
@@ -33,13 +33,13 @@
       background: radial-gradient(circle at top, #050818 0%, #020309 50%, #000000 100%);
     }
 
-    /* ----- CONTENEDOR PRINCIPAL ----- */
+    /* ---------- CONTENEDOR PRINCIPAL ---------- */
     .page-wrapper {
       position: relative;
       z-index: 1;
     }
 
-    /* ----- SECCIONES CON IMÁGENES ----- */
+    /* ---------- SECCIONES CON IMÁGENES ---------- */
     section {
       width: 100%;
     }
@@ -61,7 +61,7 @@
       height: auto;
     }
 
-    /* ----- NAVBAR STICKY ----- */
+    /* ---------- NAVBAR STICKY ---------- */
     .main-nav {
       position: sticky;
       top: 0;
@@ -118,19 +118,62 @@
       }
     }
 
-    /* ----- MAPA DE IMAGEN (contiene los hotspots) ----- */
-    .map-container {
-      position: relative;
-      display: block;
-    }
-
-    .map-container img {
+    /* ---------- CONTENEDOR DE HOTSPOTS (posicionado encima de la imagen) ---------- */
+    #hotspotsContainer {
+      position: absolute;
+      top: 0;
+      left: 0;
       width: 100%;
-      height: auto;
-      display: block;
+      height: 100%;
+      pointer-events: none;
     }
 
-    /* ----- SECCIÓN CONTACTO ----- */
+    .hotspot {
+      position: absolute;
+      pointer-events: auto;
+      cursor: pointer;
+      border-radius: 12px;
+      transition: all 0.2s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+      z-index: 5;
+    }
+
+    .hotspot-tooltip {
+      position: absolute;
+      bottom: 110%;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 5px 12px;
+      background: rgba(3, 5, 14, 0.95);
+      backdrop-filter: blur(8px);
+      color: white;
+      font-size: 0.7rem;
+      font-weight: 600;
+      border-radius: 60px;
+      white-space: nowrap;
+      border: 1px solid #3A7EFF;
+      box-shadow: 0 0 12px rgba(58, 126, 255, 0.6);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      opacity: 0;
+      transition: opacity 0.2s, transform 0.2s;
+      pointer-events: none;
+      font-family: "Barlow Condensed", sans-serif;
+      z-index: 10;
+    }
+
+    .hotspot:hover {
+      background-color: rgba(58, 126, 255, 0.25);
+      box-shadow: 0 0 20px rgba(58, 126, 255, 0.9), inset 0 0 8px rgba(255, 255, 255, 0.3);
+      transform: scale(1.05);
+      border: 1px solid #FF2D78;
+    }
+
+    .hotspot:hover .hotspot-tooltip {
+      opacity: 1;
+      transform: translateX(-50%) translateY(-4px);
+    }
+
+    /* ---------- SECCIÓN CONTACTO ---------- */
     .contact-section {
       background: #020309;
       padding: 64px 8vw;
@@ -199,7 +242,7 @@
       opacity: 0.8;
     }
 
-    /* ----- BOTÓN FLOTANTE (RIDER/WHATSAPP) ----- */
+    /* ---------- BOTÓN FLOTANTE WHATSAPP ---------- */
     .floating-rider-btn {
       position: fixed;
       bottom: 24px;
@@ -225,7 +268,7 @@
       transform: translateY(-3px);
     }
 
-    /* ----- LOADER ----- */
+    /* ---------- LOADER ---------- */
     .loader-overlay {
       position: fixed;
       inset: 0;
@@ -277,7 +320,7 @@
       100% { width: 100%; }
     }
 
-    /* ----- CURSOR PERSONALIZADO (solo escritorio) ----- */
+    /* ---------- CURSOR PERSONALIZADO (solo escritorio) ---------- */
     .cursor-dot, .cursor-ring {
       display: none;
     }
@@ -354,41 +397,30 @@
       </div>
     </section>
 
-    <!-- PÁGINA 3 (SHOWS + HOTSPOTS) -->
+    <!-- PÁGINA 3 (SHOWS) CON HOTSPOTS ANIMADOS -->
     <section id="shows" class="anchor-target">
-      <div class="image-wrapper">
-        <div class="map-container">
-          <img src="page3.png" alt="Shows y redes" class="press-page" id="socialImage" usemap="#socialMap" />
-          <map name="socialMap" id="socialMap">
-            <!-- Los atributos coords se actualizarán con JS según el tamaño real de la imagen -->
-            <area shape="rect" coords="0,0,50,50" href="#" data-social="Instagram" target="_blank" />
-            <area shape="rect" coords="0,0,50,50" href="#" data-social="TikTok" target="_blank" />
-            <area shape="rect" coords="0,0,50,50" href="#" data-social="YouTube" target="_blank" />
-            <area shape="rect" coords="0,0,50,50" href="#" data-social="Spotify" target="_blank" />
-            <area shape="rect" coords="0,0,50,50" href="#" data-social="SoundCloud" target="_blank" />
-            <area shape="rect" coords="0,0,50,50" href="#" data-social="X" target="_blank" />
-            <area shape="rect" coords="0,0,50,50" href="#" data-social="Facebook" target="_blank" />
-          </map>
-        </div>
+      <div class="image-wrapper" style="position: relative;">
+        <img src="page3.png" alt="Shows y redes" class="press-page" id="socialImage" style="width:100%; height:auto; display:block;" />
+        <div id="hotspotsContainer"></div>
       </div>
     </section>
 
-    <!-- PÁGINA 4 (FECHAS O INFO) -->
+    <!-- PÁGINA 4 -->
     <section>
       <div class="image-wrapper">
         <img src="page4.png" alt="DAM DAM - Página 4" class="press-page" loading="lazy" />
       </div>
     </section>
 
-    <!-- SECCIÓN CONTACTO FINAL -->
+    <!-- SECCIÓN CONTACTO -->
     <section id="contact" class="contact-section anchor-target">
       <h2 class="contact-title">¿Quieres a DAM DAM en tu evento?</h2>
       <div class="contact-buttons">
-        <!-- CAMBIA el mailto: por tu email real -->
+        <!-- CAMBIAR: email real -->
         <a href="mailto:contacto@damdam.com?subject=Booking%20DAM%20DAM" class="contact-btn">Email</a>
-        <!-- CAMBIA el número de WhatsApp (incluye código país sin '+' ) -->
+        <!-- CAMBIAR: número de WhatsApp (código país sin +) -->
         <a href="https://wa.me/34666666666?text=Hola%20DAM%20DAM%2C%20me%20gustaría%20contrataros" target="_blank" class="contact-btn">WhatsApp</a>
-        <!-- CAMBIA el enlace de Instagram principal -->
+        <!-- CAMBIAR: Instagram principal -->
         <a href="https://instagram.com/damdamoficial" target="_blank" class="contact-btn">Instagram</a>
       </div>
       <div class="contact-stats">
@@ -412,49 +444,38 @@
     </section>
   </div>
 
-  <!-- BOTÓN FLOTANTE WHATSAPP (cambia el número) -->
+  <!-- BOTÓN FLOTANTE WHATSAPP (cambiar número) -->
   <a href="https://wa.me/34666666666?text=Hola%20DAM%20DAM%2C%20quiero%20más%20info" class="floating-rider-btn" target="_blank">
     ⚡ WhatsApp DAM DAM
   </a>
 
   <script>
-    // -----------------------------
-    // 1. OCULTAR LOADER TRAS 2.8s
-    // -----------------------------
+    // ----------------------------- 1. LOADER -----------------------------
     setTimeout(() => {
       const loader = document.getElementById('loader');
       if (loader) loader.classList.add('hidden');
     }, 2800);
 
-    // -----------------------------
-    // 2. FADE IN DE IMÁGENES AL HACER SCROLL
-    // -----------------------------
+    // ----------------------------- 2. FADE IN IMÁGENES -----------------------------
     const imageWrappers = document.querySelectorAll('.image-wrapper');
     const fadeObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           entry.target.classList.add('visible');
-          fadeObserver.unobserve(entry.target); // opcional: deja de observar una vez visible
+          fadeObserver.unobserve(entry.target);
         }
       });
     }, { threshold: 0.2 });
     imageWrappers.forEach(wrapper => fadeObserver.observe(wrapper));
 
-    // -----------------------------
-    // 3. NAVBAR SCROLL (cambia fondo)
-    // -----------------------------
+    // ----------------------------- 3. NAVBAR SCROLL -----------------------------
     const navBar = document.getElementById('navbar');
     window.addEventListener('scroll', () => {
-      if (window.scrollY > 50) {
-        navBar.classList.add('scrolled');
-      } else {
-        navBar.classList.remove('scrolled');
-      }
+      if (window.scrollY > 50) navBar.classList.add('scrolled');
+      else navBar.classList.remove('scrolled');
     });
 
-    // -----------------------------
-    // 4. CURSOR PERSONALIZADO (solo escritorio)
-    // -----------------------------
+    // ----------------------------- 4. CURSOR PERSONALIZADO -----------------------------
     if (window.innerWidth >= 768) {
       document.body.classList.add('custom-cursor');
       const dot = document.getElementById('cursorDot');
@@ -475,8 +496,8 @@
       }
       animateRing();
 
-      const interactiveElements = document.querySelectorAll('a, button, .contact-btn, .floating-rider-btn, area');
-      interactiveElements.forEach(el => {
+      const interactive = document.querySelectorAll('a, button, .contact-btn, .floating-rider-btn, .hotspot');
+      interactive.forEach(el => {
         el.addEventListener('mouseenter', () => {
           ring.style.borderColor = '#FF2D78';
           ring.style.width = '44px';
@@ -490,9 +511,7 @@
       });
     }
 
-    // -----------------------------
-    // 5. CONTADORES NUMÉRICOS (al llegar a la sección contacto)
-    // -----------------------------
+    // ----------------------------- 5. CONTADORES -----------------------------
     const counters = document.querySelectorAll('.stat-number');
     let countersStarted = false;
 
@@ -525,69 +544,75 @@
     }, { threshold: 0.3 });
     contactObserver.observe(contactSection);
 
-    // -----------------------------
-    // 6. MAPA DE IMAGEN RESPONSIVE (REDES SOCIALES)
-    //    DIMENSIONES REALES de page3.png: 1700 x 2200 px
-    // -----------------------------
-    const ORIGINAL_IMG_W = 1700;   // ANCHO real
-    const ORIGINAL_IMG_H = 2200;   // ALTO real
+    // ----------------------------- 6. HOTSPOTS RESPONSIVOS CON EFECTOS -----------------------------
+    // DIMENSIONES REALES de page3.png: 1700 x 2200
+    const ORIGINAL_IMG_W = 1700;
+    const ORIGINAL_IMG_H = 2200;
 
-    // Coordenadas originales (x1, y1, x2, y2) sobre la imagen de 1700x2200
-    // Ajusta estos números si los iconos no están exactamente donde hiciste clic.
-    // (por defecto los dejamos como en tu diseño inicial)
-    const originalHotspots = [
-      [605, 1860, 655, 1910],   // Instagram
-      [685, 1860, 735, 1910],   // TikTok
-      [765, 1860, 815, 1910],   // YouTube
-      [845, 1860, 895, 1910],   // Spotify
-      [925, 1860, 975, 1910],   // SoundCloud
-      [1005, 1860, 1055, 1910], // X / Twitter
-      [1085, 1860, 1135, 1910]  // Facebook
+    // Coordenadas originales (x, y, ancho, alto) sobre la imagen de 1700x2200
+    // Ajusta estos valores si los iconos no quedan exactamente alineados
+    const hotspotsData = [
+      { x: 605, y: 1860, w: 50, h: 50, name: "Instagram", url: "https://instagram.com/tuusuario" },      // <--- CAMBIAR
+      { x: 685, y: 1860, w: 50, h: 50, name: "TikTok", url: "https://tiktok.com/@tuusuario" },          // <--- CAMBIAR
+      { x: 765, y: 1860, w: 50, h: 50, name: "YouTube", url: "https://youtube.com/@tuusuario" },        // <--- CAMBIAR
+      { x: 845, y: 1860, w: 50, h: 50, name: "Spotify", url: "https://open.spotify.com/artist/tuid" },   // <--- CAMBIAR
+      { x: 925, y: 1860, w: 50, h: 50, name: "SoundCloud", url: "https://soundcloud.com/tuusuario" },   // <--- CAMBIAR
+      { x: 1005, y: 1860, w: 50, h: 50, name: "X / Twitter", url: "https://x.com/tuusuario" },          // <--- CAMBIAR
+      { x: 1085, y: 1860, w: 50, h: 50, name: "Facebook", url: "https://facebook.com/tuusuario" }       // <--- CAMBIAR
     ];
 
-    // === REEMPLAZA ESTOS ENLACES CON TUS URL REALES ===
-    const socialUrls = [
-      "https://instagram.com/tuusuario",      // Instagram
-      "https://tiktok.com/@tuusuario",        // TikTok
-      "https://youtube.com/@tuusuario",       // YouTube
-      "https://open.spotify.com/artist/tuid", // Spotify
-      "https://soundcloud.com/tuusuario",     // SoundCloud
-      "https://x.com/tuusuario",              // X (Twitter)
-      "https://facebook.com/tuusuario"        // Facebook
-    ];
-
-    function updateMapCoords() {
+    function createHotspots() {
+      const container = document.getElementById('hotspotsContainer');
+      if (!container) return;
+      container.innerHTML = '';
+      
       const img = document.getElementById('socialImage');
       if (!img) return;
-      const currentWidth = img.clientWidth;
-      const currentHeight = img.clientHeight;
-      const scaleX = currentWidth / ORIGINAL_IMG_W;
-      const scaleY = currentHeight / ORIGINAL_IMG_H;
-      const areas = document.querySelectorAll('#socialMap area');
-      areas.forEach((area, idx) => {
-        if (idx >= originalHotspots.length) return;
-        const [x1, y1, x2, y2] = originalHotspots[idx];
-        const newX1 = Math.round(x1 * scaleX);
-        const newY1 = Math.round(y1 * scaleY);
-        const newX2 = Math.round(x2 * scaleX);
-        const newY2 = Math.round(y2 * scaleY);
-        area.coords = `${newX1},${newY1},${newX2},${newY2}`;
-        area.href = socialUrls[idx];
+      
+      const currentW = img.clientWidth;
+      const currentH = img.clientHeight;
+      const scaleX = currentW / ORIGINAL_IMG_W;
+      const scaleY = currentH / ORIGINAL_IMG_H;
+      
+      hotspotsData.forEach(data => {
+        const left = data.x * scaleX;
+        const top = data.y * scaleY;
+        const width = data.w * scaleX;
+        const height = data.h * scaleY;
+        
+        const hotspot = document.createElement('div');
+        hotspot.className = 'hotspot';
+        hotspot.style.left = `${left}px`;
+        hotspot.style.top = `${top}px`;
+        hotspot.style.width = `${width}px`;
+        hotspot.style.height = `${height}px`;
+        
+        // Tooltip
+        const tooltip = document.createElement('span');
+        tooltip.className = 'hotspot-tooltip';
+        tooltip.textContent = data.name;
+        hotspot.appendChild(tooltip);
+        
+        // Evento click
+        hotspot.addEventListener('click', (e) => {
+          e.stopPropagation();
+          window.open(data.url, '_blank');
+        });
+        
+        container.appendChild(hotspot);
       });
     }
 
     window.addEventListener('load', () => {
-      updateMapCoords();
+      createHotspots();
     });
     window.addEventListener('resize', () => {
-      updateMapCoords();
+      createHotspots();
     });
 
-    // -----------------------------
-    // 7. CANVAS DE RELÁMPAGOS (EFECTO)
-    // -----------------------------
+    // ----------------------------- 7. RELÁMPAGOS -----------------------------
     const canvas = document.getElementById('lightning-canvas');
-    const ctxCanvas = canvas.getContext('2d');
+    const ctx = canvas.getContext('2d');
     let cw = window.innerWidth, ch = window.innerHeight;
 
     function resizeCanvas() {
@@ -600,11 +625,10 @@
     window.addEventListener('resize', resizeCanvas);
 
     let lastLightning = 0;
-
     function drawLightning() {
-      ctxCanvas.fillStyle = 'rgba(0, 0, 0, 0.08)';
-      ctxCanvas.fillRect(0, 0, cw, ch);
-
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.08)';
+      ctx.fillRect(0, 0, cw, ch);
+      
       const startX = Math.random() * cw;
       let x = startX, y = -20;
       const segments = [];
@@ -616,35 +640,34 @@
         x = nextX;
         y = nextY;
       }
-
-      ctxCanvas.beginPath();
-      ctxCanvas.strokeStyle = '#3A7EFF';
-      ctxCanvas.lineWidth = 2.2;
-      ctxCanvas.shadowBlur = 18;
-      ctxCanvas.shadowColor = '#3A7EFF';
+      
+      ctx.beginPath();
+      ctx.strokeStyle = '#3A7EFF';
+      ctx.lineWidth = 2.2;
+      ctx.shadowBlur = 18;
+      ctx.shadowColor = '#3A7EFF';
       for (let seg of segments) {
-        ctxCanvas.moveTo(seg.x1, seg.y1);
-        ctxCanvas.lineTo(seg.x2, seg.y2);
+        ctx.moveTo(seg.x1, seg.y1);
+        ctx.lineTo(seg.x2, seg.y2);
       }
-      ctxCanvas.stroke();
-
+      ctx.stroke();
+      
       // Rama secundaria
       if (segments.length > 2) {
         const branchSeg = segments[Math.floor(Math.random() * segments.length)];
         let bx = branchSeg.x2, by = branchSeg.y2;
-        ctxCanvas.beginPath();
-        ctxCanvas.moveTo(bx, by);
+        ctx.beginPath();
+        ctx.moveTo(bx, by);
         const branchEndX = bx + (Math.random() - 0.5) * 45;
         const branchEndY = by + 28 + Math.random() * 20;
-        ctxCanvas.lineTo(branchEndX, branchEndY);
-        ctxCanvas.strokeStyle = '#7BAEFF';
-        ctxCanvas.lineWidth = 1.4;
-        ctxCanvas.stroke();
+        ctx.lineTo(branchEndX, branchEndY);
+        ctx.strokeStyle = '#7BAEFF';
+        ctx.lineWidth = 1.4;
+        ctx.stroke();
       }
-
-      ctxCanvas.shadowBlur = 0;
+      ctx.shadowBlur = 0;
     }
-
+    
     function lightningLoop(time) {
       if (!lastLightning) lastLightning = time;
       const elapsed = time - lastLightning;

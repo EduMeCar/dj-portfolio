@@ -3,25 +3,25 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>DAM DAM - Press Kit 2026</title>
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Barlow+Condensed:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <title>DAM DAM — Experiencia eléctrica</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,500;14..32,700&family=Black+Ops+One&display=swap" rel="stylesheet" />
   <style>
-    /* ---------- RESET Y GLOBALES ---------- */
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
+      user-select: none; /* evita selecciones molestas, mejora la sensación táctil */
     }
 
     body {
       background-color: #03050E;
       color: #FFFFFF;
-      font-family: "Barlow Condensed", sans-serif;
+      font-family: "Inter", sans-serif;
       overflow-x: hidden;
+      scroll-behavior: smooth;
     }
 
-    /* ---------- CANVAS RELÁMPAGOS (FONDO) ---------- */
+    /* ---------- CANVAS DE RELÁMPAGOS VIVO (FONDO) ---------- */
     #lightning-canvas {
       position: fixed;
       top: 0;
@@ -30,95 +30,44 @@
       height: 100%;
       pointer-events: none;
       z-index: 0;
-      background: radial-gradient(circle at top, #050818 0%, #020309 50%, #000000 100%);
+      background: radial-gradient(circle at 30% 20%, #070b1a, #010101);
     }
 
     /* ---------- CONTENEDOR PRINCIPAL ---------- */
     .page-wrapper {
       position: relative;
       z-index: 1;
+      padding: 0;
+      margin: 0;
     }
 
-    /* ---------- SECCIONES CON IMÁGENES ---------- */
+    /* ---------- SECCIONES CON IMÁGENES: TRANSICIÓN CREMOSA ---------- */
     section {
       width: 100%;
+      position: relative;
     }
 
     .image-wrapper {
       opacity: 0;
-      transform: translateY(40px);
-      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+      transform: translateY(60px) scale(0.98);
+      transition: opacity 1.2s cubic-bezier(0.2, 0.9, 0.1, 1.1), transform 1.2s cubic-bezier(0.2, 0.9, 0.1, 1.1);
+      will-change: opacity, transform;
+      filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.4));
     }
 
     .image-wrapper.visible {
       opacity: 1;
-      transform: translateY(0);
+      transform: translateY(0) scale(1);
     }
 
     .press-page {
       display: block;
       width: 100%;
       height: auto;
+      pointer-events: auto;
     }
 
-    /* ---------- NAVBAR STICKY ---------- */
-    .main-nav {
-      position: sticky;
-      top: 0;
-      z-index: 10;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 14px 6vw;
-      background: linear-gradient(to bottom, rgba(3, 5, 14, 0.95), transparent);
-      transition: background 0.3s, backdrop-filter 0.3s;
-    }
-
-    .main-nav.scrolled {
-      background: rgba(3, 5, 14, 0.9);
-      backdrop-filter: blur(12px);
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-    }
-
-    .nav-logo {
-      font-family: "Black Ops One", monospace;
-      font-size: 1.5rem;
-      color: #3A7EFF;
-      letter-spacing: 0.12em;
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 2rem;
-    }
-
-    .nav-links a {
-      color: white;
-      text-decoration: none;
-      text-transform: uppercase;
-      letter-spacing: 0.16em;
-      font-size: 0.9rem;
-      transition: color 0.2s;
-      position: relative;
-    }
-
-    .nav-links a:hover {
-      color: #3A7EFF;
-    }
-
-    @media (max-width: 700px) {
-      .nav-links {
-        gap: 1rem;
-      }
-      .nav-links a {
-        font-size: 0.7rem;
-      }
-      .nav-logo {
-        font-size: 1.2rem;
-      }
-    }
-
-    /* ---------- CONTENEDOR DE HOTSPOTS (posicionado encima de la imagen) ---------- */
+    /* ---------- HOTSPOTS PREMIUM (sobre page3) ---------- */
     #hotspotsContainer {
       position: absolute;
       top: 0;
@@ -132,552 +81,454 @@
       position: absolute;
       pointer-events: auto;
       cursor: pointer;
-      border-radius: 12px;
-      transition: all 0.2s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+      border-radius: 20px;
+      transition: all 0.35s cubic-bezier(0.2, 0.9, 0.4, 1.2);
       z-index: 5;
+      backdrop-filter: blur(2px);
+    }
+
+    /* Efecto de onda al hacer hover */
+    .hotspot::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0%;
+      height: 0%;
+      background: radial-gradient(circle, rgba(58,126,255,0.5) 0%, rgba(255,45,120,0) 80%);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      transition: width 0.4s ease-out, height 0.4s ease-out;
+      z-index: -1;
+    }
+
+    .hotspot:hover::before {
+      width: 180%;
+      height: 180%;
+    }
+
+    .hotspot:hover {
+      background-color: rgba(58, 126, 255, 0.15);
+      box-shadow: 0 0 28px rgba(58, 126, 255, 0.8), inset 0 0 12px rgba(255,255,255,0.2);
+      transform: scale(1.08);
+      border: 1px solid rgba(255,45,120,0.6);
     }
 
     .hotspot-tooltip {
       position: absolute;
-      bottom: 110%;
+      bottom: 120%;
       left: 50%;
-      transform: translateX(-50%);
-      padding: 5px 12px;
-      background: rgba(3, 5, 14, 0.95);
-      backdrop-filter: blur(8px);
+      transform: translateX(-50%) translateY(8px);
+      padding: 6px 14px;
+      background: rgba(3, 5, 14, 0.85);
+      backdrop-filter: blur(16px);
       color: white;
       font-size: 0.7rem;
-      font-weight: 600;
+      font-weight: 500;
       border-radius: 60px;
       white-space: nowrap;
-      border: 1px solid #3A7EFF;
-      box-shadow: 0 0 12px rgba(58, 126, 255, 0.6);
-      letter-spacing: 0.08em;
+      border: 1px solid rgba(58,126,255,0.5);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+      letter-spacing: 0.1em;
       text-transform: uppercase;
       opacity: 0;
-      transition: opacity 0.2s, transform 0.2s;
+      transition: opacity 0.25s ease, transform 0.25s ease;
       pointer-events: none;
-      font-family: "Barlow Condensed", sans-serif;
+      font-family: "Inter", sans-serif;
       z-index: 10;
-    }
-
-    .hotspot:hover {
-      background-color: rgba(58, 126, 255, 0.25);
-      box-shadow: 0 0 20px rgba(58, 126, 255, 0.9), inset 0 0 8px rgba(255, 255, 255, 0.3);
-      transform: scale(1.05);
-      border: 1px solid #FF2D78;
     }
 
     .hotspot:hover .hotspot-tooltip {
       opacity: 1;
-      transform: translateX(-50%) translateY(-4px);
+      transform: translateX(-50%) translateY(0);
     }
 
-    /* ---------- SECCIÓN CONTACTO ---------- */
-    .contact-section {
-      background: #020309;
-      padding: 64px 8vw;
-      border-top: 1px solid rgba(255, 255, 255, 0.08);
-      text-align: center;
-    }
-
-    .contact-title {
-      font-family: "Black Ops One", monospace;
-      font-size: clamp(2rem, 6vw, 3rem);
-      margin-bottom: 32px;
-    }
-
-    .contact-buttons {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 16px;
-      margin-bottom: 48px;
-    }
-
-    .contact-btn {
-      padding: 10px 26px;
-      border: 1px solid #3A7EFF;
-      border-radius: 60px;
-      background: rgba(58, 126, 255, 0.1);
-      color: white;
-      text-decoration: none;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      font-weight: 600;
-      transition: 0.2s;
-      backdrop-filter: blur(4px);
-    }
-
-    .contact-btn:hover {
-      background: #FF2D78;
-      border-color: #FF2D78;
-      transform: translateY(-2px);
-      box-shadow: 0 0 12px rgba(255, 45, 120, 0.6);
-    }
-
-    .contact-stats {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 40px;
-      margin-top: 20px;
-    }
-
-    .stat-item {
-      text-align: center;
-      min-width: 100px;
-    }
-
-    .stat-number {
-      font-family: "Black Ops One", monospace;
-      font-size: 2.2rem;
-      color: #3A7EFF;
-    }
-
-    .stat-label {
-      font-size: 0.85rem;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      opacity: 0.8;
-    }
-
-    /* ---------- BOTÓN FLOTANTE WHATSAPP ---------- */
-    .floating-rider-btn {
+    /* ---------- BOTÓN FLOTANTE DAM DAM (premium, sin texto feo) ---------- */
+    .floating-brand {
       position: fixed;
-      bottom: 24px;
-      right: 24px;
-      background: rgba(58, 126, 255, 0.9);
-      backdrop-filter: blur(10px);
-      padding: 10px 20px;
-      border-radius: 60px;
-      color: white;
-      text-decoration: none;
-      font-weight: bold;
-      z-index: 15;
-      box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
-      transition: 0.2s;
+      bottom: 28px;
+      right: 28px;
+      width: 56px;
+      height: 56px;
+      background: radial-gradient(circle at 30% 20%, #1a1f2e, #03050E);
+      backdrop-filter: blur(12px);
+      border-radius: 50%;
       display: flex;
       align-items: center;
-      gap: 8px;
-      font-size: 0.85rem;
+      justify-content: center;
+      z-index: 20;
+      cursor: pointer;
+      box-shadow: 0 0 20px rgba(58,126,255,0.3), 0 8px 20px rgba(0,0,0,0.4);
+      transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.2);
+      border: 1px solid rgba(58,126,255,0.5);
+      text-decoration: none;
     }
 
-    .floating-rider-btn:hover {
-      background: #FF2D78;
-      transform: translateY(-3px);
+    .floating-brand:hover {
+      transform: scale(1.1) rotate(5deg);
+      box-shadow: 0 0 32px rgba(58,126,255,0.8);
+      border-color: #FF2D78;
     }
 
-    /* ---------- LOADER ---------- */
+    .floating-brand span {
+      font-family: "Black Ops One", monospace;
+      font-size: 1.2rem;
+      color: #3A7EFF;
+      text-shadow: 0 0 6px #3A7EFF;
+      transition: all 0.2s;
+    }
+
+    .floating-brand:hover span {
+      color: #FF2D78;
+      text-shadow: 0 0 10px #FF2D78;
+    }
+
+    /* Tooltip del botón flotante */
+    .floating-brand::after {
+      content: "DAM DAM";
+      position: absolute;
+      right: 70px;
+      white-space: nowrap;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(8px);
+      padding: 4px 12px;
+      border-radius: 60px;
+      font-size: 0.7rem;
+      font-family: "Inter", sans-serif;
+      letter-spacing: 0.1em;
+      color: white;
+      opacity: 0;
+      transition: opacity 0.2s;
+      pointer-events: none;
+      border: 1px solid #3A7EFF;
+    }
+
+    .floating-brand:hover::after {
+      opacity: 1;
+    }
+
+    /* ---------- LOADER MÁS PREMIUM ---------- */
     .loader-overlay {
       position: fixed;
       inset: 0;
-      background: radial-gradient(circle at top, #050a1a, #000000);
+      background: radial-gradient(circle at center, #03050E, #000000);
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      z-index: 100;
-      transition: opacity 0.5s, visibility 0.5s;
+      z-index: 200;
+      transition: opacity 0.8s cubic-bezier(0.2, 0.9, 0.1, 1), visibility 0.8s;
     }
-
     .loader-overlay.hidden {
       opacity: 0;
       visibility: hidden;
     }
-
     .loader-title {
       font-family: "Black Ops One", monospace;
-      font-size: clamp(2rem, 7vw, 3.5rem);
-      color: #3A7EFF;
-      text-shadow: 0 0 15px #3A7EFF;
-      animation: pulse 1s infinite alternate;
+      font-size: clamp(2.5rem, 8vw, 4rem);
+      background: linear-gradient(135deg, #3A7EFF, #FF2D78);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      animation: pulseGlow 1.2s infinite alternate;
+      letter-spacing: 0.2em;
     }
-
-    @keyframes pulse {
-      0% { transform: scale(1); text-shadow: 0 0 5px #3A7EFF; }
-      100% { transform: scale(1.05); text-shadow: 0 0 20px #3A7EFF; }
+    @keyframes pulseGlow {
+      0% { text-shadow: 0 0 0px rgba(58,126,255,0); transform: scale(1); }
+      100% { text-shadow: 0 0 20px rgba(58,126,255,0.6); transform: scale(1.03); }
     }
-
     .loader-bar-wrapper {
-      width: 260px;
-      height: 4px;
-      background: #222;
-      border-radius: 4px;
-      margin-top: 20px;
+      width: 220px;
+      height: 2px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 2px;
+      margin-top: 24px;
       overflow: hidden;
     }
-
     .loader-bar {
-      width: 100%;
+      width: 0%;
       height: 100%;
       background: linear-gradient(90deg, #3A7EFF, #FF2D78);
-      animation: load 2.4s ease-out forwards;
+      animation: loaderProgress 2.2s ease-out forwards;
     }
-
-    @keyframes load {
+    @keyframes loaderProgress {
       0% { width: 0%; }
       100% { width: 100%; }
     }
 
-    /* ---------- CURSOR PERSONALIZADO (solo escritorio) ---------- */
-    .cursor-dot, .cursor-ring {
-      display: none;
+    /* Pequeño mensaje de carga */
+    .loader-sub {
+      margin-top: 18px;
+      font-size: 0.7rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
     }
 
-    @media (min-width: 768px) {
-      .cursor-dot, .cursor-ring {
-        display: block;
-        position: fixed;
-        pointer-events: none;
-        z-index: 9999;
-        border-radius: 50%;
-        transform: translate(-50%, -50%);
+    /* Ajustes para móvil: hotspots más tolerantes */
+    @media (max-width: 768px) {
+      .hotspot {
+        border-radius: 16px;
       }
-      .cursor-dot {
-        width: 6px;
-        height: 6px;
-        background: #3A7EFF;
-        box-shadow: 0 0 6px #3A7EFF;
+      .hotspot-tooltip {
+        font-size: 0.6rem;
+        padding: 4px 10px;
       }
-      .cursor-ring {
-        width: 32px;
-        height: 32px;
-        border: 2px solid #3A7EFF;
-        transition: width 0.1s, height 0.1s, border-color 0.2s;
+      .floating-brand {
+        width: 48px;
+        height: 48px;
+        bottom: 20px;
+        right: 20px;
       }
-      body.custom-cursor {
-        cursor: none;
+      .floating-brand span {
+        font-size: 1rem;
       }
-    }
-
-    /* anclas para offset del navbar */
-    .anchor-target {
-      scroll-margin-top: 70px;
     }
   </style>
 </head>
 <body>
+
   <canvas id="lightning-canvas"></canvas>
 
-  <!-- LOADER -->
+  <!-- LOADER ELEGANTE -->
   <div class="loader-overlay" id="loader">
     <div class="loader-title">DAM DAM</div>
     <div class="loader-bar-wrapper"><div class="loader-bar"></div></div>
-    <div style="margin-top: 16px; letter-spacing: 0.2em;">Cargando experiencia eléctrica</div>
+    <div class="loader-sub">electro experiencia</div>
   </div>
 
-  <!-- CURSORES -->
-  <div class="cursor-dot" id="cursorDot"></div>
-  <div class="cursor-ring" id="cursorRing"></div>
-
   <div class="page-wrapper">
-    <!-- NAVBAR -->
-    <nav class="main-nav" id="navbar">
-      <div class="nav-logo">DAM DAM</div>
-      <div class="nav-links">
-        <a href="#bio">Bio</a>
-        <a href="#rider">Rider</a>
-        <a href="#shows">Shows</a>
-        <a href="#contact">Contacto</a>
-      </div>
-    </nav>
-
-    <!-- PÁGINA 1 (BIO) -->
-    <section id="bio" class="anchor-target">
+    <!-- Todas las imágenes, sin navbar ni footer -->
+    <section>
       <div class="image-wrapper">
-        <img src="page1.png" alt="DAM DAM - Página 1" class="press-page" loading="lazy" />
+        <img src="page1.png" alt="DAM DAM" class="press-page" loading="lazy" />
       </div>
     </section>
 
-    <!-- PÁGINA 2 (RIDER) -->
-    <section id="rider" class="anchor-target">
+    <section>
       <div class="image-wrapper">
-        <img src="page2.png" alt="DAM DAM - Página 2" class="press-page" loading="lazy" />
+        <img src="page2.png" alt="DAM DAM" class="press-page" loading="lazy" />
       </div>
     </section>
 
-    <!-- PÁGINA 3 (SHOWS) CON HOTSPOTS ANIMADOS -->
-    <section id="shows" class="anchor-target">
+    <!-- Sección con hotspots (page3) -->
+    <section style="position: relative;">
       <div class="image-wrapper" style="position: relative;">
         <img src="page3.png" alt="Shows y redes" class="press-page" id="socialImage" style="width:100%; height:auto; display:block;" />
         <div id="hotspotsContainer"></div>
       </div>
     </section>
 
-    <!-- PÁGINA 4 -->
     <section>
       <div class="image-wrapper">
-        <img src="page4.png" alt="DAM DAM - Página 4" class="press-page" loading="lazy" />
-      </div>
-    </section>
-
-    <!-- SECCIÓN CONTACTO -->
-    <section id="contact" class="contact-section anchor-target">
-      <h2 class="contact-title">¿Quieres a DAM DAM en tu evento?</h2>
-      <div class="contact-buttons">
-        <!-- CAMBIAR: email real -->
-        <a href="mailto:contacto@damdam.com?subject=Booking%20DAM%20DAM" class="contact-btn">Email</a>
-        <!-- CAMBIAR: número de WhatsApp (código país sin +) -->
-        <a href="https://wa.me/34666666666?text=Hola%20DAM%20DAM%2C%20me%20gustaría%20contrataros" target="_blank" class="contact-btn">WhatsApp</a>
-        <!-- CAMBIAR: Instagram principal -->
-        <a href="https://instagram.com/damdamoficial" target="_blank" class="contact-btn">Instagram</a>
-      </div>
-      <div class="contact-stats">
-        <div class="stat-item">
-          <div class="stat-number" data-target="250000">0</div>
-          <div class="stat-label">+ oyentes</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-number" data-target="50000">0</div>
-          <div class="stat-label">Flow Fest</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-number" data-target="30">0</div>
-          <div class="stat-label">ciudades</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-number" data-target="8">0</div>
-          <div class="stat-label">festivales</div>
-        </div>
+        <img src="page4.png" alt="DAM DAM" class="press-page" loading="lazy" />
       </div>
     </section>
   </div>
 
-  <!-- BOTÓN FLOTANTE WHATSAPP (cambiar número) -->
-  <a href="https://wa.me/34666666666?text=Hola%20DAM%20DAM%2C%20quiero%20más%20info" class="floating-rider-btn" target="_blank">
-    ⚡ WhatsApp DAM DAM
+  <!-- Botón flotante con identidad DAM DAM (sin texto feo) -->
+  <a href="https://wa.me/34666666666?text=Hola%20DAM%20DAM" class="floating-brand" target="_blank" rel="noopener noreferrer">
+    <span>⚡</span>
   </a>
 
   <script>
-    // ----------------------------- 1. LOADER -----------------------------
-    setTimeout(() => {
-      const loader = document.getElementById('loader');
-      if (loader) loader.classList.add('hidden');
-    }, 2800);
+    (function() {
+      // ----------------------------- LOADER -----------------------------
+      setTimeout(() => {
+        const loader = document.getElementById('loader');
+        if (loader) loader.classList.add('hidden');
+      }, 2600);
 
-    // ----------------------------- 2. FADE IN IMÁGENES -----------------------------
-    const imageWrappers = document.querySelectorAll('.image-wrapper');
-    const fadeObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          fadeObserver.unobserve(entry.target);
-        }
+      // ----------------------------- FADE IN CREMOSO -----------------------------
+      const wrappers = document.querySelectorAll('.image-wrapper');
+      const fadeObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            fadeObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.2, rootMargin: "0px 0px -20px 0px" });
+      wrappers.forEach(w => fadeObserver.observe(w));
+
+      // ----------------------------- HOTSPOTS PREMIUM (page3) -----------------------------
+      // Dimensiones reales de page3.png: 1700x2200
+      const ORIG_W = 1700;
+      const ORIG_H = 2200;
+
+      // Coordenadas originales (x, y, ancho, alto) - AJUSTAR SEGÚN TU DISEÑO
+      // Son valores de ejemplo, basados en tu posición anterior. Cámbialos si es necesario.
+      const hotspotsData = [
+        { x: 605, y: 1860, w: 52, h: 52, name: "Instagram", url: "https://instagram.com/damdam" },
+        { x: 685, y: 1860, w: 52, h: 52, name: "TikTok", url: "https://tiktok.com/@damdam" },
+        { x: 765, y: 1860, w: 52, h: 52, name: "YouTube", url: "https://youtube.com/@damdam" },
+        { x: 845, y: 1860, w: 52, h: 52, name: "Spotify", url: "https://open.spotify.com/artist/damdam" },
+        { x: 925, y: 1860, w: 52, h: 52, name: "SoundCloud", url: "https://soundcloud.com/damdam" },
+        { x: 1005, y: 1860, w: 52, h: 52, name: "X", url: "https://x.com/damdam" },
+        { x: 1085, y: 1860, w: 52, h: 52, name: "Facebook", url: "https://facebook.com/damdam" }
+      ];
+
+      function buildHotspots() {
+        const container = document.getElementById('hotspotsContainer');
+        if (!container) return;
+        container.innerHTML = '';
+        const img = document.getElementById('socialImage');
+        if (!img) return;
+        const currentW = img.clientWidth;
+        const currentH = img.clientHeight;
+        const scaleX = currentW / ORIG_W;
+        const scaleY = currentH / ORIG_H;
+
+        hotspotsData.forEach(data => {
+          const left = data.x * scaleX;
+          const top = data.y * scaleY;
+          const width = data.w * scaleX;
+          const height = data.h * scaleY;
+
+          const hotspot = document.createElement('div');
+          hotspot.className = 'hotspot';
+          hotspot.style.left = `${left}px`;
+          hotspot.style.top = `${top}px`;
+          hotspot.style.width = `${width}px`;
+          hotspot.style.height = `${height}px`;
+
+          const tooltip = document.createElement('span');
+          tooltip.className = 'hotspot-tooltip';
+          tooltip.textContent = data.name;
+          hotspot.appendChild(tooltip);
+
+          hotspot.addEventListener('click', (e) => {
+            e.stopPropagation();
+            window.open(data.url, '_blank');
+          });
+
+          container.appendChild(hotspot);
+        });
+      }
+
+      window.addEventListener('load', () => { buildHotspots(); });
+      window.addEventListener('resize', () => { buildHotspots(); });
+
+      // ----------------------------- RELÁMPAGOS VIVOS (con interacción al ratón) -----------------------------
+      const canvas = document.getElementById('lightning-canvas');
+      const ctx = canvas.getContext('2d');
+      let width = window.innerWidth, height = window.innerHeight;
+      let mouseX = width / 2, mouseY = height / 2;
+
+      window.addEventListener('resize', () => {
+        width = window.innerWidth;
+        height = window.innerHeight;
+        canvas.width = width;
+        canvas.height = height;
       });
-    }, { threshold: 0.2 });
-    imageWrappers.forEach(wrapper => fadeObserver.observe(wrapper));
-
-    // ----------------------------- 3. NAVBAR SCROLL -----------------------------
-    const navBar = document.getElementById('navbar');
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 50) navBar.classList.add('scrolled');
-      else navBar.classList.remove('scrolled');
-    });
-
-    // ----------------------------- 4. CURSOR PERSONALIZADO -----------------------------
-    if (window.innerWidth >= 768) {
-      document.body.classList.add('custom-cursor');
-      const dot = document.getElementById('cursorDot');
-      const ring = document.getElementById('cursorRing');
-      let mouseX = 0, mouseY = 0, ringX = 0, ringY = 0;
-
       window.addEventListener('mousemove', (e) => {
         mouseX = e.clientX;
         mouseY = e.clientY;
-        dot.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
       });
 
-      function animateRing() {
-        ringX += (mouseX - ringX) * 0.2;
-        ringY += (mouseY - ringY) * 0.2;
-        ring.style.transform = `translate(${ringX}px, ${ringY}px)`;
-        requestAnimationFrame(animateRing);
+      function resizeCanvas() {
+        width = window.innerWidth;
+        height = window.innerHeight;
+        canvas.width = width;
+        canvas.height = height;
       }
-      animateRing();
+      resizeCanvas();
 
-      const interactive = document.querySelectorAll('a, button, .contact-btn, .floating-rider-btn, .hotspot');
-      interactive.forEach(el => {
-        el.addEventListener('mouseenter', () => {
-          ring.style.borderColor = '#FF2D78';
-          ring.style.width = '44px';
-          ring.style.height = '44px';
-        });
-        el.addEventListener('mouseleave', () => {
-          ring.style.borderColor = '#3A7EFF';
-          ring.style.width = '32px';
-          ring.style.height = '32px';
-        });
-      });
-    }
+      let lastStrike = 0;
+      let lightningActive = false;
 
-    // ----------------------------- 5. CONTADORES -----------------------------
-    const counters = document.querySelectorAll('.stat-number');
-    let countersStarted = false;
+      function drawLightningBolt(withMouse = true) {
+        // Desvanecer sutilmente
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.06)';
+        ctx.fillRect(0, 0, width, height);
 
-    function startCounters() {
-      if (countersStarted) return;
-      countersStarted = true;
-      counters.forEach(counter => {
-        const target = parseInt(counter.getAttribute('data-target'), 10);
-        let current = 0;
-        const increment = target / 45;
-        const updateCounter = () => {
-          current += increment;
-          if (current >= target) {
-            counter.innerText = target;
-            return;
-          }
-          counter.innerText = Math.floor(current);
-          requestAnimationFrame(updateCounter);
-        };
-        requestAnimationFrame(updateCounter);
-      });
-    }
+        // El rayo principal se dirige ligeramente hacia el mouse
+        let targetX = mouseX;
+        let targetY = mouseY * 0.6 + 50; // para que no baje demasiado
+        if (!withMouse) {
+          targetX = width * (0.3 + Math.random() * 0.4);
+          targetY = height * (0.3 + Math.random() * 0.4);
+        }
 
-    const contactSection = document.getElementById('contact');
-    const contactObserver = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting) {
-        startCounters();
-        contactObserver.disconnect();
-      }
-    }, { threshold: 0.3 });
-    contactObserver.observe(contactSection);
+        let startX = Math.random() * width;
+        let startY = -20;
+        let segments = [];
+        let x = startX, y = startY;
+        let step = 22;
+        let maxSteps = 18;
+        let steps = 0;
 
-    // ----------------------------- 6. HOTSPOTS RESPONSIVOS CON EFECTOS -----------------------------
-    // DIMENSIONES REALES de page3.png: 1700 x 2200
-    const ORIGINAL_IMG_W = 1700;
-    const ORIGINAL_IMG_H = 2200;
+        while (y < targetY && steps < maxSteps) {
+          let nextX = x + (targetX - x) * 0.15 + (Math.random() - 0.5) * 48;
+          let nextY = y + step + Math.random() * 18;
+          segments.push({ x1: x, y1: y, x2: nextX, y2: nextY });
+          x = nextX;
+          y = nextY;
+          steps++;
+        }
 
-    // Coordenadas originales (x, y, ancho, alto) sobre la imagen de 1700x2200
-    // Ajusta estos valores si los iconos no quedan exactamente alineados
-    const hotspotsData = [
-      { x: 605, y: 1860, w: 50, h: 50, name: "Instagram", url: "https://instagram.com/tuusuario" },      // <--- CAMBIAR
-      { x: 685, y: 1860, w: 50, h: 50, name: "TikTok", url: "https://tiktok.com/@tuusuario" },          // <--- CAMBIAR
-      { x: 765, y: 1860, w: 50, h: 50, name: "YouTube", url: "https://youtube.com/@tuusuario" },        // <--- CAMBIAR
-      { x: 845, y: 1860, w: 50, h: 50, name: "Spotify", url: "https://open.spotify.com/artist/tuid" },   // <--- CAMBIAR
-      { x: 925, y: 1860, w: 50, h: 50, name: "SoundCloud", url: "https://soundcloud.com/tuusuario" },   // <--- CAMBIAR
-      { x: 1005, y: 1860, w: 50, h: 50, name: "X / Twitter", url: "https://x.com/tuusuario" },          // <--- CAMBIAR
-      { x: 1085, y: 1860, w: 50, h: 50, name: "Facebook", url: "https://facebook.com/tuusuario" }       // <--- CAMBIAR
-    ];
-
-    function createHotspots() {
-      const container = document.getElementById('hotspotsContainer');
-      if (!container) return;
-      container.innerHTML = '';
-      
-      const img = document.getElementById('socialImage');
-      if (!img) return;
-      
-      const currentW = img.clientWidth;
-      const currentH = img.clientHeight;
-      const scaleX = currentW / ORIGINAL_IMG_W;
-      const scaleY = currentH / ORIGINAL_IMG_H;
-      
-      hotspotsData.forEach(data => {
-        const left = data.x * scaleX;
-        const top = data.y * scaleY;
-        const width = data.w * scaleX;
-        const height = data.h * scaleY;
-        
-        const hotspot = document.createElement('div');
-        hotspot.className = 'hotspot';
-        hotspot.style.left = `${left}px`;
-        hotspot.style.top = `${top}px`;
-        hotspot.style.width = `${width}px`;
-        hotspot.style.height = `${height}px`;
-        
-        // Tooltip
-        const tooltip = document.createElement('span');
-        tooltip.className = 'hotspot-tooltip';
-        tooltip.textContent = data.name;
-        hotspot.appendChild(tooltip);
-        
-        // Evento click
-        hotspot.addEventListener('click', (e) => {
-          e.stopPropagation();
-          window.open(data.url, '_blank');
-        });
-        
-        container.appendChild(hotspot);
-      });
-    }
-
-    window.addEventListener('load', () => {
-      createHotspots();
-    });
-    window.addEventListener('resize', () => {
-      createHotspots();
-    });
-
-    // ----------------------------- 7. RELÁMPAGOS -----------------------------
-    const canvas = document.getElementById('lightning-canvas');
-    const ctx = canvas.getContext('2d');
-    let cw = window.innerWidth, ch = window.innerHeight;
-
-    function resizeCanvas() {
-      cw = window.innerWidth;
-      ch = window.innerHeight;
-      canvas.width = cw;
-      canvas.height = ch;
-    }
-    resizeCanvas();
-    window.addEventListener('resize', resizeCanvas);
-
-    let lastLightning = 0;
-    function drawLightning() {
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.08)';
-      ctx.fillRect(0, 0, cw, ch);
-      
-      const startX = Math.random() * cw;
-      let x = startX, y = -20;
-      const segments = [];
-      const maxY = ch * 0.55;
-      while (y < maxY && segments.length < 15) {
-        const nextX = x + (Math.random() - 0.5) * 55;
-        const nextY = y + 22 + Math.random() * 18;
-        segments.push({ x1: x, y1: y, x2: nextX, y2: nextY });
-        x = nextX;
-        y = nextY;
-      }
-      
-      ctx.beginPath();
-      ctx.strokeStyle = '#3A7EFF';
-      ctx.lineWidth = 2.2;
-      ctx.shadowBlur = 18;
-      ctx.shadowColor = '#3A7EFF';
-      for (let seg of segments) {
-        ctx.moveTo(seg.x1, seg.y1);
-        ctx.lineTo(seg.x2, seg.y2);
-      }
-      ctx.stroke();
-      
-      // Rama secundaria
-      if (segments.length > 2) {
-        const branchSeg = segments[Math.floor(Math.random() * segments.length)];
-        let bx = branchSeg.x2, by = branchSeg.y2;
+        ctx.save();
+        ctx.globalCompositeOperation = 'lighter';
+        ctx.shadowBlur = 24;
+        ctx.shadowColor = '#3A7EFF';
         ctx.beginPath();
-        ctx.moveTo(bx, by);
-        const branchEndX = bx + (Math.random() - 0.5) * 45;
-        const branchEndY = by + 28 + Math.random() * 20;
-        ctx.lineTo(branchEndX, branchEndY);
-        ctx.strokeStyle = '#7BAEFF';
-        ctx.lineWidth = 1.4;
+        ctx.strokeStyle = '#3A7EFF';
+        ctx.lineWidth = 2.6;
+        for (let seg of segments) {
+          ctx.moveTo(seg.x1, seg.y1);
+          ctx.lineTo(seg.x2, seg.y2);
+        }
         ctx.stroke();
+
+        // Detalle extra: ramificaciones
+        for (let i = 0; i < 3; i++) {
+          let seg = segments[Math.floor(Math.random() * segments.length)];
+          if (!seg) continue;
+          ctx.beginPath();
+          ctx.moveTo(seg.x2, seg.y2);
+          let branchX = seg.x2 + (Math.random() - 0.5) * 60;
+          let branchY = seg.y2 + 25 + Math.random() * 35;
+          ctx.lineTo(branchX, branchY);
+          ctx.strokeStyle = '#7BAEFF';
+          ctx.lineWidth = 1.5;
+          ctx.stroke();
+        }
+
+        // Chispas (partículas)
+        for (let i = 0; i < 35; i++) {
+          let seg = segments[Math.floor(Math.random() * segments.length)];
+          let t = Math.random();
+          let px = seg.x1 + (seg.x2 - seg.x1) * t;
+          let py = seg.y1 + (seg.y2 - seg.y1) * t;
+          let rad = 1.5 + Math.random() * 4;
+          let gradient = ctx.createRadialGradient(px, py, 0, px, py, rad * 3);
+          gradient.addColorStop(0, 'rgba(200, 220, 255, 1)');
+          gradient.addColorStop(1, 'rgba(58, 126, 255, 0)');
+          ctx.fillStyle = gradient;
+          ctx.beginPath();
+          ctx.arc(px, py, rad * 2.5, 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        ctx.restore();
       }
-      ctx.shadowBlur = 0;
-    }
-    
-    function lightningLoop(time) {
-      if (!lastLightning) lastLightning = time;
-      const elapsed = time - lastLightning;
-      if (elapsed > 1800 + Math.random() * 1500) {
-        drawLightning();
-        lastLightning = time;
+
+      function animateLightning(time) {
+        if (!lastStrike) lastStrike = time;
+        let elapsed = time - lastStrike;
+        let interval = 1600 + Math.random() * 1400;
+        if (elapsed > interval) {
+          drawLightningBolt(true);
+          lastStrike = time;
+        } else {
+          // Fundido suave del canvas para persistencia
+          ctx.fillStyle = 'rgba(0, 0, 0, 0.02)';
+          ctx.fillRect(0, 0, width, height);
+        }
+        requestAnimationFrame(animateLightning);
       }
-      requestAnimationFrame(lightningLoop);
-    }
-    requestAnimationFrame(lightningLoop);
+      requestAnimationFrame(animateLightning);
+    })();
   </script>
 </body>
 </html>

@@ -180,7 +180,7 @@
     /* ----------------------------------------------------
        CURSOR PERSONALIZADO
        ---------------------------------------------------- */
-    body.custom-cursor-active {
+    @media (min-width: 768px) { body.custom-cursor-active {
       cursor: none;
     }
 
@@ -194,7 +194,8 @@
       mix-blend-mode: screen;
     }
 
-    .cursor-dot {
+@media (min-width: 768px) {
+                               .cursor-dot {
       width: 8px;
       height: 8px;
       background: var(--primary);
@@ -218,6 +219,7 @@
       border-color: var(--accent);
       box-shadow: 0 0 26px rgba(255, 45, 120, 0.9);
     }
+  }
 
     /* ----------------------------------------------------
        LOADER FULLSCREEN
@@ -506,12 +508,12 @@
        ANCLAS
        ---------------------------------------------------- */
     .anchor-target {
-      scroll-margin-top: 90px;
+      scroll-margin-top: 20px;
     }
   </style>
 </head>
 
-<body class="custom-cursor-active">
+<body>
   <canvas id="lightning-canvas"></canvas>
 
   <div class="loader-overlay" id="loader">
@@ -526,15 +528,6 @@
   <div class="cursor-ring" id="cursorRing"></div>
 
   <div class="page-wrapper">
-    <nav class="main-nav" id="mainNav">
-      <div class="nav-logo">DAM DAM</div>
-      <div class="nav-links">
-        <a href="#bio">Bio</a>
-        <a href="#shows">Shows</a>
-        <a href="#rider">Rider</a>
-        <a href="#contact">Contacto</a>
-      </div>
-    </nav>
 
     <section class="image-section anchor-target" id="bio">
       <div class="image-wrapper">
@@ -670,30 +663,18 @@
   </div>
 
   <!-- Botón flotante al PDF EXACTO que ya tienes en el repo -->
-  <a href="DAM DAM - PRESS KIT 2026.pdf" class="floating-rider-btn" download>
-    <span class="icon">⬇</span>
-    <span>Descargar Rider PDF</span>
+    <a href="https://wa.me/34123456789?text=Hola%20DAM%20DAM%2C%20me%20gustaría%20hablar%20sobre%20un%20evento" class="floating-rider-btn" target="_blank" rel="noopener noreferrer">
+          <span class="icon">⚡</span>
+    <span>WhatsApp DAM DAM</span>
   </a>
 
   <script>
     // NAV
     (function() {
-      const nav = document.getElementById("mainNav");
-      window.addEventListener("scroll", () => {
-        if (window.scrollY > 40) nav.classList.add("scrolled");
-        else nav.classList.remove("scrolled");
-      });
-    })();
-
+      
     // FADE IN IMÁGENES
     (function() {
-      const wrappers = document.querySelectorAll(".image-wrapper");
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("visible");
-            observer.unobserve(entry.target);
-          }
+      
         });
       }, { threshold: 0.15 });
       wrappers.forEach(wrapper => observer.observe(wrapper));
@@ -719,7 +700,7 @@
       });
 
       const render = () => {
-        ringX = lerp(ringX, mouseX, 0.16);
+        ringX = lerp(ringX, mouseX, 0.25);
         ringY = lerp(ringY, mouseY, 0.16);
         ring.style.transform = `translate(${ringX - 50}%, ${ringY - 50}%)`;
         requestAnimationFrame(render);

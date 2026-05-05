@@ -465,10 +465,13 @@ body::after{
    BOTÓN CTA — YouTube
 ═══════════════════════════════════ */
 .cta-yt-wrap{
-  display:flex;
-  justify-content:flex-end;
-  padding:clamp(12px,2.5vw,28px) clamp(12px,3vw,32px);
-  background:#000;
+  position:absolute;
+  /* ── AJUSTA ESTAS DOS LÍNEAS para mover el botón ── */
+  top:5%;          /* % desde arriba de pg3 */
+  right:4%;        /* % desde la derecha de pg3 */
+  /* ─────────────────────────────────────────────── */
+  z-index:6;
+  pointer-events:auto;
 }
 .cta-yt{
   display:inline-flex;align-items:center;
@@ -513,8 +516,8 @@ body::after{
 }
 .cta-yt:hover .cta-yt-icon{background:rgba(255,32,32,.3)}
 @media(max-width:600px){
-  .cta-yt-wrap{justify-content:center}
-  .cta-yt{width:100%;justify-content:center}
+  .cta-yt-wrap{ right:50%; transform:translateX(50%); }
+  .cta-yt{ white-space:nowrap; }
 }
 </style>
 </head>
@@ -565,25 +568,7 @@ body::after{
        onerror="this.style.minHeight='80vw';this.style.background='#03050E'"/>
 </div>
 
-   <!-- ══════════════════════════════════════
-     CTA — BOTÓN YOUTUBE
-══════════════════════════════════════ -->
-<div class="cta-yt-wrap">
-  <a
-    class="cta-yt"
-    href="https://www.youtube.com/@damdamperreomx"
-    target="_blank"
-    rel="noopener noreferrer"
-    aria-label="Ver DAM DAM en YouTube"
-  >
-    <span class="cta-yt-icon">
-      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-        <path d="M3 2.5L11 7L3 11.5V2.5Z" fill="#ff2020"/>
-      </svg>
-    </span>
-    VER EN YOUTUBE
-  </a>
-</div>
+
 <!-- Separador tormenta 2 -->
 <div class="storm" id="st2">
   <canvas class="storm-cv"></canvas>
@@ -611,6 +596,24 @@ body::after{
   │ añade temporalmente: border:1px solid red  │
   └────────────────────────────────────────────┘
   -->
+  <!-- CTA YOUTUBE — superpuesto sobre pg3
+       Mueve top/right en el CSS .cta-yt-wrap para posicionarlo -->
+  <div class="cta-yt-wrap">
+    <a
+      class="cta-yt"
+      href="https://www.youtube.com/@damdamperreomx"
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="Ver DAM DAM en YouTube"
+    >
+      <span class="cta-yt-icon">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+          <path d="M3 2.5L11 7L3 11.5V2.5Z" fill="#ff2020"/>
+        </svg>
+      </span>
+      VER EN YOUTUBE
+    </a>
+  </div>
   <div class="hs-layer" id="hsLayer"></div>
 </div>
 

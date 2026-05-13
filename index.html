@@ -254,36 +254,37 @@ body::after{
 /* ═══════════════════════════════════
    BOTÓN CTA — YouTube (overlay invisible)
 ═══════════════════════════════════ */
-.cta-yt-wrap{
-  position:absolute;
-  bottom:5.2%;
-  right:3.5%;
-  z-index:7;
-  pointer-events:auto;
+.yt-player-wrap{
+  position:relative;z-index:7;
+  display:flex;align-items:center;justify-content:center;
+  width:100%;
+  padding:clamp(28px,5vw,60px) clamp(16px,6vw,80px);
+  box-sizing:border-box;
 }
-.cta-yt{
-  display:block;
-  width:clamp(160px,22vw,300px);
-  height:clamp(60px,8vw,110px);
-  text-decoration:none;
-  border-radius:6px;
-  background:transparent;
-  border:none;
-  transition:box-shadow .3s ease;
+.yt-player-shell{
+  position:relative;width:100%;max-width:780px;
+  border-radius:10px;overflow:hidden;background:#000;
+  box-shadow:0 0 0 1px rgba(58,126,255,.18),0 0 30px rgba(58,126,255,.20),0 0 70px rgba(255,45,120,.10),0 20px 60px rgba(0,0,0,.85);
+  transition:box-shadow .4s ease,transform .4s cubic-bezier(.16,1,.3,1);
 }
-.cta-yt:hover{
-  box-shadow:
-    0 0 22px rgba(255,255,255,.3),
-    0 0 50px rgba(200,220,255,.15),
-    inset 0 0 20px rgba(255,255,255,.07);
+.yt-player-shell:hover{
+  transform:scale(1.012);
+  box-shadow:0 0 0 1px rgba(58,126,255,.35),0 0 50px rgba(58,126,255,.35),0 0 100px rgba(255,45,120,.18),0 24px 80px rgba(0,0,0,.9);
 }
-@media(max-width:600px){
-  .cta-yt-wrap{right:50%;bottom:4.8%;transform:translateX(50%)}
-  .cta-yt{width:clamp(120px,42vw,200px);height:clamp(44px,12vw,70px)}
+.yt-player-shell::before{
+  content:'';position:absolute;inset:0;z-index:2;pointer-events:none;border-radius:10px;
+  background:repeating-linear-gradient(to bottom,transparent 0px,transparent 3px,rgba(0,0,0,.06) 3px,rgba(0,0,0,.06) 4px);
 }
-</style>
-</head>
-<body>
+.yt-ratio{position:relative;width:100%;padding-top:56.25%}
+.yt-ratio iframe{position:absolute;inset:0;width:100%;height:100%;border:none;display:block}
+.yt-corner{position:absolute;width:18px;height:18px;z-index:3;pointer-events:none}
+.yt-corner::before,.yt-corner::after{content:'';position:absolute;background:#3a7eff;box-shadow:0 0 8px #3a7eff}
+.yt-corner::before{width:2px;height:100%}
+.yt-corner::after{width:100%;height:2px}
+.yt-corner.tl{top:0;left:0}
+.yt-corner.tr{top:0;right:0;transform:scaleX(-1)}
+.yt-corner.bl{bottom:0;left:0;transform:scaleY(-1)}
+.yt-corner.br{bottom:0;right:0;transform:scale(-1)}
 
 <div id="cd" aria-hidden="true"></div>
 <div id="cr" aria-hidden="true"></div>
@@ -320,14 +321,24 @@ body::after{
   <div class="hs-layer" id="hsLayer"></div>
 
   <!-- CTA YouTube rediseñado -->
-  <div class="cta-yt-wrap">
-    <a class="cta-yt"
-       href="https://www.youtube.com/watch?v=7Q6ZKKv2E2k"
-       target="_blank"
-       rel="noopener noreferrer"
-       aria-label="Ver DAM DAM DJ Set en YouTube"></a>
+ <!-- VIDEO PLAYER -->
+  <div class="yt-player-wrap">
+    <div class="yt-player-shell">
+      <span class="yt-corner tl"></span>
+      <span class="yt-corner tr"></span>
+      <span class="yt-corner bl"></span>
+      <span class="yt-corner br"></span>
+      <div class="yt-ratio">
+        <iframe
+          src="https://www.youtube.com/embed/7Q6ZKKv2E2k?rel=0&modestbranding=1&color=white&iv_load_policy=3"
+          title="DAM DAM DJ Set"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen
+          loading="lazy">
+        </iframe>
+      </div>
+    </div>
   </div>
-</div>
 
 <div class="storm" id="st3">
   <canvas class="storm-cv"></canvas>

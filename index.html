@@ -92,7 +92,7 @@ body{cursor:none}
   100%{transform:translateY(-100px) translateX(20px);opacity:0}
 }
 
-/* PAGE SECTIONS */
+/* PAGE SECTIONS - OPTIMIZADO PARA MÓVIL */
 .page-section{
   position:relative;
   width:100%;
@@ -108,13 +108,25 @@ body{cursor:none}
   display:block;
 }
 
-/* TRANSITION SPACES WITH MORE ELECTRICITY */
+/* MÓVIL: SECCIONES SE AJUSTAN AL CONTENIDO */
+@media(max-width:768px){
+  .page-section{
+    min-height:auto;
+  }
+}
+
+/* TRANSITION SPACES WITH MORE ELECTRICITY - REDUCIDOS EN MÓVIL */
 .transition-space{
   position:relative;
   width:100%;
   height:80px;
   background:#000;
   overflow:hidden;
+}
+@media(max-width:768px){
+  .transition-space{
+    height:40px;
+  }
 }
 .transition-lightning{
   position:absolute;
@@ -140,7 +152,7 @@ body{cursor:none}
   50%{opacity:0.7}
 }
 
-/* YOUTUBE SLIDER - RESPONSIVE */
+/* YOUTUBE SLIDER - RESPONSIVE Y OPTIMIZADO EN MÓVIL */
 #yt-section{
   position:relative;
   width:100%;
@@ -151,6 +163,12 @@ body{cursor:none}
   justify-content:center;
   padding:60px 20px;
   overflow:hidden;
+}
+@media(max-width:768px){
+  #yt-section{
+    min-height:auto;
+    padding:40px 15px;
+  }
 }
 #yt-section::before{
   content:'';
@@ -239,6 +257,12 @@ body{cursor:none}
   gap:12px;
   margin-top:30px;
 }
+@media(max-width:768px){
+  .yt-dots{
+    margin-top:20px;
+    gap:10px;
+  }
+}
 .yt-dot{
   width:12px;height:12px;
   border-radius:50%;
@@ -276,33 +300,47 @@ body{cursor:none}
   transform:scale(1.15);
 }
 
-/* WHATSAPP BUTTON WITH LOGO */
+/* WHATSAPP BUTTON WITH LOGO - MEJORADO */
 #wa{
   position:fixed;
   bottom:30px;right:30px;
   z-index:7980;
-  background:linear-gradient(135deg,rgba(0,180,100,0.9),rgba(0,220,130,0.9));
-  border:2px solid rgba(0,255,150,0.6);
+  background:rgba(0,0,0,0.75);
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+  border:2px solid rgba(0,180,255,0.4);
   border-radius:50px;
-  padding:12px 22px;
+  padding:14px 26px;
   display:flex;
   align-items:center;
-  gap:10px;
+  gap:12px;
   cursor:pointer;
-  transition:all 0.3s ease;
+  transition:all 0.4s ease;
   text-decoration:none;
-  box-shadow:0 4px 25px rgba(0,220,130,0.5);
+  box-shadow:0 4px 30px rgba(0,180,255,0.3), 0 0 60px rgba(0,180,255,0.1);
+  animation:bookingPulse 3s ease-in-out infinite;
+}
+@keyframes bookingPulse{
+  0%,100%{box-shadow:0 4px 30px rgba(0,180,255,0.3), 0 0 60px rgba(0,180,255,0.1)}
+  50%{box-shadow:0 4px 40px rgba(0,180,255,0.5), 0 0 80px rgba(0,180,255,0.2)}
 }
 #wa:hover{
   transform:translateY(-4px);
-  box-shadow:0 8px 40px rgba(0,220,130,0.7);
-  border-color:rgba(0,255,150,1);
+  background:rgba(0,0,0,0.85);
+  border-color:rgba(0,180,255,0.8);
+  box-shadow:0 8px 50px rgba(0,180,255,0.5), 0 0 90px rgba(0,180,255,0.3);
+  animation:none;
 }
 #wa-icon{
-  width:28px;height:28px;
+  width:38px;height:38px;
   border-radius:50%;
   overflow:hidden;
-  background:rgba(255,255,255,0.1);
+  background:transparent;
+  animation:logoGlow 2s ease-in-out infinite;
+}
+@keyframes logoGlow{
+  0%,100%{filter:drop-shadow(0 0 6px rgba(0,180,255,0.6)) drop-shadow(0 0 12px rgba(0,180,255,0.3))}
+  50%{filter:drop-shadow(0 0 12px rgba(0,180,255,0.9)) drop-shadow(0 0 24px rgba(0,180,255,0.5))}
 }
 #wa-icon img{
   width:100%;height:100%;
@@ -311,11 +349,26 @@ body{cursor:none}
 #wa-text{
   color:#fff;
   font-family:'Black Ops One',system-ui;
-  font-size:13px;
-  letter-spacing:1px;
+  font-size:15px;
+  letter-spacing:2px;
+  text-shadow:0 0 10px rgba(0,180,255,0.6);
+}
+@media(min-width:1024px){
+  #wa{padding:16px 30px}
+  #wa-icon{width:44px;height:44px}
+  #wa-text{font-size:16px}
+}
+@media(max-width:768px){
+  #wa{
+    bottom:20px;right:20px;
+    padding:12px 20px;
+    gap:8px;
+  }
+  #wa-icon{width:32px;height:32px}
+  #wa-text{font-size:13px}
 }
 
-/* FOOTER WITH ELECTRIC EFFECTS */
+/* FOOTER WITH ELECTRIC EFFECTS - REDUCIDO EN MÓVIL */
 #footer{
   width:100%;
   height:250px;
@@ -326,6 +379,11 @@ body{cursor:none}
   position:relative;
   overflow:hidden;
 }
+@media(max-width:768px){
+  #footer{
+    height:150px;
+  }
+}
 #footer::before{
   content:'';
   position:absolute;
@@ -335,13 +393,29 @@ body{cursor:none}
   animation:glowPulse 5s ease-in-out infinite;
 }
 
-/* LIGHTNING EFFECTS */
+/* LIGHTNING EFFECTS - MEJORADOS */
 @keyframes lightningFlash{
   0%,100%{opacity:0}
-  5%,10%{opacity:0.7}
-  15%,20%{opacity:0}
-  25%{opacity:0.9}
+  5%,10%{opacity:0.8}
+  15%,20%{opacity:0.1}
+  25%{opacity:1}
   30%,100%{opacity:0}
+}
+
+/* RAYOS ATMOSFÉRICOS EN YOUTUBE */
+.ambient-lightning{
+  position:absolute;
+  pointer-events:none;
+  z-index:0;
+  opacity:0;
+  animation:ambientLightning 6s ease-in-out infinite;
+}
+@keyframes ambientLightning{
+  0%,90%,100%{opacity:0}
+  92%{opacity:0.15}
+  94%{opacity:0.05}
+  96%{opacity:0.12}
+  98%{opacity:0}
 }
 </style>
 </head>
@@ -369,11 +443,11 @@ body{cursor:none}
   <div class="transition-lightning">
     <svg viewBox="0 0 1000 80" preserveAspectRatio="none">
       <path d="M0,40 L100,30 L150,50 L200,25 L250,55 L300,20 L350,45 L400,30 L450,50 L500,35 L550,30 L600,50 L650,25 L700,55 L750,20 L800,45 L850,30 L900,50 L1000,40" 
-            stroke="rgba(0,180,255,0.5)" 
+            stroke="rgba(0,180,255,0.6)" 
             stroke-width="2.5" 
             fill="none"/>
       <path d="M0,40 L100,30 L150,50 L200,25 L250,55 L300,20 L350,45 L400,30 L450,50 L500,35 L550,30 L600,50 L650,25 L700,55 L750,20 L800,45 L850,30 L900,50 L1000,40" 
-            stroke="rgba(0,180,255,0.2)" 
+            stroke="rgba(0,180,255,0.3)" 
             stroke-width="6" 
             fill="none" 
             filter="blur(4px)"/>
@@ -381,8 +455,22 @@ body{cursor:none}
   </div>
 </div>
 
-<!-- YOUTUBE SECTION WITH MORE ELECTRICITY -->
+<!-- YOUTUBE SECTION CON RAYOS ATMOSFÉRICOS -->
 <div id="yt-section">
+  <!-- RAYOS AMBIENTALES -->
+  <svg class="ambient-lightning" style="top:5%;left:10%;width:30%;height:40%;" viewBox="0 0 300 400">
+    <path d="M150,0 L120,150 L160,160 L100,320 L180,180 L140,190 L200,400" 
+          stroke="rgba(0,200,255,0.4)" stroke-width="1.5" fill="none" filter="blur(1px)"/>
+    <path d="M150,0 L120,150 L160,160 L100,320 L180,180 L140,190 L200,400" 
+          stroke="rgba(0,220,255,0.15)" stroke-width="4" fill="none" filter="blur(3px)"/>
+  </svg>
+  <svg class="ambient-lightning" style="top:10%;right:5%;width:25%;height:35%;animation-delay:3s;" viewBox="0 0 250 350">
+    <path d="M125,0 L100,130 L135,140 L80,280 L150,150 L115,160 L160,350" 
+          stroke="rgba(0,200,255,0.35)" stroke-width="1.5" fill="none" filter="blur(1px)"/>
+    <path d="M125,0 L100,130 L135,140 L80,280 L150,150 L115,160 L160,350" 
+          stroke="rgba(0,220,255,0.12)" stroke-width="4" fill="none" filter="blur(3px)"/>
+  </svg>
+  
   <div class="yt-slider">
     <div class="yt-slider-track">
       <div class="yt-slider-container" id="yt-container">
@@ -421,11 +509,11 @@ body{cursor:none}
   <div class="transition-lightning">
     <svg viewBox="0 0 1000 80" preserveAspectRatio="none">
       <path d="M0,40 Q250,60 500,40 T1000,40" 
-            stroke="rgba(0,180,255,0.45)" 
+            stroke="rgba(0,180,255,0.55)" 
             stroke-width="2" 
             fill="none"/>
       <path d="M0,40 Q250,60 500,40 T1000,40" 
-            stroke="rgba(0,180,255,0.2)" 
+            stroke="rgba(0,180,255,0.25)" 
             stroke-width="8" 
             fill="none" 
             filter="blur(6px)"/>
@@ -444,11 +532,11 @@ body{cursor:none}
   <div class="transition-lightning">
     <svg viewBox="0 0 1000 80" preserveAspectRatio="none">
       <path d="M0,40 L80,35 L120,50 L180,30 L240,55 L300,28 L360,48 L420,33 L480,52 L540,38 L600,49 L660,32 L720,54 L780,29 L840,47 L900,35 L1000,40" 
-            stroke="rgba(0,180,255,0.5)" 
+            stroke="rgba(0,180,255,0.6)" 
             stroke-width="2.2" 
             fill="none"/>
       <path d="M0,40 L80,35 L120,50 L180,30 L240,55 L300,28 L360,48 L420,33 L480,52 L540,38 L600,49 L660,32 L720,54 L780,29 L840,47 L900,35 L1000,40" 
-            stroke="rgba(0,180,255,0.25)" 
+            stroke="rgba(0,180,255,0.3)" 
             stroke-width="7" 
             fill="none" 
             filter="blur(5px)"/>
@@ -470,11 +558,11 @@ body{cursor:none}
   <div class="transition-lightning">
     <svg viewBox="0 0 1000 80" preserveAspectRatio="none">
       <path d="M0,40 C200,25 400,55 500,40 C600,25 800,55 1000,40" 
-            stroke="rgba(0,180,255,0.55)" 
+            stroke="rgba(0,180,255,0.65)" 
             stroke-width="2.5" 
             fill="none"/>
       <path d="M0,40 C200,25 400,55 500,40 C600,25 800,55 1000,40" 
-            stroke="rgba(0,180,255,0.25)" 
+            stroke="rgba(0,180,255,0.3)" 
             stroke-width="8" 
             fill="none" 
             filter="blur(6px)"/>
@@ -490,7 +578,7 @@ body{cursor:none}
 <!-- FOOTER WITH ELECTRIC PARTICLES -->
 <div id="footer"></div>
 
-<!-- WHATSAPP BUTTON WITH LOGO -->
+<!-- WHATSAPP BUTTON WITH LOGO - MEJORADO -->
 <a href="https://wa.me/521TUNUMERO?text=Hola%20DAM%20DAM%2C%20quiero%20hablar%20de%20un%20booking" 
    target="_blank" 
    id="wa">
@@ -623,12 +711,12 @@ window.addEventListener('resize',()=>{
   createHotspots();
 });
 
-// TRANSITION LIGHTNING ANIMATION
+// TRANSITION LIGHTNING ANIMATION - MÁS FRECUENTE
 const transitions=document.querySelectorAll('.transition-lightning');
 let lastLightning=0;
 function triggerLightning(){
   const now=Date.now();
-  if(now-lastLightning>2500){
+  if(now-lastLightning>1800){
     const rand=Math.floor(Math.random()*transitions.length);
     const t=transitions[rand];
     t.style.animation='lightningFlash 0.9s ease-in-out';
@@ -636,9 +724,9 @@ function triggerLightning(){
     lastLightning=now;
   }
 }
-setInterval(triggerLightning,3000);
+setInterval(triggerLightning,2000);
 window.addEventListener('scroll',()=>{
-  if(Math.random()>0.8)triggerLightning();
+  if(Math.random()>0.7)triggerLightning();
 });
 
 // ELECTRIC PARTICLES IN FOOTER
@@ -668,8 +756,8 @@ function createYtParticle(){
   setTimeout(()=>p.remove(),4000);
 }
 setInterval(()=>{
-  if(Math.random()>0.85)createYtParticle();
-},800);
+  if(Math.random()>0.8)createYtParticle();
+},600);
 </script>
 </body>
 </html>

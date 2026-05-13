@@ -46,420 +46,447 @@ body{cursor:none}
   width:30px;height:30px;
   border:1px solid rgba(255,255,255,.55);
   transform:translate(-50%,-50%);
-  transition:width .2s,height .2s,border-color .2s;
 }
 }
 
-/* STORM CANVAS */
-#trail-cv,#particles-cv{
-  position:fixed;inset:0;width:100%;height:100%;z-index:1;
-  pointer-events:none;opacity:1;
-}
-
-/* PAGE 1 - FULLSCREEN IMAGE */
-#pg1{
-  width:100%;min-height:100vh;position:relative;z-index:10;
-  display:flex;align-items:center;justify-content:center;
+/* LOADER ANIMATION */
+#loader{
+  position:fixed;inset:0;z-index:9998;
   background:#000;
-  overflow:hidden;
-}
-#pg1 img{
-  width:100%;height:100vh;object-fit:cover;display:block;
-  position:absolute;top:0;left:0;
-}
-
-/* YOUTUBE SECTION - SLIDER */
-.youtube-section{
-  position:relative;width:100%;min-height:100vh;
-  display:flex;align-items:center;justify-content:center;flex-direction:column;
-  background:linear-gradient(180deg,rgba(0,0,40,1) 0%,rgba(0,0,0,1) 100%);
-  padding:60px 20px;z-index:10;
-}
-
-.yt-slider-container{
-  position:relative;z-index:10;
-  width:95%;max-width:1400px;
-  padding:clamp(20px,4vw,40px);
-}
-
-.yt-slider{
-  position:relative;overflow:hidden;
-  border-radius:16px;
-  box-shadow:0 10px 50px rgba(0,150,255,0.3);
-}
-
-.yt-track{
-  display:flex;transition:transform 0.5s ease;
-}
-
-.yt-slide{
-  min-width:100%;position:relative;
-}
-
-.yt-ratio{
-  position:relative;width:100%;padding-top:56.25%;
-}
-
-.yt-ratio iframe{
-  position:absolute;inset:0;width:100%;height:100%;border:none;
-}
-
-.yt-controls{
-  position:absolute;bottom:20px;left:50%;transform:translateX(-50%);
-  display:flex;gap:12px;z-index:20;
-}
-
-.yt-dot{
-  width:12px;height:12px;border-radius:50%;
-  background:rgba(255,255,255,0.3);
-  border:2px solid rgba(255,255,255,0.5);
-  cursor:pointer;transition:all 0.3s;
-}
-
-.yt-dot.active{
-  background:rgba(0,150,255,1);
-  border-color:rgba(0,150,255,1);
-  box-shadow:0 0 15px rgba(0,150,255,0.8);
-}
-
-.yt-arrows{
-  position:absolute;top:50%;width:100%;
-  display:flex;justify-content:space-between;
-  transform:translateY(-50%);z-index:20;pointer-events:none;
-}
-
-.yt-arrow{
-  width:50px;height:50px;border-radius:50%;
-  background:rgba(0,0,0,0.5);border:2px solid rgba(0,150,255,0.6);
-  color:#fff;font-size:24px;cursor:pointer;
   display:flex;align-items:center;justify-content:center;
-  transition:all 0.3s;pointer-events:auto;margin:0 10px;
+  opacity:1;transition:opacity 0.8s ease, visibility 0.8s ease;
+}
+#loader.fade-out{
+  opacity:0;
+  visibility:hidden;
+}
+.loader-bolt{
+  width:120px;height:120px;
+  position:relative;
+  animation:loaderPulse 1.5s ease-in-out infinite;
+}
+.loader-bolt svg{
+  width:100%;height:100%;
+  filter:drop-shadow(0 0 20px rgba(0,180,255,0.8)) drop-shadow(0 0 40px rgba(0,180,255,0.4));
+}
+@keyframes loaderPulse{
+  0%,100%{transform:scale(1);opacity:1}
+  50%{transform:scale(1.1);opacity:0.8}
 }
 
-.yt-arrow:hover{
-  background:rgba(0,150,255,0.8);
-  border-color:rgba(0,150,255,1);
-  box-shadow:0 0 20px rgba(0,150,255,0.9);
+/* PAGE SECTIONS */
+.page-section{
+  position:relative;
+  width:100%;
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
-
-@media(min-width:1024px){
-  .yt-slider-container{max-width:1600px;}
-}
-
-/* PAGES 2, 3, 4 - FULLSCREEN IMAGES */
-.pg{
-  width:100%;min-height:100vh;position:relative;z-index:10;
-  display:flex;align-items:center;justify-content:center;
-  background:#000;
-  overflow:hidden;
-}
-.pg img{
-  width:100%;height:100vh;object-fit:cover;display:block;
-  position:absolute;top:0;left:0;
-}
-
-/* PAGE 3 - SOCIAL BUTTONS */
-#p3{
-  background:linear-gradient(180deg,rgba(0,0,0,1) 0%,rgba(0,0,40,1) 50%,rgba(0,0,0,1) 100%);
+.page-section img{
+  width:100%;
+  height:auto;
+  max-width:100%;
   display:block;
+}
+
+/* TRANSITION SPACES */
+.transition-space{
+  position:relative;
+  width:100%;
+  height:60px;
+  background:#000;
+  overflow:hidden;
+}
+.transition-lightning{
+  position:absolute;
+  width:100%;
+  height:100%;
+  opacity:0;
+  pointer-events:none;
+}
+.transition-lightning svg{
+  position:absolute;
+  width:100%;
+  height:100%;
+}
+
+/* YOUTUBE SLIDER */
+#yt-section{
+  position:relative;
+  width:100%;
+  min-height:100vh;
+  background:#000;
+  display:flex;
+  align-items:center;
+  justify-content:center;
   padding:40px 20px;
 }
-#p3img{
-  width:100%;height:auto;max-width:100%;
-  margin-bottom:40px;position:relative;
+.yt-slider{
+  position:relative;
+  width:100%;
+  max-width:900px;
+  margin:0 auto;
 }
-.social-grid{
-  display:flex;flex-wrap:wrap;justify-content:center;gap:20px;
-  max-width:800px;margin:0 auto;position:relative;z-index:20;
+.yt-slider-track{
+  position:relative;
+  width:100%;
+  overflow:hidden;
+}
+.yt-slider-container{
+  display:flex;
+  transition:transform 0.5s cubic-bezier(0.4,0,0.2,1);
+}
+.yt-slide{
+  min-width:100%;
+  padding:0 10px;
+}
+.yt-ratio{
+  position:relative;
+  width:100%;
+  padding-bottom:56.25%;
+  background:#000;
+  border-radius:12px;
+  overflow:hidden;
+  box-shadow:0 8px 32px rgba(0,180,255,0.3);
+}
+.yt-ratio iframe{
+  position:absolute;
+  top:0;left:0;
+  width:100%;height:100%;
+  border:0;
+}
+.yt-nav{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  width:50px;height:50px;
+  background:rgba(0,180,255,0.2);
+  border:2px solid rgba(0,180,255,0.6);
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  z-index:10;
+  transition:all 0.3s ease;
+  color:#fff;
+  font-size:24px;
+  user-select:none;
+}
+.yt-nav:hover{
+  background:rgba(0,180,255,0.4);
+  border-color:rgba(0,180,255,1);
+  box-shadow:0 0 20px rgba(0,180,255,0.5);
+}
+.yt-nav.prev{left:10px}
+.yt-nav.next{right:10px}
+.yt-dots{
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  margin-top:20px;
+}
+.yt-dot{
+  width:10px;height:10px;
+  border-radius:50%;
+  background:rgba(255,255,255,0.3);
+  cursor:pointer;
+  transition:all 0.3s ease;
+}
+.yt-dot.active{
+  background:rgba(0,180,255,1);
+  box-shadow:0 0 10px rgba(0,180,255,0.8);
+}
+
+/* SOCIAL BUTTONS */
+.social-row{
+  display:flex;
+  gap:20px;
+  justify-content:center;
+  flex-wrap:wrap;
+  margin-top:30px;
 }
 .social-btn{
-  width:80px;height:80px;border-radius:50%;
-  background:rgba(0,0,0,0.7);border:2px solid rgba(0,150,255,0.5);
-  display:flex;align-items:center;justify-content:center;
-  text-decoration:none;transition:all .3s;cursor:pointer;
-  box-shadow:0 5px 20px rgba(0,150,255,0.2);
+  width:60px;height:60px;
+  border-radius:50%;
+  background:rgba(0,0,0,0.6);
+  border:2px solid rgba(0,180,255,0.5);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transition:all 0.3s ease;
+  cursor:pointer;
 }
 .social-btn:hover{
-  background:rgba(0,150,255,0.2);
-  border-color:rgba(0,150,255,1);
-  box-shadow:0 10px 40px rgba(0,150,255,0.5);
-  transform:translateY(-5px);
+  border-color:rgba(0,180,255,1);
+  box-shadow:0 0 20px rgba(0,180,255,0.6);
+  transform:scale(1.1);
 }
 .social-btn svg{
-  width:36px;height:36px;fill:#fff;
+  width:28px;height:28px;
+  fill:#fff;
 }
 
 /* WHATSAPP BUTTON */
 #wa{
-  position:fixed;bottom:30px;right:30px;z-index:9000;
-  display:flex;align-items:center;gap:12px;
-  padding:14px 24px;border-radius:50px;
-  background:rgba(0,0,0,0.85);border:2px solid rgba(37,211,102,0.6);
-  text-decoration:none;transition:all .3s;
-  box-shadow:0 8px 30px rgba(37,211,102,0.3);
+  position:fixed;
+  bottom:30px;right:30px;
+  z-index:7980;
+  background:linear-gradient(135deg,rgba(0,180,100,0.9),rgba(0,220,130,0.9));
+  border:2px solid rgba(0,255,150,0.6);
+  border-radius:50px;
+  padding:15px 28px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  cursor:pointer;
+  transition:all 0.3s ease;
+  text-decoration:none;
+  box-shadow:0 4px 20px rgba(0,220,130,0.4);
 }
 #wa:hover{
-  background:rgba(37,211,102,0.2);
-  border-color:rgba(37,211,102,1);
-  box-shadow:0 12px 50px rgba(37,211,102,0.6);
   transform:translateY(-3px);
-}
-#wa-icon{
-  width:28px;height:28px;border-radius:50%;
-  background:linear-gradient(135deg,#25d366,#128c7e);
-  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  box-shadow:0 6px 30px rgba(0,220,130,0.6);
+  border-color:rgba(0,255,150,1);
 }
 #wa-icon svg{
-  width:18px;height:18px;fill:#fff;
+  width:24px;height:24px;
+  fill:#fff;
 }
 #wa-text{
-  font-family:'Black Ops One',cursive;font-size:11px;
-  color:#fff;letter-spacing:1px;text-transform:uppercase;
-  white-space:nowrap;
+  color:#fff;
+  font-family:'Black Ops One',system-ui;
+  font-size:14px;
+  letter-spacing:1px;
 }
 
-@media(max-width:768px){
-  #wa{padding:12px 16px;gap:10px}
-  #wa-icon{width:24px;height:24px}
-  #wa-icon svg{width:14px;height:14px}
-  #wa-text{font-size:9px}
+/* FOOTER */
+#footer{
+  width:100%;
+  height:200px;
+  background:#000;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+}
+
+/* LIGHTNING EFFECTS */
+@keyframes lightningFlash{
+  0%,100%{opacity:0}
+  5%,10%{opacity:0.6}
+  15%,20%{opacity:0}
+  25%{opacity:0.8}
+  30%,100%{opacity:0}
 }
 </style>
 </head>
 <body>
 
-<div id="cd"></div>
-<div id="ct"></div>
+<!-- LOADER -->
+<div id="loader">
+  <div class="loader-bolt">
+    <svg viewBox="0 0 100 100">
+      <path d="M50 10 L30 50 L45 50 L35 90 L70 45 L55 45 L65 10 Z" 
+            fill="none" 
+            stroke="#00b4ff" 
+            stroke-width="2" 
+            stroke-linecap="round" 
+            stroke-linejoin="round"/>
+      <path d="M50 10 L30 50 L45 50 L35 90 L70 45 L55 45 L65 10 Z" 
+            fill="#00b4ff" 
+            opacity="0.3"/>
+    </svg>
+  </div>
+</div>
+
+<!-- CUSTOM CURSOR -->
+<div id="cdot"></div>
+<div id="cring"></div>
+
+<!-- CANVAS EFFECTS -->
 <canvas id="trail-cv"></canvas>
 <canvas id="particles-cv"></canvas>
 
-<!-- PAGE 1: INTRO -->
-<div id="pg1">
-  <img src="page1.webp" alt="DAM DAM Press Kit 2026 — Portada"/>
+<!-- PAGE 1 -->
+<div class="page-section" id="pg1">
+  <img src="page1.webp" alt="DAM DAM Press Kit 2026 — Portada">
 </div>
 
-<!-- YOUTUBE SECTION - SLIDER -->
-<div class="youtube-section">
-  <div class="yt-slider-container">
-    <div class="yt-slider">
-      <div class="yt-track" id="ytTrack">
-        <!-- VIDEO 1 -->
+<!-- TRANSITION 1 -->
+<div class="transition-space">
+  <div class="transition-lightning">
+    <svg viewBox="0 0 1000 60" preserveAspectRatio="none">
+      <path d="M0,30 L100,25 L150,35 L200,20 L250,40 L300,15 L350,30 L400,25 L450,35 L500,30 L550,25 L600,35 L650,20 L700,40 L750,15 L800,30 L850,25 L900,35 L1000,30" 
+            stroke="rgba(0,180,255,0.4)" 
+            stroke-width="2" 
+            fill="none"/>
+    </svg>
+  </div>
+</div>
+
+<!-- YOUTUBE SECTION -->
+<div id="yt-section">
+  <div class="yt-slider">
+    <div class="yt-slider-track">
+      <div class="yt-slider-container" id="yt-container">
         <div class="yt-slide">
           <div class="yt-ratio">
-            <iframe src="https://www.youtube.com/embed/7Q6ZKKv2E2k?rel=0&modestbranding=1&color=white&iv_load_policy=3" allowfullscreen allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture"></iframe>
+            <iframe src="https://www.youtube.com/embed/7Q6ZKKv2E2k?rel=0&modestbranding=1&color=white&iv_load_policy=3" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen></iframe>
           </div>
         </div>
-        <!-- VIDEO 2 -->
         <div class="yt-slide">
           <div class="yt-ratio">
-            <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ?rel=0&modestbranding=1&color=white&iv_load_policy=3" allowfullscreen allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture"></iframe>
+            <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ?rel=0&modestbranding=1&color=white&iv_load_policy=3" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen></iframe>
           </div>
         </div>
-        <!-- VIDEO 3 -->
         <div class="yt-slide">
           <div class="yt-ratio">
-            <iframe src="https://www.youtube.com/embed/kJQP7kiw5Fk?rel=0&modestbranding=1&color=white&iv_load_policy=3" allowfullscreen allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture"></iframe>
+            <iframe src="https://www.youtube.com/embed/kJQP7kiw5Fk?rel=0&modestbranding=1&color=white&iv_load_policy=3" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen></iframe>
           </div>
         </div>
       </div>
-      
-      <!-- NAVIGATION ARROWS -->
-      <div class="yt-arrows">
-        <button class="yt-arrow" id="ytPrev">‹</button>
-        <button class="yt-arrow" id="ytNext">›</button>
-      </div>
-      
-      <!-- DOTS -->
-      <div class="yt-controls" id="ytDots"></div>
+    </div>
+    <div class="yt-nav prev" id="ytPrev">‹</div>
+    <div class="yt-nav next" id="ytNext">›</div>
+    <div class="yt-dots" id="ytDots"></div>
+  </div>
+</div>
+
+<!-- TRANSITION 2 -->
+<div class="transition-space">
+  <div class="transition-lightning">
+    <svg viewBox="0 0 1000 60" preserveAspectRatio="none">
+      <path d="M0,30 Q250,45 500,30 T1000,30" 
+            stroke="rgba(0,180,255,0.3)" 
+            stroke-width="1.5" 
+            fill="none"/>
+    </svg>
+  </div>
+</div>
+
+<!-- PAGE 2 - BIOGRAFÍA -->
+<div class="page-section">
+  <img src="page2.webp" alt="DAM DAM — Biografía">
+</div>
+
+<!-- TRANSITION 3 -->
+<div class="transition-space">
+  <div class="transition-lightning">
+    <svg viewBox="0 0 1000 60" preserveAspectRatio="none">
+      <path d="M0,30 L80,28 L120,35 L180,25 L240,38 L300,22 L360,33 L420,27 L480,36 L540,29 L600,34 L660,26 L720,37 L780,24 L840,32 L900,28 L1000,30" 
+            stroke="rgba(0,180,255,0.35)" 
+            stroke-width="1.8" 
+            fill="none"/>
+    </svg>
+  </div>
+</div>
+
+<!-- PAGE 3 - SHOWS -->
+<div class="page-section" id="pg3">
+  <div style="position:relative;width:100%;">
+    <img src="page3.webp" alt="DAM DAM — Shows y Redes Sociales" id="p3img">
+    <div class="social-row" style="position:absolute;bottom:120px;left:50%;transform:translateX(-50%);">
+      <a href="https://instagram.com/damdam" target="_blank" class="social-btn">
+        <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+      </a>
+      <a href="https://facebook.com/damdam" target="_blank" class="social-btn">
+        <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+      </a>
+      <a href="https://tiktok.com/@damdam" target="_blank" class="social-btn">
+        <svg viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
+      </a>
+      <a href="https://youtube.com/@damdam" target="_blank" class="social-btn">
+        <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+      </a>
+      <a href="https://music.apple.com/artist/damdam" target="_blank" class="social-btn">
+        <svg viewBox="0 0 24 24"><path d="M23.994 6.124a9.23 9.23 0 0 0-.24-2.19c-.317-1.31-1.062-2.31-2.18-3.043a5.022 5.022 0 0 0-1.595-.706 10.495 10.495 0 0 0-2.627-.189c-1.908 0-3.817.003-5.725 0-.38 0-.753.008-1.13.026-1.054.051-2.06.274-2.988.801-1.028.584-1.724 1.421-2.152 2.519-.259.664-.37 1.354-.448 2.06-.08.728-.073 1.462-.074 2.195L4.83 18.124c.004.546.018 1.091.048 1.636.024.423.065.848.128 1.267.379 2.447 2.15 4.291 4.597 4.775.578.114 1.163.175 1.754.18 1.635.011 3.27.004 4.905.005 1.388 0 2.777-.009 4.165 0a6.127 6.127 0 0 0 1.614-.155c1.178-.31 2.133-.95 2.913-1.893.687-.83 1.1-1.794 1.298-2.841.158-.836.201-1.684.201-2.534.003-2.772.001-5.544.002-8.316zM12 15.313c-1.816 0-3.289-1.474-3.289-3.29 0-1.817 1.473-3.29 3.289-3.29 1.817 0 3.29 1.473 3.29 3.29 0 1.816-1.473 3.29-3.29 3.29zm4.729-8.683c-.644 0-1.167-.523-1.167-1.167 0-.644.523-1.166 1.167-1.166.644 0 1.166.522 1.166 1.166 0 .644-.522 1.167-1.166 1.167z"/></svg>
+      </a>
+      <a href="https://open.spotify.com/artist/damdam" target="_blank" class="social-btn">
+        <svg viewBox="0 0 24 24"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+      </a>
+      <a href="https://soundcloud.com/damdam" target="_blank" class="social-btn">
+        <svg viewBox="0 0 24 24"><path d="M1.175 12.225c-.051 0-.094.046-.101.1l-.233 2.154.233 2.105c.007.058.05.098.101.098.05 0 .09-.04.099-.098l.255-2.105-.27-2.154c0-.057-.045-.1-.09-.1m-.899.828c-.06 0-.091.037-.104.094L0 14.479l.165 1.308c0 .055.045.094.09.094s.089-.045.104-.104l.21-1.319-.21-1.334c0-.061-.044-.09-.09-.09m1.83-1.229c-.061 0-.12.045-.12.104l-.21 2.563.225 2.458c0 .06.045.12.119.12.061 0 .105-.061.121-.12l.254-2.474-.254-2.548c-.016-.06-.061-.12-.121-.12m.945-.089c-.075 0-.135.06-.15.135l-.193 2.64.21 2.544c.016.077.075.138.149.138.075 0 .135-.061.15-.15l.24-2.532-.24-2.623c0-.075-.06-.135-.135-.135m.809-.104c-.104 0-.18.076-.194.18l-.21 2.729.225 2.638c.016.104.091.18.194.18.09 0 .18-.09.18-.18l.254-2.638-.254-2.729c-.016-.104-.076-.18-.18-.18m1.47.164c-.09 0-.18.09-.18.18l-.239 2.565.239 2.625c.016.09.091.164.18.164.09 0 .164-.09.18-.18l.254-2.608-.254-2.549c0-.09-.075-.18-.18-.18m.9-.104c-.09 0-.18.09-.194.18l-.226 2.668.226 2.639c.016.09.09.18.194.18.09 0 .18-.075.18-.18l.254-2.639-.254-2.668c-.016-.09-.09-.18-.18-.18m1.425.06c-.104 0-.195.09-.21.195l-.254 2.608.254 2.594c.016.105.09.195.21.195.09 0 .194-.09.209-.195l.24-2.594-.24-2.608c-.015-.09-.104-.195-.21-.195m1.38.15c-.104 0-.194.09-.209.195l-.254 2.457.254 2.608c.016.104.09.195.21.195.09 0 .194-.09.194-.195l.254-2.608-.254-2.457c-.016-.105-.09-.195-.195-.195m1.425-.165c-.105 0-.195.09-.21.195l-.254 2.622.254 2.609c.016.104.105.194.21.194.104 0 .194-.09.209-.194l.225-2.61-.225-2.621c-.016-.105-.105-.195-.21-.195m1.38.164c-.104 0-.194.09-.209.195l-.254 2.457.254 2.608c.016.105.09.195.21.195.09 0 .194-.09.194-.195l.254-2.608-.254-2.457c0-.105-.09-.195-.195-.195m1.44-.045c-.104 0-.194.09-.209.195l-.254 2.503.254 2.608c.016.105.09.195.21.195.09 0 .194-.09.194-.195l.254-2.608-.254-2.503c-.016-.105-.105-.195-.195-.195m1.425.045c-.104 0-.194.09-.209.195l-.254 2.457.254 2.608c.016.105.09.195.21.195.09 0 .194-.09.194-.195l.254-2.608-.254-2.457c0-.105-.09-.195-.195-.195m1.44-.045c-.104 0-.194.09-.209.195l-.254 2.503.254 2.608c.016.105.09.195.21.195.09 0 .194-.09.194-.195l.254-2.608-.254-2.503c-.016-.105-.105-.195-.195-.195m1.425.045c-.104 0-.194.09-.209.195l-.254 2.457.254 2.608c.016.105.09.195.21.195.09 0 .194-.09.194-.195l.254-2.608-.254-2.457c0-.105-.09-.195-.195-.195m1.38-.045c-.104 0-.194.09-.209.195l-.254 2.503.254 2.608c.016.105.09.195.21.195.09 0 .194-.09.194-.195l.254-2.608-.254-2.503c-.016-.105-.105-.195-.195-.195m1.47.135c-.105 0-.195.09-.21.195l-.254 2.368.254 2.608c.016.104.105.194.21.194.104 0 .194-.09.209-.194l.225-2.608-.225-2.368c-.015-.105-.105-.195-.21-.195m1.38-.09c-.104 0-.194.09-.209.195l-.254 2.457.254 2.639c.016.104.09.194.21.194.09 0 .194-.09.194-.194l.254-2.639-.254-2.457c-.016-.105-.105-.195-.195-.195m1.44 0c-.104 0-.194.09-.209.195l-.254 2.457.254 2.639c.016.104.09.194.21.194.09 0 .194-.09.194-.194l.254-2.639-.254-2.457c-.016-.105-.105-.195-.195-.195m1.425.045c-.104 0-.194.09-.209.195l-.254 2.412.254 2.639c.016.105.09.195.21.195.09 0 .194-.09.194-.195l.254-2.639-.254-2.412c0-.105-.09-.195-.195-.195m1.38-.104c-.09 0-.18.09-.194.18l-.226 2.532.226 2.654c.016.09.09.18.194.18.09 0 .18-.09.18-.18l.254-2.654-.254-2.532c-.016-.09-.09-.18-.18-.18m1.47.06c-.104 0-.195.09-.21.195l-.254 2.473.254 2.654c.016.104.106.194.21.194.104 0 .194-.09.209-.194l.225-2.654-.225-2.473c-.015-.105-.105-.195-.21-.195z"/></svg>
+      </a>
     </div>
   </div>
 </div>
 
-<!-- PAGE 2: BIO -->
-<div class="pg">
-  <img src="page2.webp" alt="DAM DAM — Biografía"/>
-</div>
-
-<!-- PAGE 3: SOCIAL + PLATFORMS -->
-<div class="pg" id="p3">
-  <img src="page3.webp" id="p3img" alt="DAM DAM — Shows y Redes Sociales"/>
-  <div class="social-grid">
-    <a href="https://instagram.com/damdam" class="social-btn" target="_blank" rel="noopener">
-      <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-    </a>
-    <a href="https://facebook.com/damdam" class="social-btn" target="_blank" rel="noopener">
-      <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-    </a>
-    <a href="https://tiktok.com/@damdam" class="social-btn" target="_blank" rel="noopener">
-      <svg viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
-    </a>
-    <a href="https://youtube.com/@damdam" class="social-btn" target="_blank" rel="noopener">
-      <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-    </a>
-    <a href="https://music.apple.com/artist/damdam" class="social-btn" target="_blank" rel="noopener">
-      <svg viewBox="0 0 24 24"><path d="M23.994 6.124a9.23 9.23 0 0 0-.24-2.196 3.899 3.899 0 0 0-1.208-1.911 3.814 3.814 0 0 0-1.912-1.21 9.217 9.217 0 0 0-2.196-.24C17.443.537 17.103.52 14.5.52h-5c-2.603 0-2.943.017-3.939.047a9.232 9.232 0 0 0-2.196.24 3.838 3.838 0 0 0-1.912 1.21 3.842 3.842 0 0 0-1.209 1.911 9.223 9.223 0 0 0-.24 2.196C.007 7.12 0 7.46 0 10.063v3.875c0 2.603.007 2.943.037 3.938a9.232 9.232 0 0 0 .24 2.197 3.838 3.838 0 0 0 1.209 1.911 3.817 3.817 0 0 0 1.912 1.209 9.23 9.23 0 0 0 2.196.24c.996.03 1.336.037 3.939.037h5c2.603 0 2.943-.007 3.938-.037a9.218 9.218 0 0 0 2.196-.24 3.817 3.817 0 0 0 1.912-1.209 3.842 3.842 0 0 0 1.209-1.911 9.217 9.217 0 0 0 .24-2.197c.03-.995.037-1.335.037-3.938v-3.875c0-2.603-.007-2.943-.037-3.938zM12 18.562c-3.628 0-6.563-2.934-6.563-6.563 0-3.628 2.935-6.562 6.563-6.562 3.628 0 6.563 2.934 6.563 6.562 0 3.629-2.935 6.563-6.563 6.563zm6.825-11.835a1.537 1.537 0 1 1 0-3.074 1.537 1.537 0 0 1 0 3.074z"/><circle cx="12" cy="12" r="4.262"/></svg>
-    </a>
-    <a href="https://open.spotify.com/artist/damdam" class="social-btn" target="_blank" rel="noopener">
-      <svg viewBox="0 0 24 24"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
-    </a>
-    <a href="https://soundcloud.com/damdam" class="social-btn" target="_blank" rel="noopener">
-      <svg viewBox="0 0 24 24"><path d="M1.175 12.225c-.051 0-.094.046-.101.1l-.233 2.154.233 2.105c.007.058.05.098.101.098.05 0 .09-.04.099-.098l.255-2.105-.27-2.154c0-.057-.045-.1-.09-.1m-.899.828c-.06 0-.091.037-.105.098L0 14.479l.171 1.379c.016.061.051.094.105.094.061 0 .09-.033.106-.094l.194-1.379-.194-1.326c-.016-.061-.051-.1-.106-.1m5.069 3.274c.055 0 .099-.041.109-.096l.264-4.827-.264-4.814c-.01-.061-.054-.096-.109-.096-.053 0-.096.035-.107.096l-.235 4.814.235 4.827c.011.055.054.096.107.096zm-.899-.158c-.061 0-.109.041-.121.098l-.232 4.669.232 4.656c.012.061.06.098.121.098.061 0 .108-.041.119-.098l.262-4.656-.262-4.669c-.011-.057-.058-.098-.119-.098zm-.9-.234c-.066 0-.115.042-.129.098l-.224 4.591.224 4.592c.014.061.063.098.129.098.066 0 .114-.037.127-.098l.256-4.592-.256-4.591c-.013-.056-.061-.098-.127-.098zm-1.809-.307c-.068 0-.116.04-.133.098l-.205 4.284.205 4.248c.017.061.065.098.133.098s.116-.037.133-.098l.232-4.248-.232-4.284c-.017-.058-.065-.098-.133-.098zm-1.818-.157c-.068 0-.12.041-.137.098l-.194 4.127.194 4.088c.017.057.069.098.137.098.069 0 .12-.041.137-.098l.22-4.088-.22-4.127c-.017-.057-.068-.098-.137-.098zm2.727 11.668c.068 0 .12-.037.137-.098l.238-5.908-.238-5.876c-.017-.061-.069-.098-.137-.098-.068 0-.12.037-.137.098l-.21 5.876.21 5.908c.017.061.069.098.137.098zm.9-.037c.069 0 .12-.037.137-.098l.242-5.871-.242-5.908c-.017-.061-.068-.098-.137-.098s-.12.037-.137.098l-.214 5.908.214 5.871c.017.061.068.098.137.098zm.9-.158c.074 0 .127-.037.144-.098l.241-5.713-.241-5.908c-.017-.061-.07-.098-.144-.098-.074 0-.126.037-.143.098l-.212 5.908.212 5.713c.017.061.069.098.143.098zm.9-.061c.074 0 .126-.037.144-.098l.24-5.652-.24-5.908c-.018-.061-.07-.098-.144-.098-.073 0-.125.037-.142.098l-.213 5.908.213 5.652c.017.061.069.098.142.098zm.9-.098c.08 0 .137-.037.154-.098l.239-5.591-.239-5.908c-.017-.061-.074-.098-.154-.098-.08 0-.137.037-.154.098l-.212 5.908.212 5.591c.017.061.074.098.154.098zm.9-.158c.08 0 .137-.037.154-.098l.238-5.433-.238-5.908c-.017-.061-.074-.098-.154-.098-.08 0-.137.037-.154.098l-.212 5.908.212 5.433c.017.061.074.098.154.098zm.9-.098c.08 0 .137-.037.154-.098l.238-5.335-.238-5.908c-.017-.061-.074-.098-.154-.098-.08 0-.137.037-.154.098l-.212 5.908.212 5.335c.017.061.074.098.154.098zm2.728.098c.081 0 .137-.037.155-.098l.237-5.335-.237-5.908c-.018-.061-.074-.098-.155-.098-.08 0-.137.037-.154.098l-.211 5.908.211 5.335c.017.061.074.098.154.098zm.9.098c.081 0 .137-.037.154-.098l.238-5.433-.238-5.908c-.017-.061-.073-.098-.154-.098s-.137.037-.154.098l-.212 5.908.212 5.433c.017.061.073.098.154.098zm.9-.061c.081 0 .137-.037.154-.098l.238-5.371-.238-5.908c-.017-.061-.073-.098-.154-.098s-.137.037-.154.098l-.212 5.908.212 5.371c.017.061.073.098.154.098zm.9-.037c.081 0 .137-.037.154-.098l.237-5.334-.237-5.908c-.017-.061-.073-.098-.154-.098s-.137.037-.154.098l-.211 5.908.211 5.334c.017.061.073.098.154.098zm3.637-.901c-.08 0-.137.037-.154.098l-.212 4.433.212 4.433c.017.061.074.098.154.098.08 0 .137-.037.154-.098l.238-4.433-.238-4.433c-.017-.061-.074-.098-.154-.098zm-.9.961c-.08 0-.137.037-.154.098l-.212 3.472.212 3.472c.017.061.074.098.154.098.08 0 .137-.037.154-.098l.238-3.472-.238-3.472c-.017-.061-.074-.098-.154-.098zm-1.8-.158c-.08 0-.137.037-.154.098l-.212 3.63.212 3.63c.017.061.074.098.154.098.08 0 .137-.037.154-.098l.238-3.63-.238-3.63c-.017-.061-.074-.098-.154-.098zm-1.8-.061c-.08 0-.137.037-.154.098l-.212 3.691.212 3.691c.017.061.074.098.154.098.08 0 .137-.037.154-.098l.238-3.691-.238-3.691c-.017-.061-.074-.098-.154-.098zm-1.8-.061c-.08 0-.137.037-.154.098l-.212 3.752.212 3.752c.017.061.074.098.154.098.08 0 .137-.037.154-.098l.238-3.752-.238-3.752c-.017-.061-.074-.098-.154-.098zm-1.8-.061c-.08 0-.137.037-.154.098l-.212 3.813.212 3.813c.017.061.074.098.154.098.08 0 .137-.037.154-.098l.238-3.813-.238-3.813c-.017-.061-.074-.098-.154-.098zm7.207 5.908c.08 0 .137-.037.154-.098l.238-5.908-.238-5.871c-.017-.061-.074-.098-.154-.098-.08 0-.137.037-.154.098l-.212 5.871.212 5.908c.017.061.074.098.154.098zm.9-.061c.08 0 .137-.037.154-.098l.238-5.847-.238-5.871c-.017-.061-.074-.098-.154-.098-.08 0-.137.037-.154.098l-.212 5.871.212 5.847c.017.061.074.098.154.098zm.9-.061c.08 0 .137-.037.154-.098l.238-5.786-.238-5.871c-.017-.061-.074-.098-.154-.098-.08 0-.137.037-.154.098l-.212 5.871.212 5.786c.017.061.074.098.154.098zm.9-.098c.08 0 .137-.037.154-.098l.238-5.688-.238-5.871c-.017-.061-.074-.098-.154-.098-.08 0-.137.037-.154.098l-.212 5.871.212 5.688c.017.061.074.098.154.098zm.9-.061c.08 0 .137-.037.154-.098l.238-5.627-.238-5.871c-.017-.061-.074-.098-.154-.098-.08 0-.137.037-.154.098l-.212 5.871.212 5.627c.017.061.074.098.154.098zm.9-.098c.08 0 .137-.037.154-.098l.238-5.529-.238-5.871c-.017-.061-.074-.098-.154-.098-.08 0-.137.037-.154.098l-.212 5.871.212 5.529c.017.061.074.098.154.098zm.9-.061c.08 0 .137-.037.154-.098l.238-5.468-.238-5.871c-.017-.061-.074-.098-.154-.098-.08 0-.137.037-.154.098l-.212 5.871.212 5.468c.017.061.074.098.154.098zm.9-.037c.08 0 .137-.037.154-.098l.238-5.431-.238-5.871c-.017-.061-.074-.098-.154-.098-.08 0-.137.037-.154.098l-.212 5.871.212 5.431c.017.061.074.098.154.098zm.9-.061c.08 0 .137-.037.154-.098l.238-5.37-.238-5.871c-.017-.061-.074-.098-.154-.098-.08 0-.137.037-.154.098l-.212 5.871.212 5.37c.017.061.074.098.154.098z"/></svg>
-    </a>
+<!-- TRANSITION 4 -->
+<div class="transition-space">
+  <div class="transition-lightning">
+    <svg viewBox="0 0 1000 60" preserveAspectRatio="none">
+      <path d="M0,30 C200,20 400,40 500,30 C600,20 800,40 1000,30" 
+            stroke="rgba(0,180,255,0.4)" 
+            stroke-width="2" 
+            fill="none"/>
+    </svg>
   </div>
 </div>
 
-<!-- PAGE 4: RIDER -->
-<div class="pg">
-  <img src="page4.webp" alt="DAM DAM — Rider Técnico"/>
+<!-- PAGE 4 - RIDER -->
+<div class="page-section">
+  <img src="page4.webp" alt="DAM DAM — Rider Técnico">
 </div>
+
+<!-- FOOTER -->
+<div id="footer"></div>
 
 <!-- WHATSAPP BUTTON -->
-<a href="https://wa.me/521TUNUMERO?text=Hola%20DAM%20DAM%2C%20quiero%20hablar%20de%20un%20booking" id="wa" target="_blank" rel="noopener">
+<a href="https://wa.me/521TUNUMERO?text=Hola%20DAM%20DAM%2C%20quiero%20hablar%20de%20un%20booking" 
+   target="_blank" 
+   id="wa">
   <div id="wa-icon">
-    <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+    <svg viewBox="0 0 24 24">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.890-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+    </svg>
   </div>
-  <span id="wa-text">BOOKING</span>
+  <div id="wa-text">BOOKING</div>
 </a>
 
 <script>
-// CURSOR
+// LOADER
+window.addEventListener('load',()=>{
+  setTimeout(()=>{
+    document.getElementById('loader').classList.add('fade-out');
+  },1500);
+});
+
+// CUSTOM CURSOR
 const cdot=document.getElementById('cdot');
 const cring=document.getElementById('cring');
-if(cdot&&cring){
-  document.addEventListener('mousemove',e=>{
-    cdot.style.left=e.clientX+'px';
-    cdot.style.top=e.clientY+'px';
-    cring.style.left=e.clientX+'px';
-    cring.style.top=e.clientY+'px';
-  });
+let mouseX=0,mouseY=0,ringX=0,ringY=0;
+document.addEventListener('mousemove',(e)=>{
+  mouseX=e.clientX;
+  mouseY=e.clientY;
+  cdot.style.left=mouseX+'px';
+  cdot.style.top=mouseY+'px';
+});
+function animateRing(){
+  ringX+=(mouseX-ringX)*0.15;
+  ringY+=(mouseY-ringY)*0.15;
+  cring.style.left=ringX+'px';
+  cring.style.top=ringY+'px';
+  requestAnimationFrame(animateRing);
 }
+animateRing();
 
-// STORM CANVAS
-const trailCanvas=document.getElementById('trail-cv');
-const particlesCanvas=document.getElementById('particles-cv');
-const trailCtx=trailCanvas?.getContext('2d');
-const particlesCtx=particlesCanvas?.getContext('2d');
-
-function resizeCanvases(){
-  [trailCanvas,particlesCanvas].forEach(c=>{
-    if(c){
-      c.width=window.innerWidth;
-      c.height=document.documentElement.scrollHeight;
-    }
-  });
-}
-resizeCanvases();
-window.addEventListener('resize',resizeCanvases);
-window.addEventListener('scroll',resizeCanvases);
-
-// RAYOS - lightnings aparecen de vez en cuando
-class Lightning{
-  constructor(){
-    this.segments=[];
-    this.generate();
-  }
-  generate(){
-    const sx=Math.random()*trailCanvas.width;
-    const sy=0;
-    const ex=sx+(Math.random()-.5)*300;
-    const ey=Math.random()*400+200;
-    this.segments=this.createBolt(sx,sy,ex,ey,4);
-    this.alpha=.6;
-    this.life=Math.random()*8+4;
-  }
-  createBolt(x1,y1,x2,y2,displace){
-    if(displace<1)return[[x1,y1],[x2,y2]];
-    const mx=(x1+x2)/2+(Math.random()-.5)*displace;
-    const my=(y1+y2)/2+(Math.random()-.5)*displace;
-    return[
-      ...this.createBolt(x1,y1,mx,my,displace/2),
-      ...this.createBolt(mx,my,x2,y2,displace/2)
-    ];
-  }
-  update(){
-    this.life-=0.05;
-    this.alpha=Math.max(0,this.life/15);
-  }
-  draw(){
-    if(!trailCtx||this.alpha<=0)return;
-    trailCtx.beginPath();
-    trailCtx.moveTo(this.segments[0][0],this.segments[0][1]);
-    for(let i=1;i<this.segments.length;i++){
-      trailCtx.lineTo(this.segments[i][0],this.segments[i][1]);
-    }
-    trailCtx.strokeStyle=`rgba(100,200,255,${this.alpha})`;
-    trailCtx.lineWidth=2;
-    trailCtx.shadowBlur=15;
-    trailCtx.shadowColor='rgba(100,200,255,0.8)';
-    trailCtx.stroke();
-  }
-}
-
-const lightnings=[];
-setInterval(()=>{
-  if(Math.random()<0.25)lightnings.push(new Lightning());
-},2500);
-
-function animateStorm(){
-  if(!trailCtx)return;
-  trailCtx.clearRect(0,0,trailCanvas.width,trailCanvas.height);
-  for(let i=lightnings.length-1;i>=0;i--){
-    lightnings[i].update();
-    lightnings[i].draw();
-    if(lightnings[i].life<=0)lightnings.splice(i,1);
-  }
-  requestAnimationFrame(animateStorm);
-}
-animateStorm();
-
-class Particle{
-  constructor(){
-    this.x=Math.random()*particlesCanvas.width;
-    this.y=Math.random()*particlesCanvas.height;
-    this.size=Math.random()*2;
-    this.speedX=(Math.random()-.5)*.5;
-    this.speedY=(Math.random()-.5)*.5;
-    this.alpha=Math.random()*.5+.2;
-  }
-  update(){
-    this.x+=this.speedX;
-    this.y+=this.speedY;
-    if(this.x<0||this.x>particlesCanvas.width)this.speedX*=-1;
-    if(this.y<0||this.y>particlesCanvas.height)this.speedY*=-1;
-  }
-  draw(){
-    if(!particlesCtx)return;
-    particlesCtx.fillStyle=`rgba(100,180,255,${this.alpha})`;
-    particlesCtx.beginPath();
-    particlesCtx.arc(this.x,this.y,this.size,0,Math.PI*2);
-    particlesCtx.fill();
-  }
-}
-
-const particles=[];
-for(let i=0;i<80;i++)particles.push(new Particle());
-
-function animateParticles(){
-  if(!particlesCtx)return;
-  particlesCtx.clearRect(0,0,particlesCanvas.width,particlesCanvas.height);
-  particles.forEach(p=>{
-    p.update();
-    p.draw();
-  });
-  requestAnimationFrame(animateParticles);
-}
-animateParticles();
-
-// YOUTUBE SLIDER
-const ytTrack=document.getElementById('ytTrack');
-const ytDots=document.getElementById('ytDots');
+// YOUTUBE SLIDER (MANUAL)
+let ytIndex=0;
+const ytContainer=document.getElementById('yt-container');
 const ytPrev=document.getElementById('ytPrev');
 const ytNext=document.getElementById('ytNext');
-const slides=document.querySelectorAll('.yt-slide');
-let currentSlide=0;
+const ytDots=document.getElementById('ytDots');
+const ytSlides=document.querySelectorAll('.yt-slide');
 
-// Create dots
-slides.forEach((_,i)=>{
+ytSlides.forEach((slide,i)=>{
   const dot=document.createElement('div');
   dot.classList.add('yt-dot');
   if(i===0)dot.classList.add('active');
@@ -468,25 +495,44 @@ slides.forEach((_,i)=>{
 });
 
 function updateSlider(){
-  ytTrack.style.transform=`translateX(-${currentSlide*100}%)`;
+  ytContainer.style.transform=`translateX(-${ytIndex*100}%)`;
   document.querySelectorAll('.yt-dot').forEach((dot,i)=>{
-    dot.classList.toggle('active',i===currentSlide);
+    dot.classList.toggle('active',i===ytIndex);
   });
 }
 
-function goToSlide(n){
-  currentSlide=n;
-  if(currentSlide<0)currentSlide=slides.length-1;
-  if(currentSlide>=slides.length)currentSlide=0;
+function goToSlide(index){
+  ytIndex=index;
   updateSlider();
 }
 
-ytPrev.addEventListener('click',()=>goToSlide(currentSlide-1));
-ytNext.addEventListener('click',()=>goToSlide(currentSlide+1));
+ytPrev.addEventListener('click',()=>{
+  ytIndex=(ytIndex-1+ytSlides.length)%ytSlides.length;
+  updateSlider();
+});
 
-// Auto-advance every 10 seconds
-setInterval(()=>goToSlide(currentSlide+1),10000);
+ytNext.addEventListener('click',()=>{
+  ytIndex=(ytIndex+1)%ytSlides.length;
+  updateSlider();
+});
+
+// TRANSITION LIGHTNING ANIMATION
+const transitions=document.querySelectorAll('.transition-lightning');
+let lastLightning=0;
+function triggerLightning(){
+  const now=Date.now();
+  if(now-lastLightning>3000){
+    const rand=Math.floor(Math.random()*transitions.length);
+    const t=transitions[rand];
+    t.style.animation='lightningFlash 0.8s ease-in-out';
+    setTimeout(()=>t.style.animation='',800);
+    lastLightning=now;
+  }
+}
+setInterval(triggerLightning,4000);
+window.addEventListener('scroll',()=>{
+  if(Math.random()>0.85)triggerLightning();
+});
 </script>
-
 </body>
 </html>

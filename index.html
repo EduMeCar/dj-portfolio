@@ -497,6 +497,33 @@ body{cursor:none}
   opacity:1;
   transition:opacity 0.15s;
 }
+#emc-credit{
+  position:relative;
+  z-index:1;
+  text-decoration:none;
+  display:inline-block;
+  padding:8px 20px;
+  border:1px solid rgba(0,200,255,0.18);
+  border-radius:30px;
+  transition:all 0.5s ease;
+}
+#emc-credit:hover{
+  border-color:rgba(0,200,255,0.45);
+  background:rgba(0,200,255,0.04);
+  box-shadow:0 0 18px rgba(0,200,255,0.2);
+}
+#emc-text{
+  font-family:'Black Ops One',system-ui;
+  font-size:11px;
+  letter-spacing:4px;
+  color:rgba(255,255,255,0.2);
+  text-transform:uppercase;
+  transition:color 0.5s ease, text-shadow 0.5s ease;
+}
+#emc-credit:hover #emc-text{
+  color:rgba(0,200,255,0.55);
+  text-shadow:0 0 12px rgba(0,200,255,0.4);
+}
 </style>
 </head>
 <body>
@@ -736,10 +763,14 @@ body{cursor:none}
 </div>
 
 <!-- FOOTER WITH ELECTRIC PARTICLES -->
-<div id="footer"></div>
+<div id="footer">
+  <a href="https://souund.github.io/portfolio/" target="_blank" id="emc-credit">
+    <span id="emc-text">by EMC</span>
+  </a>
+</div>
 
 <!-- WHATSAPP BUTTON WITH LOGO - MEJORADO -->
-<a href="https://wa.me/5215512478139?text=Hola%20DAM%20DAM%2C%20quiero%20hablar%20de%20un%20booking" 
+<a href="https://wa.me/5215540394296?text=Hola%20DAM%20DAM%2C%20quiero%20hablar%20de%20un%20booking" 
    target="_blank" 
    id="wa">
   <div id="wa-icon">
